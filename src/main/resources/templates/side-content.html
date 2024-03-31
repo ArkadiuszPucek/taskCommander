@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="side-content">
+    <div class="side-task-box">
+        <div class="side-task-box-header-box">
+            <div class="side-task-box-header"> Moje zadania</div>
+        </div>
+        <button class="side-task-box-task-backgroud-1">
+            <div class="side-task-box-task-header">W toku</div>
+            <div class="side-task-box-task-number">0</div>
+        </button>
+        <button class="side-task-box-task-backgroud-2">
+            <div class="side-task-box-task-header">Uczestniczę</div>
+            <div class="side-task-box-task-number">0</div>
+        </button>
+        <button class="side-task-box-task-backgroud-3">
+            <div class="side-task-box-task-header">Zleciłem</div>
+            <div class="side-task-box-task-number">0</div>
+        </button>
+        <button class="side-task-box-task-backgroud-4">
+            <div class="side-task-box-task-header">Obserwuję</div>
+            <div class="side-task-box-task-number">0</div>
+        </button>
+    </div>
+
+    <div class="side-calendar-box">
+        <div class="calendar-box-header-box">
+            <div class="calendar-box-header" id="current-month">Marzec</div>
+        </div>
+        <table class="calendar-body" id="calendar-body">
+            <div class="calendar-body-second"></div>
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+</html>

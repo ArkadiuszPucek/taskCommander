@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<header th:fragment="header">
+    <div class="logo">
+        <h1 class="upper-part-logo">TASK</h1>
+        <h1 class="lower-part-logo">COMMANDER</h1>
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Znajdź...">
+        <button><i class="far fa-search"></i></button>
+    </div>
+    <div class="time">
+        <p><span id="current-time"></span></p>
+    </div>
+    <div class="user-info">
+        <button id="user-dropdown-button">
+            <img class='user-avatar' src="../scripts/img/pngwing.com.png" alt="Avatar">
+            <div class='user-mail'>arkadiusz.pucek@gmail.com</div>
+            <span class='user-dropdown-icon'>&#9662;</span>
+        </button>
+        <div class="user-dropdown-list" id="user-dropdown-list">
+            <div class="user-info-box">
+                <img src="../scripts/img/pngwing.com.png" alt="Email" class="email-icon">
+                <div class="user-dropdown-email">arkadiusz.pucek@gmail.com</div>
+                <div class="role-info">Rola użytkownika</div>
+            </div>
+            <div class="additional-info">
+                <div class="small-info-box-motive"
+                     style="background-image: url('../static/scripts/img/tlo-strony.webp')">
+                    <div class="small-info-box-header">Motywy</div>
+                    <div class="small-info-box-button">
+                        <div class="box-text">Zmień</div>
+                    </div>
+
+                </div>
+                <div class="small-info-box-logout">
+                    <div class="small-info-box-header">Wyloguj</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="result-box">
+        <div class="result-box-header">Wynik</div>
+        <div class="result-box-numbers-window">
+            <div class="percentage">75%</div>
+            <div class="result-space">|</div>
+            <div class="result-value"> €100000</div>
+        </div>
+    </div>
+    <div class="navigation-bar">
+        <button>Zadania</button>
+        <button>Zapytanie</button>
+        <button>Oferty</button>
+        <button>Zamówienia</button>
+        <button>Komponenty</button>
+        <button>Projekty</button>
+        <button>Klienci</button>
+        <button>Montaż</button>
+        <button>Wysyłki</button>
+    </div>
+</header>
+
+</html>
