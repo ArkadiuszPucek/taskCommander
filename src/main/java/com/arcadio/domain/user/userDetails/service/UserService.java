@@ -5,7 +5,6 @@ import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userDetails.repository.UserRepository;
 import com.arcadio.domain.user.userRole.model.UserRole;
 import com.arcadio.domain.user.userRole.service.UserRoleService;
-import com.arcadio.domain.user.viewingHistory.ViewingHistoryFacade;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -22,14 +22,19 @@ public class UserService {
     private final UserRepository userRepository;
 //    private final UserListService userListService;
     private final UserRoleService userRoleService;
-    private final ViewingHistoryFacade viewingHistoryFacade;
 
-    public UserService(UserRepository userRepository, UserRoleService userRoleService, ViewingHistoryFacade viewingHistoryFacade) {
+    public UserService(UserRepository userRepository, UserRoleService userRoleService) {
         this.userRepository = userRepository;
-//        this.userListService = userListService;
         this.userRoleService = userRoleService;
-        this.viewingHistoryFacade = viewingHistoryFacade;
     }
+//    private final ViewingHistoryFacade viewingHistoryFacade;
+
+//    public UserService(UserRepository userRepository, UserRoleService userRoleService, ViewingHistoryFacade viewingHistoryFacade) {
+//        this.userRepository = userRepository;
+////        this.userListService = userListService;
+//        this.userRoleService = userRoleService;
+//        this.viewingHistoryFacade = viewingHistoryFacade;
+//    }
 
 
     public void changeUserRole(Long userId, String newRole) {
@@ -40,7 +45,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String getAvatarUrlByUsername(String username) {
+    public String getUserRole(String username){
+        return userRepository.findByEmail(username)
+                .map(User::getRoleNames)
+                .orElseThrow(()-> new UserNotFoundException("User not found"));
+    }
+
+        public String getAvatarUrlByUsername(String username) {
         return userRepository.findByEmail(username)
                 .map(User::getAvatar)
                 .orElseThrow(()-> new UserNotFoundException("User not found"));
@@ -61,7 +72,7 @@ public class UserService {
         return userRepository.findById(userId)
                 .map(user -> {
 //                    userListService.removeUserAndAllItems(userId);
-                    viewingHistoryFacade.removeUserAndAllViewingHistory(userId);
+//                    viewingHistoryFacade.removeUserAndAllViewingHistory(userId);
                     userRepository.delete(user);
                     return true;
                 }).orElseThrow(() -> new UserNotFoundException("User not found"));

@@ -26,11 +26,11 @@ public class Task {
     private String taskId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @JoinColumn(name = "company_id", referencedColumnName = "company_id")
     private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
     @Column(name = "description")

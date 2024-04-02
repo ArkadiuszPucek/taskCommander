@@ -3,6 +3,7 @@ package com.arcadio.domain;
 import com.arcadio.domain.user.UserFacade;
 import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userDetails.repository.UserRepository;
+import com.arcadio.domain.user.userRole.model.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class UserUtils {
@@ -31,6 +33,21 @@ public class UserUtils {
             model.addAttribute("avatar", avatarUrl);
         }
     }
+
+    public void getUserEmailToModel(Authentication authentication, Model model) {
+        if (authentication != null) {
+            String userEmail = authentication.getName();
+            model.addAttribute("userEmail", userEmail);
+        }
+    }
+
+    public void getUserRoleToModel(Authentication authentication, Model model) {
+        if (authentication != null) {
+            String userRole = userFacade.getUserRole(authentication.getName());
+            model.addAttribute("userRole", userRole);
+        }
+    }
+
     public Long getUserIdFromAuthentication(Authentication authentication) {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();

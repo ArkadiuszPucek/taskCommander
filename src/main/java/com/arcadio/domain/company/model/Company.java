@@ -32,7 +32,6 @@ public class Company {
     private String shippingAddress;
 
     @Column(name = "currency")
-    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @Column(name = "billing_email")

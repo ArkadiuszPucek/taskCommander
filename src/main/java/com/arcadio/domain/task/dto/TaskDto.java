@@ -1,32 +1,23 @@
 package com.arcadio.domain.task.dto;
 
-import lombok.*;
+import com.arcadio.domain.taskStatus.model.TaskStatus;
+import lombok.Getter;
+import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import java.time.LocalDate;
+import java.util.Set;
+
 @Getter
 @Setter
 public class TaskDto {
-
-    private String imdbId;
-    private String title;
-    private Integer releaseYear;
-    private String imageUrl;
-    private String backgroundImageUrl;
-    private String mediaUrl;
-    private Integer timeline;
-    private Integer ageLimit;
+    private Long id;
+    private String taskId;
+    private Long companyId;
+    private Long customerId;
     private String description;
-    private String staff;
-    private String directedBy;
-    private String languages;
-    private String genre;
-    private boolean promoted;
-    private Double imdbRating;
-    private String imdbUrl;
-    private Boolean onUserList;
-    private Boolean userRating;
-    private Integer rateUpCount;
-    private Integer rateDownCount;
+    private Set<Long> attachmentIds;
+    private Long responsibleUserId;
+    private LocalDate executionDate;
+    private TaskStatus status;
+    private Set<Long> userTaskIds;
 }

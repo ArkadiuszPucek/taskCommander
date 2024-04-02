@@ -15,29 +15,28 @@
         <p><span id="current-time"></span></p>
     </div>
     <div class="user-info">
-        <button id="user-dropdown-button">
-            <img class='user-avatar' src="../scripts/img/pngwing.com.png" alt="Avatar">
-            <div class='user-mail'>arkadiusz.pucek@gmail.com</div>
+        <button id="user-dropdown-button" >
+            <img class='user-avatar' th:src="${avatar} ?: '/images/avatars/bear.png'" alt="Avatar">
+            <div class='user-mail' th:text="${userEmail} ?: 'user@mail.com'">user@mail.com</div>
             <span class='user-dropdown-icon'>&#9662;</span>
         </button>
         <div class="user-dropdown-list" id="user-dropdown-list">
             <div class="user-info-box">
-                <img src="../scripts/img/pngwing.com.png" alt="Email" class="email-icon">
-                <div class="user-dropdown-email">arkadiusz.pucek@gmail.com</div>
-                <div class="role-info">Rola użytkownika</div>
+                <img th:src="${avatar} ?: '/images/avatars/bear.png'" alt="Email" class="email-icon">
+                <div class="user-dropdown-email" th:text="${userEmail} ?: 'user@mail.com'">arkadiusz.pucek@gmail.com</div>
+                <div class="role-info" th:text="${userRole} ?: 'sales engineer'">Rola użytkownika</div>
             </div>
             <div class="additional-info">
-                <div class="small-info-box-motive"
-                     style="background-image: url('../static/scripts/img/tlo-strony.webp')">
+                <a class="small-info-box-motive"
+                     style="background-image: url('../static/images/tlo-strony.webp')">
                     <div class="small-info-box-header">Motywy</div>
                     <div class="small-info-box-button">
                         <div class="box-text">Zmień</div>
                     </div>
-
-                </div>
-                <div class="small-info-box-logout">
+                </a>
+                <a class="small-info-box-logout" th:href="@{/logout}">
                     <div class="small-info-box-header">Wyloguj</div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskCommander</title>
+    <link rel="stylesheet" href="/styles/main.css" th:href="@{/styles/main.css}" type="text/css">
+    <link rel="stylesheet" type="javascript" th:href="@{/static/scripts/common.js}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="../static/scripts/common.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<div class="logo">
+    <h1 class="upper-part-logo-login">TASK</h1>
+    <h1 class="lower-part-logo-login">COMMANDER</h1>
+</div>
+
+<div class="Layout-module-login-page-f11Sa">
+    <div id="content">
+        <div>
+            <div class="Login-background-gradient-Fg3tK"></div>
+        </div>
+        <div>
+            <div class="Modal_modalWrapper__GBKNS" role="dialog">
+                <div class="Modal_modalBody__2_aM7">
+                    <div class="flex flex-col items-center">
+                        <h1 class="h1-login-form-header-HD2dE">Create account</h1>
+                        <form th:action="@{/register}" method="post" th:object="${user}" class="login-form-windows"
+                              data-testid="login-form" name="register">
+                            <div th:if="${message}" th:text="${message}" class="manage-message-login"></div>
+                            <div class="Input-login-window">
+                                <input type="email" id="username" placeholder="E-mail" th:field="*{username}"
+                                       required="" class="Input_input__cDdvD w-full" autocomplete="username"
+                                       data-testid="login-email" name="username">
+                            </div>
+                            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="register-message-login">Password hints </div>
+                            <div class="Input-login-window">
+                                <input type="password" placeholder="Password" required="" id="password"
+                                       th:field="*{password}"
+                                       class="Input_input__cDdvD Input_visibilityOption__KuDsP"
+                                       autocomplete="current-password" data-testid="login-password" name="password">
+                                <label class="sr-only" for="password" hidden>Create password</label>
+                            </div>
+                            <div th:text="'The password must start with a capital letter, contain a special character and a number, and be at least 8 characters long.'"
+                                 class="register-password-hint-hk53I">Password hints </div>
+                            <div class="submit-button-register-page">
+                                <button type="submit"
+                                        class="PlayButtonText-module-container-tunCR Buttons-module-primary--YHdl"
+                                        tabindex="0">
+                                    Register
+                                </button>
+                            </div>
+                            <div class="login-bottom-text-HD21d">
+                                <div class="algin-text-login-page">
+                                    <span>Already have an account?
+                                        <a th:href="@{/login}" class="algin-text-login-page font-bold font-underline">Log in</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{footer :: footer}"></div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

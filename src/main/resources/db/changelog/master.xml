@@ -4,4 +4,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+
+    <include file="0006_1_create_tables_users_and_role.xml" relativeToChangelogFile="true" />
+
+    <include file="../testdata/0006_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
+
 </databaseChangeLog>

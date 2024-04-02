@@ -10,12 +10,14 @@ import com.arcadio.domain.user.userAvatar.service.UserAvatarService;
 import com.arcadio.domain.user.userDetails.dto.UserDto;
 import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userDetails.service.UserService;
+import com.arcadio.domain.user.userRole.model.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserFacade {
@@ -32,6 +34,11 @@ public class UserFacade {
     }
     public void changeUserRole(Long userId, String newRole) {
         userService.changeUserRole(userId, newRole);
+    }
+
+    public String getUserRole(String username){
+        return userService.getUserRole(username);
+
     }
 
     public String getAvatarUrlByUsername(String username) {

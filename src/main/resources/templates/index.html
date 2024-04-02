@@ -5,9 +5,9 @@
     <title>TaskCommander</title>
     <link rel="stylesheet" href="/styles/main.css" th:href="@{/styles/main.css}" type="text/css">
     <link rel="stylesheet" type="javascript" th:href="@{/static/scripts/common.js}"/>
-    <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
-    <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
-    <!--    <script src="../static/scripts/common.js"></script>-->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="../static/scripts/common.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -19,6 +19,7 @@
 <div class="main-content-box"></div>
 
 <div th:replace="~{side-content :: side-content}"></div>
+<div th:replace="~{footer :: footer}"></div>
 
 
 

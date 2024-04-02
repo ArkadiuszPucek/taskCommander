@@ -10,9 +10,9 @@ import java.util.List;
 public interface UserTaskRepository extends CrudRepository<UserTask, Long> {
 
     List<UserTask> findByUserId(Long userId);
-    void deleteByUserIdAndImdbId(Long userId, String imdbId);
-    void deleteByImdbId(String imdbId);
+//    void deleteByUserIdAndImdbId(Long userId, String imdbId);
+//    void deleteByImdbId(String imdbId);
     void deleteUserById(Long userId);
 
-    boolean existsByUserIdAndImdbId(Long userId, String imdbId);
+//    boolean existsByUserIdAndImdbId(Long userId, String imdbId);
 }

@@ -1,7 +1,7 @@
 body {
     font-family: 'Montserrat'; font-size: 22px;    margin: 0;
     padding: 0;
-    background-image: url('../scripts/img/tlo-strony.webp');
+    background-image: url('../images/tlo-strony.webp');
     background-size: auto;
 }
 .logo{
@@ -25,7 +25,19 @@ header {
     font-size: 20px;
     margin: 0px;
     position: absolute;
-    left: 8.6%;
+    left: 7.6%;
+    top: 25px;
+    letter-spacing: 8px;
+    font-weight: 600;
+}
+
+.upper-part-logo-login {
+    color: #f0f0f0;
+    padding: 0px;
+    font-size: 20px;
+    margin: 0px;
+    position: absolute;
+    left: 47%;
     top: 25px;
     letter-spacing: 8px;
     font-weight: 600;
@@ -38,6 +50,18 @@ header {
     font-size: 20px;
     margin: 0px;
     left: 4%;
+    top: 52px;
+    letter-spacing: 8px;
+    font-weight: 600;
+}
+
+.lower-part-logo-login {
+    color: #f0f0f0;
+    padding: 0px;
+    position: absolute;
+    font-size: 20px;
+    margin: 0px;
+    left: 43%;
     top: 52px;
     letter-spacing: 8px;
     font-weight: 600;
@@ -283,7 +307,7 @@ header {
 }
 
 .user-info-box {
-    width: 85%;
+    width: 88%;
     height: 60px;
     display: flex;
     align-items: center;
@@ -313,7 +337,7 @@ header {
     font-size: 12px;
     position: absolute;
     top: 29px;
-    right: 53px;
+    left: 35%;
 }
 
 .role-info {
@@ -322,7 +346,7 @@ header {
     margin-top: 5px;
     position: absolute;
     top: 40px;
-    left: 85px;
+    left: 50%;
 }
 
 .profile-icon {
@@ -340,18 +364,22 @@ header {
     font-family: Montserrat;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.4);
-    top: -20px;
-    left: 22px;
+    top: -15px;
+    left: 28%;
     position: relative;
+    text-decoration: none;
 }
 
 .small-info-box-button {
     height: 20px;
+    position: relative;
+    top: 40%;
+    left: -14%;
     width: 50px;
     padding: 0px;
     border: 1px solid black;
     border-radius: 15px;
-    background-color: #ffffff;
+    background-color: #ffffff; !important;
     z-index: 6;
     justify-content: center;
     align-items: center;
@@ -365,28 +393,24 @@ header {
     top: 2px;
 }
 
+.small-info-box-logout,
 .small-info-box-motive {
+    cursor: pointer;
     width: calc(37% - 10px);
     height: 38px;
     padding: 20px;
-    background-color: #ffffff;
     border-radius: 15px;
+    background-color: #ffffff;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
     align-items: center;
     display: flex;
+    text-decoration: none;
 }
 
-.small-info-box-logout {
-    width: calc(37% - 10px);
-    height: 38px;
-    padding: 20px;
-    border-radius: 15px;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    align-items: center;
-    display: flex;
+.small-info-box-logout:hover,
+.small-info-box-motive:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 }
 
 .small-info-box:hover {
@@ -424,19 +448,19 @@ header {
 
 @media screen and (max-width: 1150px) {
     .navigation-bar button:nth-child(4) {
-        display: none; /* ukryj przycisk "Zamówienia" */
+        display: none;
     }
 }
 @media screen and (max-width: 1050px) {
     .navigation-bar button:nth-child(8),
     .navigation-bar button:nth-child(5){
-        display: none; /* ukryj przyciski "Montaż" i "Wysyłki" */
+        display: none;
     }
 }
 
 @media screen and (max-width: 900px) {
     .navigation-bar button:nth-child(9) {
-        display: none; /* ukryj przyciski "Montaż" i "Wysyłki" */
+        display: none;
     }
 }
 
@@ -829,6 +853,204 @@ header {
 .weekend {
     color: red; /* Ustaw kolor czcionki na czerwony dla dni weekendowych */
 }
+
+.footer {
+    display: block;
+    flex: 0 0;
+    overflow: hidden;
+    position: relative
+}
+
+.Footer-module-lower-ieG8u {
+    margin-bottom: 24px;
+    position: relative;
+    text-align: center
+}
+
+.Scaffold-module-scaffold-F6aIC {
+    margin: 15px 90px;
+    position: relative
+}
+
+
+.Footer-module-copyright-myMzS {
+    color: hsla(0, 0%, 93%, .7);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 2rem;
+    position: fixed;
+    top: 95%;
+    left: 42%;
+}
+
+.Footer-module-copyright-myMzS:after {
+    background-repeat: no-repeat;
+    background-size: 128px 30px;
+    bottom: -2px;
+    content: "";
+    display: inline-block;
+    height: 24px;
+    margin-left: 8px;
+    position: absolute;
+    width: 128px
+}
+
+.Layout-module-login-page-f11Sa {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    flex-direction: column;
+}
+
+.Modal_modalWrapper__GBKNS {
+    position: fixed;
+    z-index: 50;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: 90%;
+    max-width: 580px;
+    height: auto;
+    max-height: 90vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    border-radius: 0.9rem;
+    --tw-bg-opacity: 1;
+    background-color: rgb(237 237 237 / 31%);
+    align-content: center;
+    justify-content: center;
+}
+
+.Modal_modalBody__2_aM7{
+    width: 80%;
+}
+
+.h1-login-form-header-HD2dE{
+    font-weight: 700;
+    font-size: 32px;
+    color: white;
+    letter-spacing: 3px;
+    line-height: 40px;
+    --tw-text-opacity: 1;
+    --tw-bg-opacity: 1;
+    text-align: center;
+    margin-top: 35px;
+    margin-bottom: 30px;
+}
+
+.login-form-windows{
+    flex-direction: column;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.manage-message-login {
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 13px;
+}
+
+.algin-text-login-page{
+    margin-top: 3px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.Input-login-window{
+    position: relative;
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.Input_input__cDdvD{
+    height: 2.5rem;
+    width: 100%;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    caret-color: #eee;
+    border: none;
+}
+
+.login-lower-text{
+    color: white;
+}
+
+.submit-button-login-page{
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    height: 40px;
+}
+
+.submit-button-register-page{
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    height: 40px;
+}
+
+.register-message-login{
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 8px;
+    font-family: Montserrat;
+}
+
+.PlayButtonText-module-container-tunCR {
+    margin: 0 16px 16px 0
+}
+
+.Buttons-module-primary--YHdl {
+    background-color: #fe365f;
+    width: 125px;
+    height: 90%;
+    border: none;
+    border-radius: 15px;
+    font-size: 15px;
+    color: white;
+    font-family: Montserrat;
+
+}
+
+.Buttons-module-primary--YHdl:hover {
+    background-color: #e53156
+}
+
+.login-bottom-text-HD21d{
+    margin-bottom: 10px;
+}
+
+.algin-text-login-page{
+    margin-top: 3px;
+    text-align: center;
+    font-size: 13px;
+    color: #4d4545;
+}
+
+.register-password-hint-hk53I {
+    font-size: 12px;
+    font-weight: 200;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    padding: 5px;
+    margin-bottom: 3px;
+    font-family: Montserrat;
+
+}
+
+
 
 
 

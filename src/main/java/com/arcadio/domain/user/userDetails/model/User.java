@@ -1,6 +1,5 @@
 package com.arcadio.domain.user.userDetails.model;
 
-import com.arcadio.domain.user.userRatings.model.UserRating;
 import com.arcadio.domain.user.userRole.model.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
