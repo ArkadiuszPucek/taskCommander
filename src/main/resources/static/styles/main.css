@@ -711,12 +711,12 @@ input[type="checkbox"]:checked::before {
 
 .component-header{
     font-size: 30px;
-    font-weight: 400;
+    font-weight: 500;
     left: 40%;
     font-family: Montserrat;
     position: absolute;
     padding-top: 12px;
-    color: white;
+    color: #4f4f4f;
 }
 
 .side-task-box {

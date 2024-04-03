@@ -3,10 +3,10 @@
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <header th:fragment="header">
-    <div class="logo" th:href="@{/}">
+    <a class="logo" th:href="@{/}">
         <h1 class="upper-part-logo" th:href="@{/}">TASK</h1>
         <h1 class="lower-part-logo" th:href="@{/}">COMMANDER</h1>
-    </div>
+    </a>
     <div class="search-bar">
         <input type="text" placeholder="Znajdź...">
         <button><i class="far fa-search"></i></button>
