@@ -3,9 +3,9 @@
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <header th:fragment="header">
-    <div class="logo">
-        <h1 class="upper-part-logo">TASK</h1>
-        <h1 class="lower-part-logo">COMMANDER</h1>
+    <div class="logo" th:href="@{/}">
+        <h1 class="upper-part-logo" th:href="@{/}">TASK</h1>
+        <h1 class="lower-part-logo" th:href="@{/}">COMMANDER</h1>
     </div>
     <div class="search-bar">
         <input type="text" placeholder="Znajdź...">
@@ -49,15 +49,14 @@
         </div>
     </div>
     <div class="navigation-bar">
-        <button>Zadania</button>
-        <button>Zapytanie</button>
-        <button>Oferty</button>
-        <button>Zamówienia</button>
-        <button>Komponenty</button>
-        <button>Projekty</button>
-        <button>Klienci</button>
-        <button>Montaż</button>
-        <button>Wysyłki</button>
+        <a class="navigation-bar-button" th:href="@{/task}">Zadania</a>
+        <a class="navigation-bar-button" th:href="@{/inquiry}">Zapytanie</a>
+        <a class="navigation-bar-button" th:href="@{/offers}">Oferty</a>
+        <a class="navigation-bar-button" th:href="@{/orders}">Zamówienia</a>
+        <a class="navigation-bar-button" th:href="@{/components}">Komponenty</a>
+        <a class="navigation-bar-button" th:href="@{/projects}">Projekty</a>
+        <a class="navigation-bar-button" th:href="@{/clients}">Klienci</a>
+        <a class="navigation-bar-button" th:href="@{/statistics}">Wyniki</a>
     </div>
 </header>
 

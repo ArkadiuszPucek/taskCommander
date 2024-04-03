@@ -7,7 +7,15 @@ body {
 .logo{
     width: 220px;
     height: 60px;
-    justify-content: center;
+    color: white;
+    text-align: center;
+    display: table-row;
+    font-size: 11px;
+    font-family: Montserrat;
+    letter-spacing: 8px;
+    position: relative;
+    left: 1%;
+    margin-top: 0.5%;
 }
 
 header {
@@ -20,15 +28,15 @@ header {
 }
 
 .upper-part-logo {
-    color: #f0f0f0;
-    padding: 0px;
-    font-size: 20px;
+    /*color: #f0f0f0;*/
+    /*padding: 0px;*/
+    /*font-size: 20px;*/
     margin: 0px;
-    position: absolute;
-    left: 7.6%;
-    top: 25px;
-    letter-spacing: 8px;
-    font-weight: 600;
+    /*position: absolute;*/
+    /*left: 7.6%;*/
+    /*top: 25px;*/
+    /*letter-spacing: 8px;*/
+    /*font-weight: 600;*/
 }
 
 .upper-part-logo-login {
@@ -44,15 +52,15 @@ header {
 }
 
 .lower-part-logo {
-    color: #f0f0f0;
-    padding: 0px;
-    position: absolute;
-    font-size: 20px;
+    /*color: #f0f0f0;*/
+    /*padding: 0px;*/
+    /*position: absolute;*/
+    /*font-size: 20px;*/
     margin: 0px;
-    left: 4%;
-    top: 52px;
-    letter-spacing: 8px;
-    font-weight: 600;
+    /*left: 4%;*/
+    /*top: 52px;*/
+    /*letter-spacing: 8px;*/
+    /*font-weight: 600;*/
 }
 
 .lower-part-logo-login {
@@ -419,7 +427,7 @@ header {
 
 .navigation-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 0px;
     border-width: 0px;
     border-style: solid;
@@ -435,7 +443,7 @@ header {
 
 }
 
-.navigation-bar button {
+.navigation-bar-button{
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -443,7 +451,9 @@ header {
     color: #717171;;
     font-weight: 600;
     font-size: 15px;
-    width: 13%;
+    text-decoration: none;
+    position: relative;
+    top: 35%;
 }
 
 @media screen and (max-width: 1150px) {
@@ -558,6 +568,155 @@ header {
     left: 3%;
     top: 200px;
     opacity: 1;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    -moz-print-color-adjust: exact;
+    color-adjust: exact;
+}
+
+
+input[type="checkbox"]::before {
+    content: '';
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border: 1px solid #99999954;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    vertical-align: bottom;
+    margin-right: 4px;
+    margin-left: 13px;
+}
+
+input[type="checkbox"]:checked::before {
+    background-color: #737373;
+}
+
+.components-table{
+    padding-top: 100px;
+    width: 100%;
+}
+.components-main-content-box{
+    padding: 0px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0);
+    background-color: #f0f0f0ba;
+    border-radius: 20px;
+    width: 68%;
+    min-height: 533px;
+    height: auto;
+    position: absolute;
+    left: 3%;
+    top: 200px;
+    opacity: 1;
+}
+
+.component-box {
+    position: relative;
+    padding: 10px;
+    width: 29%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-left: 18px;
+}
+
+.component-image {
+    width: 35%;
+    height: auto;
+    margin-right: 10px;
+    position: absolute;
+    top: 50%; /* Przesunięcie do połowy wysokości kontenera */
+    transform: translateY(-50%); /* Wyśrodkowanie w pionie */
+    left: 0; /* Ustawienie na lewo */
+}
+
+.component-details {
+    width: 60%;
+    position: relative;
+    left: 42%;
+    text-align: center;
+}
+
+.component-id {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.component-description {
+    font-size: 11px;
+}
+
+.separator {
+    border: 0;
+    border-top: 1px solid #000;
+    margin: 10px 0px;
+}
+
+.component-price {
+    font-size: 12px;
+}
+
+.component-price-span{
+    text-align: right;
+}
+
+.component-box hr {
+    width: 87%;
+    color: #818181;
+}
+
+.components-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    position: relative;
+    top: 80px;
+}
+
+.component-price span {
+    font-weight: bold;
+}
+
+.component-category{
+    font-size: 23px;
+    color: #4f4f4f;
+    font-weight: 400;
+    top: 73px;
+    position: relative;
+    left: 5%;
+    width: fit-content;
+}
+.component-label{
+    border: none;
+}
+
+.component-variants{
+    color: #4f4f4f;
+    font-weight: 300;
+    font-size: 13px;
+    position: relative;
+    top: 50px;
+    left: 17%;
+    width: fit-content;
+}
+
+.component-header{
+    font-size: 30px;
+    font-weight: 400;
+    left: 40%;
+    font-family: Montserrat;
+    position: absolute;
+    padding-top: 12px;
+    color: white;
 }
 
 .side-task-box {
