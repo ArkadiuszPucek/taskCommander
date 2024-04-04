@@ -6,7 +6,7 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
 
 
-    <include file="0001_1_create_tables_components.xml" relativeToChangelogFile="true" />
+    <include file="0001_2_create_tables_components.xml" relativeToChangelogFile="true" />
     <include file="0006_1_create_tables_users_and_role.xml" relativeToChangelogFile="true" />
 
     <include file="../testdata/0001_components.sql" relativeToChangelogFile="true" context="dev"/>

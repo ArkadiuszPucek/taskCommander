@@ -1,46 +1,66 @@
--- Konektory
-INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant)
-VALUES ('F-A', 'Złączka 90°', 10.50, 15.00,'images/components/F-A.webp', 'Konektory', 'LeanTek'),
-       ('F-B', 'Złączka 180°', 12.00, 18.00, 'images/components/F-B.webp','Konektory', 'LeanTek'),
-       ('F-C', 'Złączka 270°', 14.00, 20.00, 'images/components/F-C.webp','Konektory', 'LeanTek'),
-       ('F-D', 'Złączka 90° premium', 14.00, 20.00, 'images/components/F-D.webp','Konektory', 'LeanTek'),
-       ('F-E', 'Złączka krzyżowa 90°', 14.00, 20.00, 'images/components/F-E.webp','Konektory', 'LeanTek'),
-       ('F-F', 'Złączka kątowa A', 14.00, 20.00, 'images/components/F-F.webp','Konektory', 'LeanTek'),
-       ('F-G', 'Złączka kątowa B', 14.00, 20.00, 'images/components/F-G.webp','Konektory', 'LeanTek'),
-       ('F-H', 'Złączka wielofunkcyjna', 14.00, 20.00, 'images/components/F-H.webp','Konektory', 'LeanTek'),
-       ('F-I', 'Złączka podwójna', 14.00, 20.00, 'images/components/F-I.webp','Konektory', 'LeanTek'),
-       ('F-90', 'Złączka wąska 90°', 14.00, 20.00, 'images/components/F-90.webp','Konektory', 'LeanTek'),
-       ('F-K', 'Złączka podwójna kątowa', 14.00, 20.00, 'images/components/F-K.webp','Konektory', 'LeanTek'),
-       ('F-L45', 'Złączka kątowa 45°', 14.00, 20.00, 'images/components/F-L45.webp','Konektory', 'LeanTek'),
-       ('F-L90', 'Kątownik ze wspornikiem 90° (nie zawiera śruby S10)', 14.00, 20.00, 'images/components/F-L90.webp','Konektory', 'LeanTek'),
-       ('F-D2', 'Łącznik 90°(średnica 33mm) mocowany na złączkę', 14.00, 20.00, 'images/components/F-D2.webp','Konektory', 'LeanTek'),
-       ('F-V1', 'Złączka ślizgowa 90°', 14.00, 20.00, 'images/components/F-V1.webp','Konektory', 'LeanTek'),
-       ('F-V3', 'Złączka ślizgowa podwójna (nie zawiera pierścienia F-7)', 14.00, 20.00, 'images/components/F-V3.webp','Konektory', 'LeanTek'),
-       ('F-V4', 'Złączka ślizgowa podwójna z jednym ślizgiem (nie zawiera pierścienia F-7)', 14.00, 20.00, 'images/components/F-V4.webp','Konektory', 'LeanTek');
+-- Złączki
+INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant, is_esd)
+VALUES ('F-A', 'Złączka 90°', 10.50, 15.00,'images/components/brackets/leanTek/F-A.webp', 'Złączki', 'LeanTek', false),
+       ('F-B', 'Złączka 180°', 12.00, 18.00, 'images/components/brackets/leanTek/F-B.webp','Złączki', 'LeanTek', false),
+       ('F-C', 'Złączka 270°', 14.00, 20.00, 'images/components/brackets/leanTek/F-C.webp','Złączki', 'LeanTek', false),
+       ('F-D', 'Złączka 90° premium', 14.00, 20.00, 'images/components/brackets/leanTek/F-D.webp','Złączki', 'LeanTek', false),
+       ('F-E', 'Złączka krzyżowa 90°', 14.00, 20.00, 'images/components/brackets/leanTek/F-E.webp','Złączki', 'LeanTek', false),
+       ('F-F', 'Złączka kątowa A', 14.00, 20.00, 'images/components/brackets/leanTek/F-F.webp','Złączki', 'LeanTek', false),
+       ('F-G', 'Złączka kątowa B', 14.00, 20.00, 'images/components/brackets/leanTek/F-G.webp','Złączki', 'LeanTek', false),
+       ('F-H', 'Złączka wielofunkcyjna', 14.00, 20.00, 'images/components/brackets/leanTek/F-H.webp','Złączki', 'LeanTek', false),
+       ('F-I', 'Złączka podwójna', 14.00, 20.00, 'images/components/brackets/leanTek/F-I.webp','Złączki', 'LeanTek', false),
+       ('F-90', 'Złączka wąska 90°', 14.00, 20.00, 'images/components/brackets/leanTek/F-90.webp','Złączki', 'LeanTek', false),
+       ('F-K', 'Złączka podwójna kątowa', 14.00, 20.00, 'images/components/brackets/leanTek/F-K.webp','Złączki', 'LeanTek', false),
+       ('F-L45', 'Złączka kątowa 45°', 14.00, 20.00, 'images/components/brackets/leanTek/F-L45.webp','Złączki', 'LeanTek', false),
+       ('F-L90', 'Kątownik ze wspornikiem 90° (nie zawiera śruby S10)', 14.00, 20.00, 'images/components/brackets/leanTek/F-L90.webp','Złączki', 'LeanTek', false),
+       ('F-D2', 'Łącznik 90°(średnica 33mm) mocowany na złączkę', 14.00, 20.00, 'images/components/brackets/leanTek/F-D2.webp','Złączki', 'LeanTek', false),
+       ('F-V1', 'Złączka ślizgowa 90°', 14.00, 20.00, 'images/components/brackets/leanTek/F-V1.webp','Złączki', 'LeanTek', false),
+       ('F-V3', 'Złączka ślizgowa podwójna (nie zawiera pierścienia F-7)', 14.00, 20.00, 'images/components/brackets/leanTek/F-V3.webp','Złączki', 'LeanTek', false),
+       ('F-V4', 'Złączka ślizgowa podwójna z jednym ślizgiem (nie zawiera pierścienia F-7)', 14.00, 20.00, 'images/components/brackets/leanTek/F-V4.webp','Złączki', 'LeanTek', false),
+       ('GT-A', 'Zintegrowana nakrętka = łatwy montaż Złączka 90°', 14.00, 20.00, 'images/components/brackets/graphit/GT-A.webp','Złączki', 'Graphit', false),
+       ('GT-B', 'Złączka 180°', 14.00, 20.00, 'images/components/brackets/graphit/GT-B.webp','Złączki', 'Graphit', false),
+       ('GT-C1', 'Złączka narożna zewnętrzna męska 270° (cz. 1) (nie zawiera śruby S1W)', 14.00, 20.00, 'images/components/brackets/graphit/GT-C1.webp','Złączki', 'Graphit', false),
+       ('GT-C2', 'Złączka narożna zewnętrzna żeńska 270° (cz. 2) (nie zawiera śruby S1W)', 14.00, 20.00, 'images/components/brackets/graphit/GT-C2.webp','Złączki', 'Graphit', false);
 
--- -- Rury
--- INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant)
--- VALUES ('4', 'Rura typu X', 8.00, 12.00, 'rury', 'graphit'),
---        ('5', 'Rura typu Y', 9.50, 14.00, 'rury', 'leanTek'),
---        ('6', 'Rura typu Z', 11.00, 16.00, 'rury', '28,0 mm');
---
--- -- Rolki
--- INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant)
--- VALUES ('7', 'Rolka 1', 6.50, 10.00, 'rolki', NULL),
---        ('8', 'Rolka 2', 7.00, 11.00, 'rolki', NULL),
---        ('9', 'Rolka 3', 8.00, 12.00, 'rolki', NULL);
---
--- -- Złączki
--- INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant)
--- VALUES ('10', 'Złączka typu X', 5.00, 8.00, 'złączki', 'graphit'),
---        ('11', 'Złączka typu Y', 6.00, 9.00, 'złączki', 'leanTek'),
---        ('12', 'Złączka typu Z', 7.00, 10.00, 'złączki', '28,0 mm');
---
--- -- Prowadnice
--- INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant)
--- VALUES ('13', 'Prowadnica 1', 10.00, 15.00, 'prowadnice', NULL),
---        ('14', 'Prowadnica 2', 11.00, 16.00, 'prowadnice', NULL),
---        ('15', 'Prowadnica 3', 12.00, 18.00, 'prowadnice', NULL);
+
+-- Konektory
+INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant, is_esd)
+VALUES ('F-M1', 'Konektor do RR-400 bez stopu', 5.00, 8.00,'images/components/connectors/leanTek/F-M1.webp', 'Konektory', 'LeanTek', false),
+    ('F-M2', 'Konektor do RR-400 ze stopem', 5.00, 8.00,'images/components/connectors/leanTek/F-M2.webp', 'Konektory', 'LeanTek', false),
+    ('F-M3', 'Konektor do RR-400 z wysokim stopem', 5.00, 8.00,'images/components/connectors/leanTek/F-M3.webp', 'Konektory', 'LeanTek', false),
+    ('F-M4', 'Konektor do RR-400 z mostkiem (kompatybilny z systemem 28,0 mm)', 5.00, 8.00,'images/components/connectors/leanTek/F-M4.webp', 'Konektory', 'LeanTek', false),
+    ('F-M16', 'Konektor do RR-400 z regulowanym kątem', 5.00, 8.00,'images/components/connectors/leanTek/F-M16.webp', 'Konektory', 'LeanTek', false),
+    ('F-M17', 'Konektor pod blat/półkę', 5.00, 8.00,'images/components/connectors/leanTek/F-M17.webp', 'Konektory', 'LeanTek', false),
+    ('GR-M1', 'Konektor do RR-400 bez stopu', 5.00, 8.00,'images/components/connectors/graphit/GR-M1.webp', 'Konektory', 'Graphit', false),
+    ('GR-M2', 'Konektor do RR-400 z niskim stopem', 5.00, 8.00,'images/components/connectors/graphit/GR-M2.webp', 'Konektory', 'Graphit', false),
+    ('GR-M3', 'Konektor do RR-400 z wysokim stopem', 5.00, 8.00,'images/components/connectors/graphit/GR-M3.webp', 'Konektory', 'Graphit', false),
+    ('GR-M4', 'Konektor do rr-400 z mostkiem', 5.00, 8.00,'images/components/connectors/graphit/GR-M4.webp', 'Konektory', 'Graphit', false),
+    ('GT-M4', 'Konektor z mostkiem na rurę', 5.00, 8.00,'images/components/connectors/graphit/GT-M4.webp', 'Konektory', 'Graphit', false),
+    ('GT-M8', 'Konektor do rur bez stopu', 5.00, 8.00,'images/components/connectors/graphit/GT-M8.webp', 'Konektory', 'Graphit', false),
+    ('GT-M8s', 'Konektor do rur z niskim stopem', 5.00, 8.00,'images/components/connectors/graphit/GT-M8s.webp', 'Konektory', 'Graphit', false);
+
+
+-- Rury
+INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant, is_esd)
+VALUES ('T2-400 9001', 'BIAŁA RURA STALOWA POWLEKANA PP, grub. 2 mm, ø 28.6 mm, dł. 4 m', 8.00, 12.00, 'images/components/tubes/T2-400.webp','Rury', null, false),
+       ('T2-400 ESD', 'CZARNA RURA STALOWA POWLEKANA PP, grub. 2 mm, ø 28.6 mm, dł. 4 m', 8.00, 12.00, 'images/components/tubes/T2-400-ESD.webp','Rury', null, true),
+       ('TA2-400', 'SZARA ANODOWANA RURA ALUMINIOWA, grub. 2 mm, ø 28,6 mm, dł. 4 m', 8.00, 12.00, 'images/components/tubes/TA2-400.webp','Rury', null, true),
+       ('SST1,2-400', 'RURA ZE STALI NIERDZEWNEJ, grub. 1,2 mm, ø 28,6 mm, dł. 4 m', 8.00, 12.00, 'images/components/tubes/SST1,2-400.webp','Rury', null, true);
+
+-- Rolki
+INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant, is_esd)
+VALUES ('RR-400', 'Standardowe listwy rolkowe, ø 34mm, dł. 4m', 6.50, 10.00,'images/components/rollers/RR-400.webp', 'Rolki', null, false),
+       ('RR-400 ESD', 'Standardowe listwy rolkowe ESD, ø 34mm, dł. 4m', 6.50, 10.00,'images/components/rollers/RR-400.webp', 'Rolki',null, true);
+
+-- Prowadnice
+INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant, is_esd)
+VALUES ('GC', 'Prowadnica centralna, dł. 4m', 10.00, 15.00, 'images/components/guides/GC.webp', 'Prowadnice', null, false),
+       ('GC ESD', 'Prowadnica centralna ESD, dł. 4m', 10.00, 15.00, 'images/components/guides/GC-ESD.webp', 'Prowadnice', null, true),
+       ('GL-10', 'Prowadnica boczna 10 mm, dł. 4m', 10.00, 15.00, 'images/components/guides/GL-10.webp', 'Prowadnice', null, false),
+       ('GL-10 ESD', 'Prowadnica boczna ESD 10 mm, dł. 4m', 10.00, 15.00, 'images/components/guides/GL-10-ESD.webp', 'Prowadnice', null, true),
+       ('GL-50', 'Prowadnica boczna 50 mm, dł. 4m', 10.00, 15.00, 'images/components/guides/GL-50.webp', 'Prowadnice', null, false),
+       ('GL-50 ESD', 'Prowadnica boczna ESD 50 mm, dł. 4m', 10.00, 15.00, 'images/components/guides/GL-50-ESD.webp', 'Prowadnice', null, true);
+
 --
 -- -- Koła
 -- INSERT INTO components (component_id, description, purchase_price, selling_price, image_path ,category, variant)

@@ -18,21 +18,36 @@
 
 <div class="components-main-content-box">
     <div class="component-header">Komponenty</div>
-    <div class="component-category">Konektory</div>
+    <div class="components-navigation-bar">
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Złączki')" class="components-navigation-bar-button">Złączki</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Konektory')" class="components-navigation-bar-button">Konektory</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Rury')" class="components-navigation-bar-button">Rury</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Rolki')" class="components-navigation-bar-button">Rolki</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Prowadnice')" class="components-navigation-bar-button">Prowadnice</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Koła')" class="components-navigation-bar-button">Koła</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Akcesoria')" class="components-navigation-bar-button">Akcesoria</a>
+        <a href="javascript:void(0);" onclick="scrollToSection('category_Śruby')" class="components-navigation-bar-button">Śruby</a>
+    </div>
     <div class="component-variants">
         <label><input type="checkbox" name="variant" value="LeanTek"> LeanTek</label>
         <label><input type="checkbox" name="variant" value="Graphit"> Graphit</label>
+        <label><input type="checkbox" name="variant" value="ESD"> ESD</label>
         <label><input type="checkbox" name="variant" value="28,0mm"> 28,0mm</label>
     </div>
-    <div class="components-container">
-        <div th:each="connector, i : ${connectors}" class="component-box">
-            <img class="component-image" th:src="${connector.imagePath}" alt="Component Image">
-            <div class="component-details">
-                <p class="component-id" th:text="${connector.componentId}"></p>
-                <p class="component-description" th:text="${connector.description}"></p>
-                <hr>
-                <p class="component-price">Sprzedaż: <span class="component-price-span" th:text="${connector.sellingPrice} + '€'"></span></p>
-                <p class="component-price">Zakup: <span th:text="${connector.purchasePrice} + '€'"></span></p>
+    <div th:each="entry : ${componentsByCategory.entrySet()}">
+        <div class="component-category" th:id="'category_' + ${entry.key}" th:text="${entry.key}"></div>
+        <div class="components-container">
+            <div th:each="connector : ${entry.value}" class="component-box"
+                 th:data-variant="${connector.variant}" th:data-esd="${connector.isEsd}">
+                <img class="component-image" th:src="${connector.imagePath}" alt="Component Image">
+                <div class="component-details">
+                    <p class="component-id" th:text="${connector.componentId}"></p>
+                    <p class="component-description" th:text="${connector.description}"></p>
+                    <hr>
+                    <p class="component-price">Sprzedaż: <span class="component-price-span"
+                                                               th:text="${connector.sellingPrice} + '€'"></span></p>
+                    <p class="component-price">Zakup: <span th:text="${connector.purchasePrice} + '€'"></span></p>
+                </div>
             </div>
         </div>
     </div>
@@ -41,7 +56,92 @@
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
 
+<script>
+    // Pobierz wszystkie przyciski wariantów
+    var variantButtons = document.querySelectorAll('.component-variants input[type="checkbox"]');
 
+    // Funkcja do filtrowania komponentów
+    function filterComponents() {
+        // Pobierz wybrane warianty
+        var selectedVariants = Array.from(variantButtons)
+            .filter(function(button) {
+                return button.checked;
+            })
+            .map(function(button) {
+                return button.value;
+            });
+
+        // Pobierz wybrane komponenty
+        var components = document.querySelectorAll('.component-box');
+
+        // Iteruj przez każdy komponent
+        components.forEach(function(component) {
+            // Pobierz wariant i status ESD z atrybutów danych komponentu
+            var variant = component.dataset.variant;
+            var isEsd = component.dataset.esd === "true";
+
+            // Sprawdź, czy komponent pasuje do wybranych wariantów
+            var showComponent = selectedVariants.includes(variant) || variant === null;
+
+            // Sprawdź, czy komponent pasuje do wybranego statusu ESD
+            if (selectedVariants.includes('ESD')) {
+                showComponent = showComponent && isEsd;
+            } else if (selectedVariants.includes('notESD')) {
+                showComponent = showComponent && !isEsd;
+            }
+
+            // Pokaż lub ukryj komponent w zależności od wyniku filtrowania
+            if (showComponent) {
+                component.style.display = "block";
+            } else {
+                component.style.display = "none";
+            }
+        });
+    }
+
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia dla przycisków wariantów
+    variantButtons.forEach(function(button) {
+        button.addEventListener('change', filterComponents);
+    });
+
+    // Wywołaj funkcję filtrującą na początku, aby zainicjować widok
+    filterComponents();
+</script>
+<script>
+    // Pobierz wszystkie checkboxy
+    var checkboxes = document.querySelectorAll('.component-variants input[type="checkbox"]');
+
+    // Dodaj nasłuchiwanie zdarzenia dla kliknięć w checkboxy
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // Pobierz wartości zaznaczonych checkboxów
+            var checkedValues = Array.from(checkboxes)
+                .filter(function(checkbox) { return checkbox.checked; })
+                .map(function(checkbox) { return checkbox.value; });
+
+            // Pobierz wszystkie komponenty
+            var components = document.querySelectorAll('.component-box');
+
+            // Iteruj przez każdy komponent i sprawdź, czy zawiera wybrane wartości
+            components.forEach(function(component) {
+                var shouldDisplay = checkedValues.every(function(value) {
+                    return component.dataset.variants.includes(value);
+                });
+
+                // Pokaż lub ukryj komponent w zależności od wyniku
+                component.style.display = shouldDisplay ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+<script>
+    function scrollToSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+</script>
 <script>
     function updateTime() {
         var currentTime = new Date();
