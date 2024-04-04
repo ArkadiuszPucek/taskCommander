@@ -14,8 +14,9 @@ body {
     font-family: Montserrat;
     letter-spacing: 8px;
     position: relative;
-    left: 1%;
+    left: 3%;
     margin-top: 0.5%;
+    text-decoration: none;
 }
 
 header {
