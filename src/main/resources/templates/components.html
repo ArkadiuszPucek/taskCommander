@@ -30,9 +30,13 @@
     </div>
     <div class="component-variants">
         <label><input type="checkbox" name="variant" value="LeanTek"> LeanTek</label>
+        <label><input type="checkbox" name="variant" value="LeanTek ESD"> LeanTek ESD</label>
+        <label><input type="checkbox" name="variant" value="LeanTek2"> LeanTek2</label>
         <label><input type="checkbox" name="variant" value="Graphit"> Graphit</label>
-        <label><input type="checkbox" name="variant" value="ESD"> ESD</label>
+        <label><input type="checkbox" name="variant" value="Graphit ESD"> Graphit ESD</label>
         <label><input type="checkbox" name="variant" value="28,0mm"> 28,0mm</label>
+        <label><input type="checkbox" name="variant" value="28,0mm ESD"> 28,0mm ESD</label>
+        <label><input type="checkbox" name="variant" value="ESD"> ESD</label>
     </div>
     <div th:each="entry : ${componentsByCategory.entrySet()}">
         <div class="component-category" th:id="'category_' + ${entry.key}" th:text="${entry.key}"></div>
@@ -76,12 +80,18 @@
 
         // Iteruj przez każdy komponent
         components.forEach(function(component) {
-            // Pobierz wariant i status ESD z atrybutów danych komponentu
+            // Pobierz wariant, status ESD, kategorię z atrybutów danych komponentu
             var variant = component.dataset.variant;
             var isEsd = component.dataset.esd === "true";
+            var category = component.dataset.category;
 
             // Sprawdź, czy komponent pasuje do wybranych wariantów
-            var showComponent = selectedVariants.includes(variant) || variant === null;
+            var showComponent = selectedVariants.includes(variant) || variant === 'None';
+
+            // Sprawdź, czy komponent pasuje do wybranej kategorii wariantu
+            if (selectedVariants.includes('LeanTek') || selectedVariants.includes('Graphit') || selectedVariants.includes('28,0mm')) {
+                showComponent = showComponent || (category === 'Konektory' && selectedVariants.includes(variant));
+            }
 
             // Sprawdź, czy komponent pasuje do wybranego statusu ESD
             if (selectedVariants.includes('ESD')) {
@@ -99,13 +109,50 @@
         });
     }
 
-    // Dodaj nasłuchiwanie zdarzenia kliknięcia dla przycisków wariantów
-    variantButtons.forEach(function(button) {
-        button.addEventListener('change', filterComponents);
-    });
+    // Ustaw standardowo zaznaczoną kategorię LeanTek
+    document.querySelector('.component-variants input[value="LeanTek"]').checked = true;
 
     // Wywołaj funkcję filtrującą na początku, aby zainicjować widok
     filterComponents();
+
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia dla przycisków wariantów
+    variantButtons.forEach(function(button) {
+        button.addEventListener('change', function() {
+            // Odznacz przyciski, które nie zostały kliknięte
+            variantButtons.forEach(function(otherButton) {
+                if (otherButton !== button && otherButton.checked) {
+                    otherButton.checked = false;
+                }
+            });
+            filterComponents();
+        });
+    });
+
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia dla przycisku ESD
+    document.querySelector('.component-variants input[value="ESD"]').addEventListener('change', function() {
+        // Jeśli przycisk ESD jest zaznaczony
+        if (this.checked) {
+            // Wybierz wszystkie komponenty i sprawdź wartość isEsd
+            var components = document.querySelectorAll('.component-box');
+            components.forEach(function(component) {
+                var isEsd = component.dataset.esd === "true";
+                // Jeśli isEsd=true, pokaż komponent
+                if (isEsd) {
+                    component.style.display = "block";
+                }
+            });
+        } else {
+            // Jeśli przycisk ESD nie jest zaznaczony, ukryj komponenty z isEsd=true
+            var components = document.querySelectorAll('.component-box');
+            components.forEach(function(component) {
+                var isEsd = component.dataset.esd === "true";
+                // Jeśli isEsd=true, ukryj komponent
+                if (isEsd) {
+                    component.style.display = "none";
+                }
+            });
+        }
+    });
 </script>
 <script>
     // Pobierz wszystkie checkboxy

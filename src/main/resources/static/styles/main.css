@@ -4,6 +4,7 @@ body {
     background-image: url('../images/tlo-strony.webp');
     background-size: auto;
 }
+
 .logo{
     width: 220px;
     height: 60px;
@@ -19,6 +20,18 @@ body {
     text-decoration: none;
 }
 
+.logo-login{
+    color: white;
+    text-align: center;
+    display: inline;
+    font-size: 11px;
+    font-family: Montserrat;
+    letter-spacing: 8px;
+    position: relative;
+    margin-top: 0.5%;
+    text-decoration: none;
+}
+
 header {
     display: flex;
     align-items: center;
@@ -28,52 +41,27 @@ header {
     position: relative;
 }
 
-.upper-part-logo {
-    /*color: #f0f0f0;*/
-    /*padding: 0px;*/
-    /*font-size: 20px;*/
+.upper-part-logo{
     margin: 0px;
-    /*position: absolute;*/
-    /*left: 7.6%;*/
-    /*top: 25px;*/
-    /*letter-spacing: 8px;*/
-    /*font-weight: 600;*/
 }
+
 
 .upper-part-logo-login {
-    color: #f0f0f0;
-    padding: 0px;
-    font-size: 20px;
-    margin: 0px;
-    position: absolute;
-    left: 47%;
-    top: 25px;
-    letter-spacing: 8px;
-    font-weight: 600;
+    margin: 10px;
 }
 
-.lower-part-logo {
-    /*color: #f0f0f0;*/
-    /*padding: 0px;*/
-    /*position: absolute;*/
-    /*font-size: 20px;*/
-    margin: 0px;
-    /*left: 4%;*/
-    /*top: 52px;*/
-    /*letter-spacing: 8px;*/
-    /*font-weight: 600;*/
+.not-found-message{
+    font-weight: 600;
+    font-size: 29px;
+    margin-top: 30px;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.lower-part-logo-login {
-    color: #f0f0f0;
-    padding: 0px;
-    position: absolute;
-    font-size: 20px;
+
+.lower-part-logo,
+lower-part-logo-login {
     margin: 0px;
-    left: 43%;
-    top: 52px;
-    letter-spacing: 8px;
-    font-weight: 600;
 }
 
 .search-bar {
@@ -586,6 +574,24 @@ header {
 
 .main-content-box {
     display: flex;
+    justify-content: space-between;
+    padding: 0px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0);
+    background-color: #f0f0f0ba;
+    border-radius: 20px;
+    width: 68%;
+    min-height: 533px;
+    height: auto;
+    position: absolute;
+    left: 3%;
+    top: 200px;
+    opacity: 1;
+}
+
+.not-found-main-content-box {
+    display: inline;
     justify-content: space-between;
     padding: 0px;
     border-width: 0px;
@@ -1182,6 +1188,30 @@ input[type="checkbox"]:checked::before {
     justify-content: center;
     padding: 15px;
     height: 40px;
+}
+
+.submit-button-not-fount-page{
+    display: inherit;
+    text-align-last: center;
+    justify-content: center;
+    padding: 13px;
+    height: 25px;
+    width: 135px;
+    background-color: #8282828f;
+    border-radius: 20px;
+    align-items: center;
+    font-size: 16px;
+    position: relative;
+    margin-block: 30px;
+    margin-inline: auto;
+    cursor: pointer;
+}
+
+.not-fount-image{
+    height: 30%;
+    width: 30%;
+    position: relative;
+    margin-inline: 34%;
 }
 
 .submit-button-register-page{
