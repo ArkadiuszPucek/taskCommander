@@ -11,7 +11,7 @@ public class TaskDtoMapper {
         TaskDto taskDto = new TaskDto();
         taskDto.setId(task.getId());
         taskDto.setTaskId(task.getTaskId());
-        taskDto.setCompanyId(task.getCompany().getId());
+        taskDto.setCompanyId(task.getCompany().getNip());
         taskDto.setCustomerId(task.getCustomer().getId());
         taskDto.setDescription(task.getDescription());
         taskDto.setAttachmentIds(task.getAttachments().stream().map(Attachment::getId).collect(Collectors.toSet()));

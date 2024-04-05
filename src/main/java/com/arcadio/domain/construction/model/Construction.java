@@ -2,7 +2,7 @@ package com.arcadio.domain.construction.model;
 
 
 import com.arcadio.domain.components.model.Components;
-import com.arcadio.domain.customComponents.model.CustomComponent;
+import com.arcadio.domain.components.customComponents.model.CustomComponent;
 import com.arcadio.domain.offer.model.Offer;
 import jakarta.persistence.*;
 import lombok.Getter;

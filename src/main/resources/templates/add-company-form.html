@@ -16,7 +16,82 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 
-<div class="main-content-box"></div>
+<div class="add-company-main-content-box">
+    <div class="add-company-header">Dodaj firmę</div>
+    <form th:action="@{/add-company}" method="post" th:object="${company}">
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+        <div class="grid-container">
+            <div class="add-company-basic-info-container">
+                <h3 class="add-info-font">Dane podstawowe:</h3>
+                <tr>
+                    <td>
+                        <input class="text-input-style" type="text" name="nip" th:field="*{nip}" pattern="^\d{10}$"
+                               placeholder=" Nr NIP: 12345678910" required></td>
+                </tr>
+                <tr>
+                    <td><input class="text-input-style" type="text" name="title" th:field="*{companyName}"
+                               placeholder=" Nazwa firmy" required></td>
+                </tr>
+
+                <select class="text-input-style" name="currency" th:field="*{currency}">
+                    <option value="">Waluta</option>
+                    <option value="PLN">PLN</option>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                </select>
+
+                <tr>
+                    <td><input class="text-input-style" type="text" name="billingEmail" th:field="*{billingEmail}"
+                               placeholder=" Mail do fv" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><input class="text-input-style" type="text" name="additionalNotes" th:field="*{additionalNotes}"
+                               placeholder=" Uwagi"></td>
+                </tr>
+            </div>
+
+            <!-- Billing Addresses -->
+            <div class="billing-addresses-container" id="billing-addresses-container">
+                <div class="billing-address">
+                    <h3 class="add-info-font">Adres rozliczeniowy:</h3>
+                    <input class="text-input-style" type="text" name="billingAddresses[0].streetName"
+                           placeholder="Ulica" required>
+                    <input class="text-input-style" type="text" name="billingAddresses[0].buildingNumber"
+                           placeholder="Numer budynku" required>
+                    <input class="text-input-style" type="text" name="billingAddresses[0].apartmentNumber"
+                           placeholder="Numer mieszkania">
+                    <input class="text-input-style" type="text" name="billingAddresses[0].city" placeholder="Miasto"
+                           required>
+                    <input class="text-input-style" type="text" name="billingAddresses[0].postalCode"
+                           placeholder="Kod pocztowy" required>
+                </div>
+            </div>
+            <!-- Shipping Addresses -->
+            <div class="shipping-addresses-container" id="shipping-addresses-container">
+                <div class="shipping-address">
+                    <h3 class="add-info-font">Adres dostawy:</h3>
+                    <input class="text-input-style" type="text" name="billingAddresses[0].streetName"
+                           placeholder="Ulica">
+                    <input class="text-input-style" type="text" name="billingAddresses[0].buildingNumber"
+                           placeholder="Numer budynku">
+                    <input class="text-input-style" type="text" name="billingAddresses[0].apartmentNumber"
+                           placeholder="Numer mieszkania">
+                    <input class="text-input-style" type="text" name="billingAddresses[0].city" placeholder="Miasto">
+                    <input class="text-input-style" type="text" name="billingAddresses[0].postalCode"
+                           placeholder="Kod pocztowy">
+                </div>
+            </div>
+        </div>
+        <div class="submit-button-addres-form">
+            <button type="submit"
+                    class="add-company-button-tunCR Buttons-module-primary--YHdl"
+                    tabindex="0">Dodaj
+            </button>
+        </div>
+    </form>
+</div>
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
@@ -79,7 +154,7 @@
         const currentMonthName = document.getElementById("current-month");
 
         if (calendarBody && currentMonthName) {
-            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'});
 
             let days = "";
             let dayIndex = 0;
