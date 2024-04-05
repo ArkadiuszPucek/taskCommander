@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>TaskCommander</title>
     <link rel="stylesheet" href="/styles/main.css" th:href="@{/styles/main.css}" type="text/css">
-    <link rel="stylesheet" type="javascript" th:href="@{/static/scripts/common.js}"/>
+    <link rel="stylesheet" type="javascript" th:href="@{/scripts/common.js}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <script src="../static/scripts/common.js"></script>
+    <script src="../../static/scripts/common.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -16,12 +16,54 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 
-<div class="main-content-box"></div>
+<div class="add-company-main-content-box">
+    <div class="add-company-header" th:text="'Dodaj adres dostawy dla firmy: ' + ${company.companyName}">Dodaj adres dostawy </div>
+    <form th:action="@{/company/add-company/{nip}/add-shipping-address(nip=${nip})}" method="post" th:object="${shippingAddress}">
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+        <div class="grid-container-add-shipping-addres">
+            <div class="add-shipping-info-container">
+                <!-- Shipping Addresses -->
+                <div class="shipping-addresses-container" id="shipping-addresses-container">
+                    <div class="shipping-address">
+                        <h3 class="add-info-font">Adres dostawy:</h3>
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{streetName}" name="streetName" placeholder="Ulica">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{buildingNumber}" name="buildingNumber" placeholder="Numer budynku">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{apartmentNumber}" name="apartmentNumber" placeholder="Numer mieszkania">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{city}" name="city" placeholder="Miasto">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{postalCode}" name="postalCode" placeholder="Kod pocztowy">
+                    </div>
+                </div>
+            </div>
+            <div class="submit-button-addres-form">
+                <!-- Przycisk "pomiń" -->
+                <button type="button" class="skip-address-button add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Pomiń</button>
+                <!-- Przycisk "dodaj" -->
+                <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Dodaj</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
 
+<script>
+    // Pobierz przycisk "pomiń"
+    var skipButton = document.querySelector('.skip-address-button');
 
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia na przycisku "pomiń"
+    skipButton.addEventListener('click', function() {
+        // Wyświetl okno dialogowe z potwierdzeniem
+        var confirmSkip = confirm("Czy na pewno chcesz pominąć dodawanie adresu dostawy?");
+
+        // Jeśli użytkownik potwierdzi, że chce pominąć dodawanie adresu
+        if (confirmSkip) {
+            // Tutaj możesz dodać kod, który chcesz wykonać po kliknięciu przycisku "pomiń"
+            // Na przykład możesz przejść do kolejnego kroku procesu lub zakończyć go
+            // W tym przypadku nie musisz podejmować żadnych działań, ponieważ formularz zostanie przesłany normalnie
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var button = document.getElementById("clients-dropdown-button");
@@ -79,7 +121,7 @@
         const currentMonthName = document.getElementById("current-month");
 
         if (calendarBody && currentMonthName) {
-            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'});
 
             let days = "";
             let dayIndex = 0;

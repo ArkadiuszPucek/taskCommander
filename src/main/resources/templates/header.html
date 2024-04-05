@@ -15,7 +15,7 @@
         <p><span id="current-time"></span></p>
     </div>
     <div class="user-info">
-        <button id="user-dropdown-button" >
+        <button id="user-dropdown-button">
             <img class='user-avatar' th:src="${avatar} ?: '/images/avatars/bear.png'" alt="Avatar">
             <div class='user-mail' th:text="${userEmail} ?: 'user@mail.com'">user@mail.com</div>
             <span class='user-dropdown-icon'>&#9662;</span>
@@ -23,12 +23,13 @@
         <div class="user-dropdown-list" id="user-dropdown-list">
             <div class="user-info-box">
                 <img th:src="${avatar} ?: '/images/avatars/bear.png'" alt="Email" class="email-icon">
-                <div class="user-dropdown-email" th:text="${userEmail} ?: 'user@mail.com'">arkadiusz.pucek@gmail.com</div>
+                <div class="user-dropdown-email" th:text="${userEmail} ?: 'user@mail.com'">arkadiusz.pucek@gmail.com
+                </div>
                 <div class="role-info" th:text="${userRole} ?: 'sales engineer'">Rola użytkownika</div>
             </div>
             <div class="additional-info">
                 <a class="small-info-box-motive"
-                     style="background-image: url('../static/images/tlo-strony.webp')">
+                   style="background-image: url('../static/images/tlo-strony.webp')">
                     <div class="small-info-box-header">Motywy</div>
                     <div class="small-info-box-button">
                         <div class="box-text">Zmień</div>
@@ -55,9 +56,16 @@
         <a class="navigation-bar-button" th:href="@{/orders}">Zamówienia</a>
         <a class="navigation-bar-button" th:href="@{/components}">Komponenty</a>
         <a class="navigation-bar-button" th:href="@{/projects}">Projekty</a>
-        <a class="navigation-bar-button" th:href="@{/clients}">Klienci</a>
+        <div class="navigation-bar-dropdown">
+            <button id="clients-dropdown-button" class="navigation-bar-button">Klienci</button>
+            <div id="clients-dropdown-list" class="navigation-bar-dropdown-content">
+                <a class="dropdown-navigation-button" th:href="@{/clients/add-client}">Dodaj klienta</a>
+                <a class="dropdown-navigation-button" th:href="@{/company/add-company}">Dodaj firmę</a>
+                <a class="dropdown-navigation-button" th:href="@{/company/database}">Baza klientów</a>
+            </div>
+        </div>
         <a class="navigation-bar-button" th:href="@{/statistics}">Wyniki</a>
     </div>
-</header>
 
+</header>
 </html>

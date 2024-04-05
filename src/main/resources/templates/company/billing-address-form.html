@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>TaskCommander</title>
     <link rel="stylesheet" href="/styles/main.css" th:href="@{/styles/main.css}" type="text/css">
-    <link rel="stylesheet" type="javascript" th:href="@{/static/scripts/common.js}"/>
+    <link rel="stylesheet" type="javascript" th:href="@{/scripts/common.js}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <script src="../static/scripts/common.js"></script>
+    <script src="../../static/scripts/common.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -16,11 +16,40 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 
-<div class="main-content-box"></div>
+<div class="add-company-main-content-box">
+    <div class="add-company-header" th:text="'Dodaj adres rozliczeniowy firmy: ' + ${company.companyName}">Dodaj adres rozliczeniowy firmy </div>
+    <form th:action="@{/company/add-company/{nip}/add-billing-address(nip=${nip})}" method="post" th:object="${company}">
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+        <div class="grid-container-add-shipping-addres">
+            <div class="add-shipping-info-container">
+                <!-- Billing Addresses -->
+                <div class="billing-addresses-container" id="billing-addresses-container">
+                    <div class="billing-address">
+                        <h3 class="add-info-font">Adres rozliczeniowy:</h3>
+                        <input class="shipping-address-text-input-style" type="text" name="billingAddresses.streetName"
+                               placeholder="Ulica" required>
+                        <input class="text-input-style" type="text" name="billingAddresses.buildingNumber"
+                               placeholder="Numer budynku" required>
+                        <input class="text-input-style" type="text" name="billingAddresses.apartmentNumber"
+                               placeholder="Numer mieszkania">
+                        <input class="text-input-style" type="text" name="billingAddresses.city" placeholder="Miasto"
+                               required>
+                        <input class="text-input-style" type="text" name="billingAddresses.postalCode"
+                               placeholder="Kod pocztowy" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="submit-button-addres-form">
+            <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl"
+                    tabindex="0">Dodaj
+            </button>
+        </div>
+    </form>
+</div>
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -79,7 +108,7 @@
         const currentMonthName = document.getElementById("current-month");
 
         if (calendarBody && currentMonthName) {
-            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'});
 
             let days = "";
             let dayIndex = 0;

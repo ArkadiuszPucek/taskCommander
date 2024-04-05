@@ -4,3 +4,15 @@ spring:
   liquibase:
     contexts: dev
     change-log: classpath:db/changelog/master.xml
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+    liquibase:
+      executor: INFO
+      parser: INFO

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>TaskCommander</title>
     <link rel="stylesheet" href="/styles/main.css" th:href="@{/styles/main.css}" type="text/css">
-    <link rel="stylesheet" type="javascript" th:href="@{/static/scripts/common.js}"/>
+    <link rel="stylesheet" type="javascript" th:href="@{/scripts/common.js}"/>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <script src="../static/scripts/common.js"></script>
+    <script src="../../static/scripts/common.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
@@ -16,11 +16,82 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 
-<div class="main-content-box"></div>
+<div class="add-company-main-content-box">
+    <div class="add-company-header">Dodaj firmę</div>
+    <form th:action="@{/company/add-company}" method="post" th:object="${company}">
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+        <div class="grid-container">
+            <div class="add-company-basic-info-container">
+                <h3 class="add-info-font">Dane podstawowe:</h3>
+                <tr>
+                    <td>
+                        <input class="text-input-style" type="text" name="nip" th:field="*{nip}" pattern="^\d{10}$"
+                               placeholder=" Nr NIP: 12345678910" required></td>
+                </tr>
+                <tr>
+                    <td><input class="text-input-style" type="text" name="title" th:field="*{companyName}"
+                               placeholder=" Nazwa firmy" required></td>
+                </tr>
+
+                <select class="text-input-style" name="currency" th:field="*{currency}">
+                    <option value="">Waluta</option>
+                    <option value="PLN">PLN</option>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                </select>
+
+                <tr>
+                    <td><input class="text-input-style" type="text" name="billingEmail" th:field="*{billingMail}"
+                               placeholder=" Mail do fv" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                    </td>
+                </tr>
+                <tr>
+                    <td><input class="text-input-style" th:field="*{billingStreetName}" type="text"
+                               name="billingStreetName"
+                               placeholder="Ulica" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input class="short-text-input-style" th:field="*{billingBuildingNumber}" type="text"
+                               name="billingBuildingNumber"
+                               placeholder="Numer budynku" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input class="short-text-input-style" th:field="*{billingApartmentNumber}" type="text"
+                               name="billingApartmentNumber"
+                               placeholder="Numer mieszkania">
+                    </td>
+                </tr>
+                <tr>
+                    <td><input class="text-input-style" th:field="*{billingCity}" type="text" name="billingCity"
+                               placeholder="Miasto"
+                               required>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input class="text-input-style" th:field="*{billingPostalCode}" type="text"
+                               name="billingPostalCode"
+                               placeholder="Kod pocztowy" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input class="long-text-input-style" type="text" name="additionalNotes"
+                               th:field="*{additionalNotes}"
+                               placeholder=" Uwagi"></td>
+                </tr>
+            </div>
+        </div>
+        <div class="submit-button-addres-form">
+            <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl"
+                    tabindex="0">Dodaj
+            </button>
+        </div>
+    </form>
+</div>
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -79,7 +150,7 @@
         const currentMonthName = document.getElementById("current-month");
 
         if (calendarBody && currentMonthName) {
-            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'});
 
             let days = "";
             let dayIndex = 0;

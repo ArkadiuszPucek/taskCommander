@@ -1,4 +1,4 @@
-package com.arcadio.domain.customComponents.model;
+package com.arcadio.domain.components.customComponents.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
