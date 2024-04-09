@@ -7,9 +7,11 @@ import com.arcadio.domain.company.CompanyFactory;
 import com.arcadio.domain.company.dto.CompanyDTO;
 import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.company.repository.CompanyRepository;
+import com.arcadio.domain.exceptions.NoAddressesFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,15 +50,28 @@ public class CompanyService {
         }
     }
 
-    public CompanyDTO getCompanyByNip(Long nip) {
+    public CompanyDTO getCompanyDTOByNip(Long nip) {
         Optional<Company> optionalCompany = companyRepository.findByNip(nip);
-        Company company = optionalCompany.get();
         if (optionalCompany.isPresent()) {
+            Company company = optionalCompany.get();
             CompanyDTO companyDTO = new CompanyDTO();
             companyDTO.setNip(company.getNip());
             companyDTO.setCompanyName(company.getCompanyName());
             return companyDTO;
         }
         return null;
+    }
+
+    public Company getCompanyByNip(Long nip) {
+        Optional<Company> optionalCompany = companyRepository.findByNip(nip);
+        return optionalCompany.orElse(null);
+    }
+
+    public List<ShippingAddress> getCompanyShippingAddresses(Long nip) {
+        Optional<Company> optionalCompany = companyRepository.findByNip(nip);
+        if (optionalCompany.isPresent()){
+            Company company = optionalCompany.get();
+            return shippingAddressService.getAllShippingAddressesForCompany(company);
+        }else throw new NoAddressesFoundException("No addresses found");
     }
 }

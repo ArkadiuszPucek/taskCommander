@@ -6,6 +6,8 @@ import com.arcadio.domain.adresses.shippingaddress.repository.ShippingAddressRep
 import com.arcadio.domain.company.model.Company;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShippingAddressService {
 
@@ -27,4 +29,7 @@ public class ShippingAddressService {
         return shippingAddressRepository.save(shippingAddress);
     }
 
+    public List<ShippingAddress> getAllShippingAddressesForCompany(Company company) {
+        return shippingAddressRepository.findAllByCompany(company);
+    }
 }

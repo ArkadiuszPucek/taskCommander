@@ -16,14 +16,52 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 
-<div class="main-content-box">
+<div class="company-preview-main-content-box">
     <h3 class="company-preview-header" th:text="${company.companyName}"></h3>
-    <div class="grid-container">
-        <div class="add-company-basic-info-container">
-
+    <div class="grid-container-company-preview">
+        <div class="company-preview-info-container">
+            <div class="company-preview-small-container">
+                <div class="company-preview-info-small-headers">NIP</div>
+                <div class="company-info" th:text="*{company.nip}"></div>
+            </div>
+            <div class="company-preview-small-container">
+                <div class="company-preview-info-small-headers">Preferowana waluta</div>
+                <div class="company-info" th:text="*{company.currency}"></div>
+            </div>
+            <div class="company-preview-small-container">
+                <div class="company-preview-info-small-headers">Mail do faktur</div>
+                <div class="company-info" th:text="*{company.billingMail}"></div>
+            </div>
+            <div class="company-preview-small-container">
+                <div class="company-preview-info-small-headers">Adres rejsetrowy</div>
+                <div class="company-info" th:if="${company.billingApartmentNumber != null}"
+                     th:text="''+ *{company.billingStreetName} + ' ' + *{company.billingBuildingNumber} + '/' + *{company.billingApartmentNumber} +', ' + *{company.billingPostalCode} + ' ' + *{company.billingCity}"></div>
+                <div class="company-info" th:if="${company.billingApartmentNumber == null}"
+                     th:text="''+ *{company.billingStreetName} + ' ' + *{company.billingBuildingNumber}+', ' + *{company.billingPostalCode} + ' ' + *{company.billingCity}"></div>
+            </div>
+            <div class="company-preview-small-container">
+                <div class="company-preview-info-small-headers">Adresy dostaw</div>
+                <div class="shipping-company-info">
+                    <div th:each="shippingAddress : ${companyShippingAddresses}">
+                        <div class="shipping-addre-company-info">
+                            <div th:text="${shippingAddress.streetName} + ' ' + ${shippingAddress.buildingNumber} + (${shippingAddress.apartmentNumber != null ? '/' + shippingAddress.apartmentNumber : ''}) + ', ' + ${shippingAddress.postalCode} + ' ' + ${shippingAddress.city}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="company-preview-small-container">
+                <div class="company-preview-info-small-headers">Informacje dodatkowe</div>
+                <div class="company-info" th:text="*{company.additionalNotes}"></div>
+            </div>
         </div>
     </div>
+    <div class="submit-button-addres-form">
+        <a type="button" th:href="@{/company/{nip}/edit(nip=${nip})}" class="skip-address-button add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Edytuj</a>
+        <!-- Przycisk "dodaj" -->
+        <a type="button" th:href="@{/customers/{nip}(nip=${nip})}" class="add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Osoby kontaktowe</a>
+    </div>
 </div>
+
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
@@ -86,7 +124,7 @@
         const currentMonthName = document.getElementById("current-month");
 
         if (calendarBody && currentMonthName) {
-            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'});
 
             let days = "";
             let dayIndex = 0;

@@ -578,7 +578,6 @@ lower-part-logo-login {
     padding: 0px;
     border-width: 0px;
     border-style: solid;
-    border-color: rgba(0, 0, 0);
     background-color: #f0f0f0ba;
     border-radius: 20px;
     width: 68%;
@@ -590,7 +589,22 @@ lower-part-logo-login {
     opacity: 1;
 }
 
-.add-company-main-content-box{
+.company-preview-main-content-box {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    background-color: #f0f0f0ba;
+    border-radius: 20px;
+    width: 68%;
+    min-height: 533px;
+    height: auto;
+    position: absolute;
+    left: 3%;
+    top: 200px;
+    opacity: 1;
+}
+
+.add-company-main-content-box {
     padding: 0px;
     border-width: 0px;
     border-style: solid;
@@ -637,6 +651,20 @@ lower-part-logo-login {
     text-align: center;
     margin-inside: 37px;
     background-color: #fffefe9c;
+    padding-top: 5px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.company-preview-info-small-headers{
+    font-size: 13px;
+    margin-right: 21px;
+    width: 28%;
 }
 .add-shipping-info-container{
     width: 55%;
@@ -646,6 +674,40 @@ lower-part-logo-login {
     height: 340px;
     text-align: center;
     margin-inside: 37px;
+    /*width: 55%;*/
+    /*background-color: #fdfdfd99;*/
+    /*border-radius: 20px;*/
+    /*position: relative;*/
+    /*top: 22px;*/
+    /*height: 340px;*/
+    /*text-align: center;*/
+    /*margin-inline: auto;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+}
+
+.company-preview-info-container{
+    width: 70%;
+    background-color: #fdfdfd99;
+    border-radius: 20px;
+    position: relative;
+    height: fit-content;
+    text-align: center;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.company-preview-small-container{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-inline: 20px;
 }
 
 .not-found-main-content-box {
@@ -883,7 +945,7 @@ input[type="checkbox"]:checked::before {
     align-items: center;
 }
 
-.grid-container-add-shipping-addres{
+.grid-container-add-shipping-addres {
     display: initial;
     grid-gap: 10px;
     width: 100%;
@@ -891,6 +953,15 @@ input[type="checkbox"]:checked::before {
     margin-top: 85px;
     justify-content: center;
     align-items: center;
+}
+
+.grid-container-company-preview {
+    /*display: grid;*/
+    /*grid-gap: 10px;*/
+    /*width: 100%;*/
+    /*margin: 0 auto;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
 }
 
 .add-info-font{
@@ -1517,6 +1588,54 @@ input::placeholder, input:focus::placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.company-info {
+    font-size: 15px;
+    background-color: #a5a3a38a;
+    height: 25px;
+    width: 70%;
+    border-radius: 7px;
+    margin-inline: auto;
+    margin-block: 6px;
+    color: #4d4d4d;
+    font-family: Montserrat;
+    padding-block-end: 5px;
+}
+
+.shipping-company-info{
+    display: inline-table;
+    font-size: 15px;
+    height: 35px;
+    width: 70%;
+    border-radius: 7px;
+    margin-inline: auto;
+    color: #4d4d4d;
+    font-family: Montserrat;
+}
+
+.shipping-addre-company-info {
+    font-size: 15px;
+    background-color: #a5a3a38a;
+    height: 25px;
+    border-radius: 7px;
+    margin-inline: auto;
+    margin-block: 12px;
+    color: #4d4d4d;
+    font-family: Montserrat;
+    padding-block-end: 5px;
+}
+
+.shipping-address-preview-header{
+    font-size: 15px;
+}
+
+.company-preview-header {
+    font-size: 23px;
+    font-weight: 500;
+    text-align: center;
+    color: #4c4848e0;
+    margin-inline: auto;
 }
 
 

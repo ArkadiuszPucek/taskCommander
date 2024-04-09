@@ -1,11 +1,15 @@
 package com.arcadio.domain.company;
 
 import com.arcadio.domain.UserUtils;
+import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
 import com.arcadio.domain.company.dto.CompanyDTO;
+import com.arcadio.domain.company.model.Company;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 @Service
 public class CompanyManagementFacade {
@@ -33,11 +37,19 @@ public class CompanyManagementFacade {
         companyFacade.addCompany(company);
 
     }
-    public CompanyDTO getCompanyByNip(Long nip) {
+    public CompanyDTO getCompanyDTOByNip(Long nip) {
+        return companyFacade.getCompanyDTOByNip(nip);
+    }
+
+    public Company getCompanyByNip(Long nip) {
         return companyFacade.getCompanyByNip(nip);
     }
 
     public void addShippingAddressToCompany(Long nip, ShippingAddressDTO shippingAddress) {
         companyFacade.addShippingAddressToCompany(nip, shippingAddress);
+    }
+
+    public List<ShippingAddress> getCompanyShippingAddresses(Long nip) {
+        return companyFacade.getCompanyShippingAddresses(nip);
     }
 }
