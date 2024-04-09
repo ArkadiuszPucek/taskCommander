@@ -39,13 +39,14 @@
                 <div class="company-info" th:if="${company.billingApartmentNumber == null}"
                      th:text="''+ *{company.billingStreetName} + ' ' + *{company.billingBuildingNumber}+', ' + *{company.billingPostalCode} + ' ' + *{company.billingCity}"></div>
             </div>
-            <div class="company-preview-small-container">
+            <div class="shipping-company-preview-small-container">
                 <div class="company-preview-info-small-headers">Adresy dostaw</div>
                 <div class="shipping-company-info">
                     <div th:each="shippingAddress : ${companyShippingAddresses}">
                         <div class="shipping-addre-company-info">
                             <div th:text="${shippingAddress.streetName} + ' ' + ${shippingAddress.buildingNumber} + (${shippingAddress.apartmentNumber != null ? '/' + shippingAddress.apartmentNumber : ''}) + ', ' + ${shippingAddress.postalCode} + ' ' + ${shippingAddress.city}"></div>
                         </div>
+                        <a type="button" class="edit-shipping-addres-small-button" th:href="@{/company/edit-shipping-address/{shippingAddress}(shippingAddress=${shippingAddress.id})}">Edytuj</a>
                     </div>
                 </div>
             </div>
@@ -56,8 +57,7 @@
         </div>
     </div>
     <div class="submit-button-addres-form">
-        <a type="button" th:href="@{/company/{nip}/edit(nip=${nip})}" class="skip-address-button add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Edytuj</a>
-        <!-- Przycisk "dodaj" -->
+        <a type="button" th:href="@{/company/edit/{nip}(nip=${nip})}" class="skip-address-button add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Edytuj</a>
         <a type="button" th:href="@{/customers/{nip}(nip=${nip})}" class="add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Osoby kontaktowe</a>
     </div>
 </div>

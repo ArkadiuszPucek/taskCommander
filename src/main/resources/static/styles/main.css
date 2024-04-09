@@ -702,12 +702,36 @@ lower-part-logo-login {
     padding-bottom: 12px;
 }
 
+.edit-shipping-addres-small-button {
+    background-color: #e53156;
+    width: 45px;
+    height: 22px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 18px; /* Wycentruj tekst w pionie */
+    color: white;
+    text-decoration: none; /* Usuń podkreślenie linku */
+    border-radius: 7px;
+    display: inline-block; /* Ustaw jako blok, aby przycisk miał szerokość i wysokość */
+}
+
+.edit-shipping-address-container {
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Dodaj odstęp między adresem a przyciskiem "Edytuj" */
+}
+
 .company-preview-small-container{
     position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-inline: 20px;
+}
+
+.shipping-company-preview-small-container{
+    display: flex;
+    align-items: center;
 }
 
 .not-found-main-content-box {
@@ -1607,7 +1631,7 @@ input::placeholder, input:focus::placeholder {
     display: inline-table;
     font-size: 15px;
     height: 35px;
-    width: 70%;
+    width: 67%;
     border-radius: 7px;
     margin-inline: auto;
     color: #4d4d4d;
@@ -1618,12 +1642,17 @@ input::placeholder, input:focus::placeholder {
     font-size: 15px;
     background-color: #a5a3a38a;
     height: 25px;
+    width: 86%;
+    margin-bottom: 5px;
+    margin-top: 6px;
     border-radius: 7px;
-    margin-inline: auto;
-    margin-block: 12px;
     color: #4d4d4d;
     font-family: Montserrat;
     padding-block-end: 5px;
+    flex: 1; /* Rozciągnij element na całą dostępną przestrzeń */
+    margin-right: 3px;
+    display: inline-block;
+
 }
 
 .shipping-address-preview-header{

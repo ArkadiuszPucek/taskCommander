@@ -67,7 +67,7 @@ public class CompanyController {
         return "company/company-preview";
     }
 
-    @GetMapping("/{nip}")
+    @GetMapping("/edit/{nip}")
     public String editCompany(@PathVariable Long nip, Authentication authentication, Model model) {
         companyManagementFacade.addAvatarUrlToModel(authentication, model);
         companyManagementFacade.addUserRoleToModel(authentication, model);
