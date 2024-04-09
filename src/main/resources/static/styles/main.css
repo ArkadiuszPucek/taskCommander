@@ -931,6 +931,7 @@ input[type="checkbox"]:checked::before {
     color: #575454;
     background-color: #8e858554;
     border: none;
+    font-family: Montserrat;
 }
 
 .shipping-address-text-input-style {
@@ -944,6 +945,7 @@ input[type="checkbox"]:checked::before {
     color: #575454;
     background-color: #8e858554;
     border: none;
+    font-family: Montserrat, serif;
 }
 
 .short-text-input-style{
@@ -1499,9 +1501,9 @@ input::placeholder, input:focus::placeholder {
     font-family: Montserrat;
 }
 
-.PlayButtonText-module-container-tunCR {
-    margin: 0 16px 16px 0
-}
+/*.PlayButtonText-module-container-tunCR {*/
+/*    margin: 0 16px 16px 0*/
+/*}*/
 
 .Buttons-module-primary--YHdl {
     background-color: #fe365f;
@@ -1512,8 +1514,11 @@ input::placeholder, input:focus::placeholder {
     font-size: 15px;
     color: white;
     font-family: Montserrat;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .Buttons-submit-addres {
     background-color: rgba(110, 110, 110, 0.75);

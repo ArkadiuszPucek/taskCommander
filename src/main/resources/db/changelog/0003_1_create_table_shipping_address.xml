@@ -6,7 +6,7 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
     <changeSet id="0003-1" author="puccini">
         <createTable tableName="shipping_address">
-            <column name="shipping_address_id" type="BIGINT">
+            <column name="shipping_address_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="company_id" type="BIGINT">

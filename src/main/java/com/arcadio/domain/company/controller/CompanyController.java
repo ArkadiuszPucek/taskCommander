@@ -34,7 +34,7 @@ public class CompanyController {
         return "company/add-company-form";
     }
 
-    @GetMapping("{nip}")
+    @GetMapping("/{nip}")
     public String showCompany(@PathVariable Long nip, Authentication authentication, Model model) {
         companyManagementFacade.addAvatarUrlToModel(authentication, model);
         companyManagementFacade.addUserRoleToModel(authentication, model);
@@ -62,7 +62,10 @@ public class CompanyController {
     }
 
     @GetMapping("/add-company/{nip}/add-shipping-address")
-    public String showAddShippingAddressForm(@PathVariable Long nip, Model model) {
+    public String showAddShippingAddressForm(@PathVariable Long nip, Model model, Authentication authentication) {
+        companyManagementFacade.addAvatarUrlToModel(authentication, model);
+        companyManagementFacade.addUserRoleToModel(authentication, model);
+        companyManagementFacade.addUserEmailToModel(authentication, model);
         CompanyDTO company = companyManagementFacade.getCompanyByNip(nip);
         model.addAttribute("company", company);
         model.addAttribute("shippingAddress", new ShippingAddressDTO());
@@ -72,13 +75,8 @@ public class CompanyController {
 
     @PostMapping("/add-company/{nip}/add-shipping-address")
     public String addShippingAddress(@PathVariable Long nip, ShippingAddressDTO shippingAddress) {
-        // Dodanie adresu dostawy do firmy
         companyManagementFacade.addShippingAddressToCompany(nip, shippingAddress);
 
-        // Przekierowanie na stronę z potwierdzeniem
         return "redirect:/company/" + nip;
     }
-
-
-
 }
