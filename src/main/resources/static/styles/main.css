@@ -622,11 +622,12 @@ lower-part-logo-login {
 
 .alert-danger {
     color: yellow;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 25px;
+    margin-bottom: -65px;
     text-align: center;
     width: 100%;
     padding: 10px;
+    font-size: 15px;
 }
 
 .manage-success {
@@ -644,6 +645,23 @@ lower-part-logo-login {
     padding-top: 10px;
 }
 
+/*.add-company-basic-info-container{*/
+/*    width: 55%;*/
+/*    border-radius: 20px;*/
+/*    height: 340px;*/
+/*    text-align: center;*/
+/*    margin-inside: 37px;*/
+/*    background-color: #fffefe9c;*/
+/*    padding-top: 5px;*/
+/*    display: flex;*/
+/*    position: relative;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    align-content: center;*/
+/*}*/
+
 .add-company-basic-info-container{
     width: 55%;
     border-radius: 20px;
@@ -651,20 +669,13 @@ lower-part-logo-login {
     text-align: center;
     margin-inside: 37px;
     background-color: #fffefe9c;
-    padding-top: 5px;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
 }
 
 .company-preview-info-small-headers{
     font-size: 13px;
     margin-right: 21px;
     width: 28%;
+    text-align: left;
 }
 .add-shipping-info-container{
     width: 55%;
@@ -705,14 +716,17 @@ lower-part-logo-login {
 .edit-shipping-addres-small-button {
     background-color: #e53156;
     width: 45px;
-    height: 22px;
+    height: 19px;
     font-size: 10px;
     text-align: center;
-    line-height: 18px; /* Wycentruj tekst w pionie */
     color: white;
     text-decoration: none; /* Usuń podkreślenie linku */
     border-radius: 7px;
     display: inline-block; /* Ustaw jako blok, aby przycisk miał szerokość i wysokość */
+    font-family: Montserrat;
+    align-content: center;
+    padding-bottom: 1px;
+    padding-top: 6px;
 }
 
 .edit-shipping-address-container {
@@ -732,6 +746,7 @@ lower-part-logo-login {
 .shipping-company-preview-small-container{
     display: flex;
     align-items: center;
+    margin-inline: 20px;
 }
 
 .not-found-main-content-box {
@@ -958,6 +973,8 @@ input[type="checkbox"]:checked::before {
     text-decoration: none;
     white-space: nowrap
 }
+
+
 
 .grid-container {
     display: -webkit-inline-flex;
@@ -1602,7 +1619,7 @@ input::placeholder, input:focus::placeholder {
 
 .Buttons-module-primary--YHdl {
     background-color: #fe365f;
-    width: 16%;
+    width: 18%;
     height: 90%;
     border: none;
     border-radius: 15px;
@@ -1625,24 +1642,28 @@ input::placeholder, input:focus::placeholder {
     color: #4d4d4d;
     font-family: Montserrat;
     padding-block-end: 5px;
+    align-content: end;
 }
 
 .shipping-company-info{
-    display: inline-table;
+    display: table;
     font-size: 15px;
     height: 35px;
-    width: 67%;
+    width: 71%;
     border-radius: 7px;
     margin-inline: auto;
     color: #4d4d4d;
     font-family: Montserrat;
+
+
 }
 
 .shipping-addre-company-info {
     font-size: 15px;
     background-color: #a5a3a38a;
     height: 25px;
-    width: 86%;
+    width: 78%;
+    position: relative;
     margin-bottom: 5px;
     margin-top: 6px;
     border-radius: 7px;
@@ -1652,6 +1673,7 @@ input::placeholder, input:focus::placeholder {
     flex: 1; /* Rozciągnij element na całą dostępną przestrzeń */
     margin-right: 3px;
     display: inline-block;
+    align-content: end;
 
 }
 

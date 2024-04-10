@@ -52,4 +52,20 @@ public class CompanyManagementFacade {
     public List<ShippingAddress> getCompanyShippingAddresses(Long nip) {
         return companyFacade.getCompanyShippingAddresses(nip);
     }
+
+    public void deleteShippingAddressFromCompany(Long shippingAddress) {
+        companyFacade.deleteShippingAddressFromCompany(shippingAddress);
+    }
+
+    public boolean updateShippingAddress(ShippingAddressDTO shippingAddressDto) {
+        return companyFacade.updateShippingAddress(shippingAddressDto);
+    }
+
+    public ShippingAddressDTO getCompanyShippingAddressById(Long shippingAddress) {
+        return companyFacade.getCompanyShippingAddressById(shippingAddress);
+    }
+
+    public boolean updateCompany(CompanyDTO companyToUpdate) {
+        return companyFacade.updateCompany(companyToUpdate);
+    }
 }

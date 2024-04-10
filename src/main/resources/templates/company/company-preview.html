@@ -34,9 +34,9 @@
             </div>
             <div class="company-preview-small-container">
                 <div class="company-preview-info-small-headers">Adres rejsetrowy</div>
-                <div class="company-info" th:if="${company.billingApartmentNumber != null}"
+                <div class="company-info" th:if="${company.billingApartmentNumber != '0'}"
                      th:text="''+ *{company.billingStreetName} + ' ' + *{company.billingBuildingNumber} + '/' + *{company.billingApartmentNumber} +', ' + *{company.billingPostalCode} + ' ' + *{company.billingCity}"></div>
-                <div class="company-info" th:if="${company.billingApartmentNumber == null}"
+                <div class="company-info" th:if="${company.billingApartmentNumber == '0'}"
                      th:text="''+ *{company.billingStreetName} + ' ' + *{company.billingBuildingNumber}+', ' + *{company.billingPostalCode} + ' ' + *{company.billingCity}"></div>
             </div>
             <div class="shipping-company-preview-small-container">
@@ -47,6 +47,7 @@
                             <div th:text="${shippingAddress.streetName} + ' ' + ${shippingAddress.buildingNumber} + (${shippingAddress.apartmentNumber != null ? '/' + shippingAddress.apartmentNumber : ''}) + ', ' + ${shippingAddress.postalCode} + ' ' + ${shippingAddress.city}"></div>
                         </div>
                         <a type="button" class="edit-shipping-addres-small-button" th:href="@{/company/edit-shipping-address/{shippingAddress}(shippingAddress=${shippingAddress.id})}">Edytuj</a>
+                        <a type="button" class="edit-shipping-addres-small-button" th:href="@{/company/delete-shipping-address/{shippingAddress}(shippingAddress=${shippingAddress.id})}">Usuń</a>
                     </div>
                 </div>
             </div>
@@ -57,8 +58,9 @@
         </div>
     </div>
     <div class="submit-button-addres-form">
-        <a type="button" th:href="@{/company/edit/{nip}(nip=${nip})}" class="skip-address-button add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Edytuj</a>
+        <a type="button" th:href="@{/company/update/{nip}(nip=${nip})}" class="skip-address-button add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Edytuj</a>
         <a type="button" th:href="@{/customers/{nip}(nip=${nip})}" class="add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Osoby kontaktowe</a>
+        <a type="button" th:href="@{/company/add-shipping-address/{nip}(nip=${nip})}" class="add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Dodaj adres dostawy</a>
     </div>
 </div>
 

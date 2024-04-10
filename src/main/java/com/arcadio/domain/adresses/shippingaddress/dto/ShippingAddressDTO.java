@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ShippingAddressDTO {
+    private Long id;
     private String streetName;
     private String buildingNumber;
     private String apartmentNumber;

@@ -18,7 +18,7 @@
 
 <div class="add-company-main-content-box">
     <div class="add-company-header" th:text="'Dodaj adres dostawy dla firmy: ' + ${company.companyName}">Dodaj adres dostawy </div>
-    <form th:action="@{/company/add-company/{nip}/add-shipping-address(nip=${nip})}" method="post" th:object="${shippingAddress}">
+    <form th:action="@{/company/add-shipping-address/{nip}(nip=${nip})}" method="post" th:object="${shippingAddress}">
         <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
         <div class="grid-container-add-shipping-addres">
             <div class="add-shipping-info-container">

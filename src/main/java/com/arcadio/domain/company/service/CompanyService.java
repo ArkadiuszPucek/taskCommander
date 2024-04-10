@@ -2,11 +2,14 @@ package com.arcadio.domain.company.service;
 
 import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
+import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressMapper;
 import com.arcadio.domain.adresses.shippingaddress.service.ShippingAddressService;
 import com.arcadio.domain.company.CompanyFactory;
 import com.arcadio.domain.company.dto.CompanyDTO;
+import com.arcadio.domain.company.dto.CompanyMapper;
 import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.company.repository.CompanyRepository;
+import com.arcadio.domain.exceptions.CompanyNotFoundException;
 import com.arcadio.domain.exceptions.NoAddressesFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -51,15 +54,9 @@ public class CompanyService {
     }
 
     public CompanyDTO getCompanyDTOByNip(Long nip) {
-        Optional<Company> optionalCompany = companyRepository.findByNip(nip);
-        if (optionalCompany.isPresent()) {
-            Company company = optionalCompany.get();
-            CompanyDTO companyDTO = new CompanyDTO();
-            companyDTO.setNip(company.getNip());
-            companyDTO.setCompanyName(company.getCompanyName());
-            return companyDTO;
-        }
-        return null;
+        return companyRepository.findByNip(nip)
+                .map(CompanyMapper::mapToCompanyDTO)
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found"));
     }
 
     public Company getCompanyByNip(Long nip) {
@@ -73,5 +70,16 @@ public class CompanyService {
             Company company = optionalCompany.get();
             return shippingAddressService.getAllShippingAddressesForCompany(company);
         }else throw new NoAddressesFoundException("No addresses found");
+    }
+
+    public boolean updateCompany(CompanyDTO companyToUpdate) {
+        Company company = companyRepository.findByNip(companyToUpdate.getNip()).orElseThrow(() -> new CompanyNotFoundException("Company not found"));
+        if (company != null){
+            CompanyMapper.mapToCompany(companyToUpdate, company);
+            companyRepository.save(company);
+            return true;
+        }else {
+            return false;
+        }
     }
 }

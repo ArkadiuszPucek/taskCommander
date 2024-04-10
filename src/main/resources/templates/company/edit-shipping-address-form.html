@@ -17,76 +17,30 @@
 <div th:replace="~{header :: header}"></div>
 
 <div class="add-company-main-content-box">
-    <div class="add-company-header">Dodaj firmę</div>
-    <form th:action="@{/company/update-company}" method="post" th:object="${companyToUpdate}">
+    <div class="add-company-header" th:text="'Edytuj adres dostawy dla firmy: ' + ${company.companyName}">Dodaj adres dostawy </div>
+    <form th:action="@{/company/edit-shipping-address}" method="post" th:object="${addressToUpdate}">
         <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
-        <div class="grid-container">
-            <div class="add-company-basic-info-container">
-                <h3 class="add-info-font">Dane podstawowe:</h3>
-                <tr>
-                    <td>
-                        <input class="text-input-style" type="text" name="nip" th:field="*{nip}" pattern="^\d{10}$"
-                               placeholder=" Nr NIP: 12345678910" required></td>
-                </tr>
-                <tr>
-                    <td><input class="text-input-style" type="text" name="title" th:field="*{companyName}"
-                               placeholder=" Nazwa firmy" required></td>
-                </tr>
-
-                <select class="text-input-style" name="currency" th:field="*{currency}" required>
-                    <option value="">Waluta</option>
-                    <option value="PLN">PLN</option>
-                    <option value="EUR">EUR</option>
-                    <option value="USD">USD</option>
-                </select>
-
-                <tr>
-                    <td><input class="text-input-style" type="text" name="billingEmail" th:field="*{billingMail}"
-                               placeholder=" Mail do fv" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="text-input-style" th:field="*{billingStreetName}" type="text"
-                               name="billingStreetName"
-                               placeholder="Ulica" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="short-text-input-style" th:field="*{billingBuildingNumber}" type="text"
-                               name="billingBuildingNumber"
-                               placeholder="Numer budynku" required>
-                    </td>
-                </tr>
-                <tr>
-                    <input class="short-text-input-style" th:field="*{billingApartmentNumber}" type="text"
-                           name="billingApartmentNumber" placeholder="Numer mieszkania"
-                           value="${company.billingApartmentNumber != null ? company.billingApartmentNumber : '0'}">
-                    </td>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="text-input-style" th:field="*{billingCity}" type="text" name="billingCity"
-                               placeholder="Miasto"
-                               required>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="text-input-style" th:field="*{billingPostalCode}" type="text"
-                               name="billingPostalCode"
-                               placeholder="Kod pocztowy" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="long-text-input-style" type="text" name="additionalNotes"
-                               th:field="*{additionalNotes}"
-                               placeholder=" Uwagi"></td>
-                </tr>
+        <div class="grid-container-add-shipping-addres">
+            <div class="add-shipping-info-container">
+                <!-- Shipping Addresses -->
+                <div class="shipping-addresses-container" id="shipping-addresses-container">
+                    <div class="shipping-address">
+                        <h3 class="add-info-font">Adres dostawy:</h3>
+                        <tr>
+                            <td>
+                                <input class="text-input-style" type="hidden" name="shippingAddressID" th:field="*{id}" pattern="^tt\d{5,8}$" required></td>
+                        </tr>
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{streetName}" name="streetName" placeholder="Ulica">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{buildingNumber}" name="buildingNumber" placeholder="Numer budynku">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{apartmentNumber}" name="apartmentNumber" placeholder="Numer mieszkania">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{city}" name="city" placeholder="Miasto">
+                        <input class="shipping-address-text-input-style" type="text" th:field="*{postalCode}" name="postalCode" placeholder="Kod pocztowy">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="submit-button-addres-form">
-            <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl"
-                    tabindex="0">Zapisz
-            </button>
+            <div class="submit-button-addres-form">
+                <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl" tabindex="0">Dodaj</button>
+            </div>
         </div>
     </form>
 </div>
@@ -94,6 +48,22 @@
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
 
+<script>
+    var skipButton = document.querySelector('.skip-address-button');
+
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia na przycisku "pomiń"
+    skipButton.addEventListener('click', function() {
+        // Wyświetl okno dialogowe z potwierdzeniem
+        var confirmSkip = confirm("Czy na pewno chcesz pominąć dodawanie adresu dostawy?");
+
+        // Jeśli użytkownik potwierdzi, że chce pominąć dodawanie adresu
+        if (confirmSkip) {
+            // Tutaj możesz dodać kod, który chcesz wykonać po kliknięciu przycisku "pomiń"
+            // Na przykład możesz przejść do kolejnego kroku procesu lub zakończyć go
+            // W tym przypadku nie musisz podejmować żadnych działań, ponieważ formularz zostanie przesłany normalnie
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var button = document.getElementById("clients-dropdown-button");
