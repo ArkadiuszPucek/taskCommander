@@ -1,5 +1,6 @@
 package com.arcadio.domain.user.userDetails.model;
 
+import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.user.userRole.model.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String firstName;
+    private String lastName;
+    private String area;
     private String email;
     @Length(min = 8, message = "Hasło musi mieć co najmniej 8 znaków.")
     private String password;
@@ -32,6 +35,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<UserRole> roles = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "company_responsible_person",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "company_id")
+    )
+    private Set<Company> companies = new HashSet<>();
+
 
     public String getRoleNames() {
         return roles.stream()

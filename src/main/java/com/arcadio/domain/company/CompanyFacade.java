@@ -59,4 +59,8 @@ public class CompanyFacade {
     public boolean updateCompany(CompanyDTO companyToUpdate) {
         return companyService.updateCompany(companyToUpdate);
     }
+
+    public String getResponsiblePersons(Long nip) {
+        return companyService.getResponsiblePersons(nip);
+    }
 }

@@ -6,15 +6,16 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
 
 
-    <include file="0001_2_create_tables_components.xml" relativeToChangelogFile="true" />
+    <include file="0001_1_create_tables_users_and_role.xml" relativeToChangelogFile="true" />
     <include file="0003_1_create_table_shipping_address.xml" relativeToChangelogFile="true" />
     <include file="0004_1_create_table_customer.xml" relativeToChangelogFile="true" />
     <include file="0005_1_create_table_company.xml" relativeToChangelogFile="true" />
-    <include file="0006_1_create_tables_users_and_role.xml" relativeToChangelogFile="true" />
+    <include file="0006_2_create_tables_components.xml" relativeToChangelogFile="true" />
 
-    <include file="../testdata/0001_components.sql" relativeToChangelogFile="true" context="dev"/>
-    <include file="../testdata/0003_shipping_addresses.sql" relativeToChangelogFile="true" context="dev"/>
-    <include file="../testdata/0005_company.sql" relativeToChangelogFile="true" context="dev"/>
-    <include file="../testdata/0006_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0001_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0002_company.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0003_company_responsible_person.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0004_shipping_addresses.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0006_components.sql" relativeToChangelogFile="true" context="dev"/>
 
 </databaseChangeLog>

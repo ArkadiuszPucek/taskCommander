@@ -11,11 +11,14 @@ import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.company.repository.CompanyRepository;
 import com.arcadio.domain.exceptions.CompanyNotFoundException;
 import com.arcadio.domain.exceptions.NoAddressesFoundException;
+import com.arcadio.domain.exceptions.UserNotFoundException;
+import com.arcadio.domain.user.userDetails.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CompanyService {
@@ -81,5 +84,21 @@ public class CompanyService {
         }else {
             return false;
         }
+    }
+
+    public String getResponsiblePersons(Long nip) {
+        Company company = companyRepository.findByNip(nip).get();
+        Set<User> responsiblePerson = company.getResponsiblePerson();
+        if (responsiblePerson == null || responsiblePerson.isEmpty()) {
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (User user : responsiblePerson) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(user.getFirstName() + " " + user.getLastName() + " ("+user.getArea()+")");
+        }
+        return stringBuilder.toString();
     }
 }

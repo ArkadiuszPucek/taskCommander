@@ -5,6 +5,7 @@ import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
 import com.arcadio.domain.company.CompanyManagementFacade;
 import com.arcadio.domain.company.dto.CompanyDTO;
 import com.arcadio.domain.company.model.Company;
+import com.arcadio.domain.user.userDetails.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -31,19 +32,21 @@ public class CompanyController {
         companyManagementFacade.addUserEmailToModel(authentication, model);
 
         CompanyDTO company = new CompanyDTO();
-
+        List<User> salesEngineers = companyManagementFacade.getUsersByRole("Sales Engineer");
+        model.addAttribute("salesEngineers", salesEngineers);
         model.addAttribute("company", company);
 
         return "company/add-company-form";
     }
 
     @PostMapping("/add-company")
-    public String addCompanyAndBillingAddress(CompanyDTO company, RedirectAttributes redirectAttributes) {
+    public String addCompany(CompanyDTO company, RedirectAttributes redirectAttributes, @RequestParam("responsiblePersonIds") List<Long> responsiblePersonIds) {
         if (companyManagementFacade.doesCompanyExists(company.getNip())) {
             redirectAttributes.addFlashAttribute("error", "Company with the given NIP exists on the website!");
             return "redirect:/company/add-company";
         }
         Long nip = company.getNip();
+        company.setResponsiblePerson(companyManagementFacade.findUsersByIds(responsiblePersonIds));
         companyManagementFacade.addCompany(company);
 
         return "redirect:/company/add-shipping-address/" + nip;
@@ -60,8 +63,10 @@ public class CompanyController {
             return "error/not-found";
         }
         List<ShippingAddress> companyShippingAddresses = companyManagementFacade.getCompanyShippingAddresses(nip);
+        String responsiblePersons = companyManagementFacade.getResponsiblePersons(nip);
         model.addAttribute("company", companyByNip);
         model.addAttribute("companyShippingAddresses", companyShippingAddresses);
+        model.addAttribute("responsiblePersons", responsiblePersons);
         session.setAttribute("nip", nip);
 
         return "company/company-preview";

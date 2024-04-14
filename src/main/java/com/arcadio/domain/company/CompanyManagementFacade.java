@@ -5,19 +5,25 @@ import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
 import com.arcadio.domain.company.dto.CompanyDTO;
 import com.arcadio.domain.company.model.Company;
+import com.arcadio.domain.user.UserFacade;
+import com.arcadio.domain.user.userDetails.dto.UserDto;
+import com.arcadio.domain.user.userDetails.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CompanyManagementFacade {
     private final UserUtils userUtils;
+    private final UserFacade userFacade;
     private final CompanyFacade companyFacade;
 
-    public CompanyManagementFacade(UserUtils userUtils, CompanyFacade companyFacade) {
+    public CompanyManagementFacade(UserUtils userUtils, UserFacade userFacade, CompanyFacade companyFacade) {
         this.userUtils = userUtils;
+        this.userFacade = userFacade;
         this.companyFacade = companyFacade;
     }
 
@@ -67,5 +73,17 @@ public class CompanyManagementFacade {
 
     public boolean updateCompany(CompanyDTO companyToUpdate) {
         return companyFacade.updateCompany(companyToUpdate);
+    }
+
+    public String getResponsiblePersons(Long nip) {
+        return companyFacade.getResponsiblePersons(nip);
+    }
+
+    public List<User> getUsersByRole(String userRole) {
+        return userFacade.getUsersByRole(userRole);
+    }
+
+    public Set<UserDto> findUsersByIds(List<Long> responsiblePersonIds) {
+        return userFacade.findUsersByIds(responsiblePersonIds);
     }
 }

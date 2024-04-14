@@ -2,6 +2,7 @@ package com.arcadio.domain.company.model;
 
 import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.customer.model.Customer;
+import com.arcadio.domain.user.userDetails.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -53,5 +54,8 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private Set<Customer> customers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "companies")
+    private Set<User> responsiblePerson= new HashSet<>();
 }
 

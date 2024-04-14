@@ -665,7 +665,7 @@ lower-part-logo-login {
 .add-company-basic-info-container{
     width: 55%;
     border-radius: 20px;
-    height: 340px;
+    height: auto;
     text-align: center;
     margin-inside: 37px;
     background-color: #fffefe9c;
@@ -1080,10 +1080,35 @@ input[type="checkbox"]:checked::before {
     height: 55px;
     box-sizing: border-box;
     margin-inline: 8px;
-    margin-bottom: 10px;
+    margin-bottom: -2px;
     color: #575454;
     background-color: #8e858554;
     border: none;
+}
+
+.long-text-input-style-check{
+    border-radius: 7px;
+    padding: 0px 12px;
+    width: 85%;
+    display: flex;
+    height: auto;
+    box-sizing: border-box;
+    padding-bottom: 6px;
+    margin-inline: auto;
+    margin-bottom: 10px;
+    margin-top: 2px;
+    color: #575454;
+    background-color: #8e858554;
+    border: none;
+}
+
+.responsible-header{
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.responsible-label{
+    font-size: 10px;
 }
 
 .half-input-field{
@@ -1648,14 +1673,17 @@ input::placeholder, input:focus::placeholder {
 .shipping-company-info{
     display: table;
     font-size: 15px;
+    text-align: -webkit-right;
     height: 35px;
-    width: 71%;
+    width: 90%;
     border-radius: 7px;
     margin-inline: auto;
     color: #4d4d4d;
     font-family: Montserrat;
+}
 
-
+.select[multiple] option:checked {
+    background-color: lightblue;
 }
 
 .shipping-addre-company-info {
@@ -1669,6 +1697,7 @@ input::placeholder, input:focus::placeholder {
     border-radius: 7px;
     color: #4d4d4d;
     font-family: Montserrat;
+    text-align: center;
     padding-block-end: 5px;
     flex: 1; /* Rozciągnij element na całą dostępną przestrzeń */
     margin-right: 3px;

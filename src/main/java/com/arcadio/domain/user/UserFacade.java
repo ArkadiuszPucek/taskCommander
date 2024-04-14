@@ -10,7 +10,6 @@ import com.arcadio.domain.user.userAvatar.service.UserAvatarService;
 import com.arcadio.domain.user.userDetails.dto.UserDto;
 import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userDetails.service.UserService;
-import com.arcadio.domain.user.userRole.model.UserRole;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
@@ -77,5 +76,13 @@ public class UserFacade {
 
     public void deleteUser(Long userId){
         userService.deleteUserById(userId);
+    }
+
+    public List<User> getUsersByRole(String userRole) {
+        return userService.getUsersByRole(userRole);
+    }
+
+    public Set<UserDto> findUsersByIds(List<Long> responsiblePersonIds) {
+        return userService.findUsersByIds(responsiblePersonIds);
     }
 }

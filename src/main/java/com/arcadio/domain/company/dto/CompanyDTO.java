@@ -1,9 +1,12 @@
 package com.arcadio.domain.company.dto;
 
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
+import com.arcadio.domain.user.userDetails.dto.UserDto;
+import com.arcadio.domain.user.userDetails.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -20,4 +23,6 @@ public class CompanyDTO {
     private String billingCity;
     private String billingPostalCode;
     private String additionalNotes;
+    private Set<UserDto> responsiblePerson;
+
 }

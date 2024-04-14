@@ -1,6 +1,7 @@
 package com.arcadio.domain.user.userDetails.repository;
 
 import com.arcadio.domain.user.userDetails.model.User;
+import com.arcadio.domain.user.userRole.model.UserRole;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findUserById(Long userId);
     List<User> findAll();
 
+    List<User> findAllByRoles(UserRole sales_engineer);
 }

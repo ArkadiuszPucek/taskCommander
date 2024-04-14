@@ -1,6 +1,8 @@
 package com.arcadio.domain.user.userDetails.service;
 
 import com.arcadio.domain.exceptions.UserNotFoundException;
+import com.arcadio.domain.user.userDetails.dto.UserDto;
+import com.arcadio.domain.user.userDetails.dto.UserMapper;
 import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userDetails.repository.UserRepository;
 import com.arcadio.domain.user.userRole.model.UserRole;
@@ -13,7 +15,9 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -95,5 +99,19 @@ public class UserService {
         User user = findByUsername(oldEmail);
         user.setEmail(newEmail);
         userRepository.save(user);
+    }
+
+    public List<User> getUsersByRole(String role) {
+        UserRole sales_engineer = userRoleService.findRoleByName(role);
+        return userRepository.findAllByRoles(sales_engineer);
+    }
+
+    public Set<UserDto> findUsersByIds(List<Long> responsiblePersonIds) {
+        Set<UserDto> users = new HashSet<>();
+        for (Long id : responsiblePersonIds) {
+            Optional<User> userOptional = userRepository.findById(id);
+            userOptional.ifPresent(user -> users.add(UserMapper.mapToUserDto(user)));
+        }
+        return users;
     }
 }

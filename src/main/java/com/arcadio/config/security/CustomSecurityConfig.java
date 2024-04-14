@@ -20,19 +20,22 @@ import java.io.IOException;
 @Configuration
 @EnableWebSecurity
 public class CustomSecurityConfig {
-    private static final String USER_ROLE = "USER";
-    private static final String EDITOR_ROLE = "EDITOR";
-    private static final String ADMIN_ROLE = "ADMIN";
+    private static final String SALES_ENGINEER_ROLE = "Sales Engineer";
+    private static final String SALES_MANAGER_ROLE = "Sales Manager";
+    private static final String DESIGNER_ROLE = "Designer";
+    private static final String WAREHOUSE_MANAGER_ROLE = "Warehouse Manager";
+    private static final String ASSEMBLY_MANAGER_ROLE = "Assembly Manager";
+    private static final String COUNTRY_MANAGER_ROLE = "Country Manager";
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/images/**", "/styles/**", "/scripts/**").permitAll()
-                        .requestMatchers("/admin/**").hasAnyRole(EDITOR_ROLE, ADMIN_ROLE)
-                        .requestMatchers("/master/**").hasRole(ADMIN_ROLE)
+                        .requestMatchers("/admin/**").hasAnyRole(SALES_MANAGER_ROLE, COUNTRY_MANAGER_ROLE)
+                        .requestMatchers("/master/**").hasRole(COUNTRY_MANAGER_ROLE)
                         .requestMatchers("/register/**").permitAll()
-                        .requestMatchers("/library/**").hasAnyRole(ADMIN_ROLE, EDITOR_ROLE, USER_ROLE)
+                        .requestMatchers("/library/**").hasAnyRole(COUNTRY_MANAGER_ROLE, SALES_MANAGER_ROLE, SALES_ENGINEER_ROLE)
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

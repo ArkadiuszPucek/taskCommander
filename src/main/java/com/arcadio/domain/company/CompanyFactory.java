@@ -12,9 +12,8 @@ import java.util.Currency;
 
 @Component
 public class CompanyFactory {
-        public Company createCompany(CompanyDTO companyDTO) {
+    public Company createCompany(CompanyDTO companyDTO) {
         Company company = new Company();
         return CompanyMapper.mapToCompany(companyDTO, company);
-
     }
 }

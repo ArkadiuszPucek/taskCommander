@@ -80,6 +80,15 @@
                                th:field="*{additionalNotes}"
                                placeholder=" Uwagi"></td>
                 </tr>
+                <div>
+                    <label class="responsible-header" for="responsiblePersons">Odpowiedzialny:</label>
+                    <div class="long-text-input-style-check" id="responsiblePersons">
+                        <div th:each="user : ${salesEngineers}">
+                            <input type="checkbox" class="responsible-checkbox" th:id="'user_' + ${user.id}" th:name="'responsiblePersonIds'" th:value="${user.id}">
+                            <label class="responsible-label" th:for="'user_' + ${user.id}" th:text="${user.firstName} + ' ' + ${user.lastName}"></label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="submit-button-addres-form">
@@ -92,7 +101,25 @@
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
+<script>
+    $(document).ready(function() {
+        $('.responsible-checkbox').prop('checked', false);
 
+        $('.responsible-checkbox').change(function() {
+            var atLeastOneChecked = $('.responsible-checkbox:checked').length > 0;
+
+            $('.responsible-checkbox').prop('required', !atLeastOneChecked);
+
+            $('.responsible-checkbox').each(function() {
+                if ($(this).is(':checked')) {
+                    $(this).next('label').addClass('checked');
+                } else {
+                    $(this).next('label').removeClass('checked');
+                }
+            });
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var button = document.getElementById("clients-dropdown-button");

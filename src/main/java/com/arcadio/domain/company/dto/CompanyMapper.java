@@ -4,7 +4,11 @@ import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
 import com.arcadio.domain.adresses.shippingaddress.service.ShippingAddressService;
 import com.arcadio.domain.company.model.Company;
+import com.arcadio.domain.user.userDetails.dto.UserDto;
+import com.arcadio.domain.user.userDetails.model.User;
+import com.arcadio.domain.user.userRole.model.UserRole;
 
+import java.util.Collections;
 import java.util.Currency;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +40,15 @@ public class CompanyMapper {
         }
         companyDTO.setShippingAddresses(shippingAddressesDTO);
 
+        Set<UserDto> responsiblePersonsDTO = new HashSet<>();
+        for (User user : company.getResponsiblePerson()) {
+            UserDto userDTO = new UserDto();
+            userDTO.setId(user.getId());
+            userDTO.setArea(user.getArea());
+            responsiblePersonsDTO.add(userDTO);
+        }
+        companyDTO.setResponsiblePerson(responsiblePersonsDTO);
+
         return companyDTO;
     }
 
@@ -54,6 +67,20 @@ public class CompanyMapper {
         company.setBillingCity(companyDTO.getBillingCity());
         company.setBillingPostalCode(companyDTO.getBillingPostalCode());
         company.setAdditionalNotes(companyDTO.getAdditionalNotes());
+
+        Set<User> responsiblePersons = new HashSet<>();
+        for (UserDto userDTO : companyDTO.getResponsiblePerson()) {
+            User user = new User();
+            user.setId(userDTO.getId());
+            user.setFirstName(userDTO.getFirstName());
+            user.setLastName(userDTO.getLastName());
+            user.setArea(userDTO.getArea());
+            UserRole role = new UserRole();
+            role.setName(userDTO.getRole().getName());
+            user.setRoles(Collections.singleton(role));
+            responsiblePersons.add(user);
+        }
+        company.setResponsiblePerson(responsiblePersons);
         return company;
     }
 
