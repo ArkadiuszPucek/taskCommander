@@ -17,12 +17,64 @@
 <div th:replace="~{header :: header}"></div>
 
 <div class="company-preview-main-content-box">
+    <div id="customDialogOverlay" class="custom-dialog-overlay">
+        <div id="customDialogBox" class="custom-dialog-box">
+            <p>Czy chcesz usunąć tą firmę?</p>
+            <button onclick="submitForm('deleteCompany')">Tak</button>
+            <button onclick="submitForm('dontDeleteCompany')">Nie</button>
+        </div>
+    </div>
+    <input type="hidden" id="action" value="">
+    <div class="users-checkbox-customers-database">
+        <form th:action="@{/company/customers-database}" method="get">
+            <fieldset>
+                <legend>Sales Engineers:</legend>
+                <span th:each="user : ${salesEngineers}">
+                <label>
+                    <input type="checkbox" name="salesEngineerIds" th:value="${user.id}"
+                           th:text="${user.firstName + ' ' + user.lastName + ' (' + user.area + ')'}">
+                </label>
+            </span>
+            </fieldset>
+            <button type="submit">Wybierz</button>
+        </form>
+    </div>
     <div class="grid-container-company-preview">
-        <div class="company-preview-info-container">
-            <div class="company-preview-small-container">
-                <div class="company-preview-info-small-headers">NIP</div>
-                <div class="company-info" th:text="*{company.nip}"></div>
-            </div>
+        <div class="company-database-info-container">
+            <h2 class="company-database-header">Baza klientów</h2>
+            <table class="companies-table">
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>NIP</th>
+                    <th>Adres rejestrowy</th>
+                    <th>Odpowiedzialny</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="company : ${allCompanies}">
+                    <td th:text="${company.companyName}">Company name</td>
+                    <td th:text="${company.nip}">NIP</td>
+                    <td th:text="${company.billingStreetName} + ${company.billingBuildingNumber} + ' ' + ${company.billingApartmentNumber} + ' ' + ${company.billingCity} + ', ' + ${company.billingPostalCode}">
+                        Billing address
+                    </td>
+                    <td>
+                        <span th:each="person : ${company.responsiblePerson}">
+                            <span th:text="${person.firstName + ' ' + person.lastName + ' (' + person.area +')'}"></span>
+                            <br/>
+                        </span>
+                    </td>
+                    <td>
+                        <a class="company-database-action-button" th:href="@{'/company/' + ${company.nip}}" title="Show" th:text="Szczegóły">
+                        </a>
+                        <a class="company-database-action-button" href="#" title="Delete" th:text="Usuń" id="deleteCompany" th:onclick="showConfirmDialog()"
+                           th:attr="data-nip=${company.nip}"></a>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -31,8 +83,35 @@
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
+<script>
+    // Pobierz wszystkie checkboxy
+    var checkboxes = document.querySelectorAll('.component-variants input[type="checkbox"]');
 
+    // Dodaj nasłuchiwanie zdarzenia dla kliknięć w checkboxy
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // Wyślij formularz po zmianie zaznaczenia checkboxa
+            this.closest('form').submit();
+        });
+    });
+</script>
 
+<script>
+    function showConfirmDialog() {
+        var nip = event.target.getAttribute('data-nip');
+        document.getElementById("action").value = nip;
+        document.getElementById("customDialogOverlay").classList.add("custom-dialog-shown");
+    }
+
+    function submitForm(confirmAction) {
+        if (confirmAction === 'deleteCompany') {
+            var nip = document.getElementById("action").value;
+            window.location.href = '/company/delete-company/' + nip + '?action=deleteCompany';
+        } else {
+            document.getElementById("customDialogOverlay").classList.remove("custom-dialog-shown");
+        }
+    }
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var button = document.getElementById("clients-dropdown-button");

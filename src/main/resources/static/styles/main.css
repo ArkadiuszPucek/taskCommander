@@ -713,6 +713,139 @@ lower-part-logo-login {
     padding-bottom: 12px;
 }
 
+.custom-dialog-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+
+.custom-dialog-box {
+    background-color: rgba(80, 80, 80, 0.75);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    text-align: center;
+}
+
+.custom-dialog-box button {
+    background-color: #e53156;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 200;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 48px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+    margin: 10px;
+}
+
+.custom-dialog-shown {
+    display: block;
+}
+
+.company-database-info-container{
+    width: 90%;
+    background-color: #fdfdfd99;
+    border-radius: 20px;
+    position: relative;
+    height: fit-content;
+    text-align: center;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 30px;
+    padding-bottom: 12px;
+}
+
+.companies-table td {
+    align-items: start;
+    height: auto;
+    color: #6f6f6f;
+}
+
+.companies-table {
+    width: auto;
+    border-collapse: collapse;
+    color: #626262;
+    font-size: 14px;
+}
+
+.companies-table th, .companies-table td {
+    text-align: center;
+    border: 1px solid #d4d4d4;
+    padding: 6px;
+}
+
+.companies-table thead {
+    border-radius: 10px;
+}
+
+
+.companies-table th {
+    background-color: rgba(141, 141, 141, 0.4);
+    font-weight: 400;
+    font-size: 16px;
+
+}
+
+.companies-table td:nth-of-type(1) {
+    color: #5e5b5b;
+    width: 18%;
+}
+
+.company-database-header{
+    text-align: center;
+    font-size: 19px;
+    font-weight: 400;
+}
+
+.companies-table th:nth-child(1),
+companies-table th:nth-child(2),
+companies-table th:nth-child(3),
+companies-table th:nth-child(4),
+companies-table th:nth-child(5){
+    width: auto;
+}
+
+.company-database-action-button {
+    background-color: #e53156;
+    width: 55px;
+    height: 19px;
+    font-size: 10px;
+    text-align: center;
+    color: white;
+    text-decoration: none; /* Usuń podkreślenie linku */
+    border-radius: 7px;
+    display: inline-block; /* Ustaw jako blok, aby przycisk miał szerokość i wysokość */
+    font-family: Montserrat;
+    align-content: center;
+    padding-bottom: 1px;
+    padding-top: 6px;
+}
+
 .edit-shipping-addres-small-button {
     background-color: #e53156;
     width: 45px;
@@ -907,6 +1040,16 @@ input[type="checkbox"]:checked::before {
     left: 1%;
     text-align: center;
     margin-top: 4px;
+}
+
+.users-checkbox-customers-database{
+    color: #4f4f4f;
+    font-weight: 400;
+    font-size: 13px;
+    position: relative;
+    text-align: center;
+    margin-top: 4px;
+    margin-inline: auto;
 }
 
 .component-header{
@@ -1658,7 +1801,7 @@ input::placeholder, input:focus::placeholder {
 }
 
 .company-info {
-    font-size: 15px;
+    font-size: 13px;
     background-color: #a5a3a38a;
     height: 25px;
     width: 70%;
@@ -1688,10 +1831,10 @@ input::placeholder, input:focus::placeholder {
 }
 
 .shipping-addre-company-info {
-    font-size: 15px;
+    font-size: 13px;
     background-color: #a5a3a38a;
     height: 25px;
-    width: 78%;
+    width: 73%;
     position: relative;
     margin-bottom: 5px;
     margin-top: 6px;

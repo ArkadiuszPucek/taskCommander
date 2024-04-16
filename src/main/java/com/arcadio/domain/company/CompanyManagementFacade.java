@@ -89,4 +89,20 @@ public class CompanyManagementFacade {
     public void addCompanyToUser(UserDto userDto, Company company) {
             userFacade.addCompanyToUser(userDto, company);
     }
+
+    public Iterable<Company> findAllCompanies() {
+        return companyFacade.findAllCompanies();
+    }
+
+    public boolean deleteCompany(Long nip) {
+        return companyFacade.deleteCompany(nip);
+    }
+
+    public User findUserById(Long id) {
+        return userFacade.findUserById(id);
+    }
+
+    public List<Company> findCompaniesByResponsiblePerson(User user) {
+        return companyFacade.findCompaniesByResponsiblePerson(user);
+    }
 }

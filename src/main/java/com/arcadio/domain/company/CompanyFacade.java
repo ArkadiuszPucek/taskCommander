@@ -6,6 +6,7 @@ import com.arcadio.domain.adresses.shippingaddress.service.ShippingAddressServic
 import com.arcadio.domain.company.dto.CompanyDTO;
 import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.company.service.CompanyService;
+import com.arcadio.domain.user.userDetails.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -62,5 +63,17 @@ public class CompanyFacade {
 
     public String getResponsiblePersons(Long nip) {
         return companyService.getResponsiblePersons(nip);
+    }
+
+    public Iterable<Company> findAllCompanies() {
+        return companyService.findAllCompanies();
+    }
+
+    public boolean deleteCompany(Long nip) {
+        return companyService.deleteCompany(nip);
+    }
+
+    public List<Company> findCompaniesByResponsiblePerson(User user) {
+        return companyService.findCompaniesByResponsiblePerson(user);
     }
 }

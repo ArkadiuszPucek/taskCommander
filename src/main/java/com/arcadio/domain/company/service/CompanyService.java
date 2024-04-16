@@ -15,6 +15,7 @@ import com.arcadio.domain.user.userDetails.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -102,5 +103,28 @@ public class CompanyService {
             stringBuilder.append(user.getFirstName() + " " + user.getLastName() + " ("+user.getArea()+")");
         }
         return stringBuilder.toString();
+    }
+
+    public Iterable<Company> findAllCompanies() {
+        return companyRepository.findAll();
+    }
+
+    public boolean deleteCompany(Long nip) {
+        Company company = companyRepository.findByNip(nip).orElseThrow(() -> new CompanyNotFoundException("Nie znaleziono firmy!"));
+        if (company != null) {
+            companyRepository.delete(company);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Company> findCompaniesByResponsiblePerson(User user) {
+        List<Company> companies = new ArrayList<>();
+        for (Company company : findAllCompanies()) {
+            if (company.getResponsiblePerson().contains(user)) {
+                companies.add(company);
+            }
+        }
+        return companies;
     }
 }

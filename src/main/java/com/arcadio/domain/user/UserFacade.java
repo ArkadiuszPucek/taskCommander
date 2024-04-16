@@ -90,4 +90,8 @@ public class UserFacade {
     public void addCompanyToUser(UserDto user, Company company) {
         userService.addCompanyToUser(user, company);
     }
+
+    public User findUserById(Long id) {
+        return userService.findUserById(id);
+    }
 }

@@ -4,10 +4,8 @@ import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
 import com.arcadio.domain.company.CompanyManagementFacade;
 import com.arcadio.domain.company.dto.CompanyDTO;
-import com.arcadio.domain.company.dto.CompanyMapper;
 import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.user.userDetails.dto.UserDto;
-import com.arcadio.domain.user.userDetails.dto.UserMapper;
 import com.arcadio.domain.user.userDetails.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
@@ -16,13 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
+    private static final String SALES_ENGINEER_ROLE = "Sales Engineer";
     private final CompanyManagementFacade companyManagementFacade;
 
     public CompanyController(CompanyManagementFacade companyManagementFacade) {
@@ -36,7 +36,7 @@ public class CompanyController {
         companyManagementFacade.addUserEmailToModel(authentication, model);
 
         CompanyDTO company = new CompanyDTO();
-        List<User> salesEngineers = companyManagementFacade.getUsersByRole("Sales Engineer");
+        List<User> salesEngineers = companyManagementFacade.getUsersByRole(SALES_ENGINEER_ROLE);
         model.addAttribute("salesEngineers", salesEngineers);
         model.addAttribute("company", company);
 
@@ -168,5 +168,58 @@ public class CompanyController {
             redirectAttributes.addFlashAttribute("error", "An error occurred while updating the address: " + e.getMessage());
             return "redirect:/company/edit-shipping-address/" + addressToUpdate.getId();
         }
+    }
+
+    @GetMapping("/customers-database")
+    public String showCustomersDatabase(@RequestParam(name = "salesEngineerIds", required = false) List<Long> salesEngineerIds,
+                                        Authentication authentication, Model model) {
+        companyManagementFacade.addAvatarUrlToModel(authentication, model);
+        companyManagementFacade.addUserRoleToModel(authentication, model);
+        companyManagementFacade.addUserEmailToModel(authentication, model);
+
+        List<Company> allCompanies = new ArrayList<>();
+        companyManagementFacade.findAllCompanies().forEach(allCompanies::add);
+
+        Set<Company> filteredCompanies = new HashSet<>();
+
+        if (salesEngineerIds != null && !salesEngineerIds.isEmpty()) {
+            for (Long salesEngineerId : salesEngineerIds) {
+                User salesEngineer = companyManagementFacade.findUserById(salesEngineerId);
+                if (salesEngineer != null) {
+                    List<Company> companiesForSalesEngineer = companyManagementFacade.findCompaniesByResponsiblePerson(salesEngineer);
+                    filteredCompanies.addAll(companiesForSalesEngineer);
+                }
+            }
+        } else {
+            filteredCompanies.addAll(allCompanies);
+        }
+
+        model.addAttribute("allCompanies", filteredCompanies);
+        model.addAttribute("salesEngineers", companyManagementFacade.getUsersByRole(SALES_ENGINEER_ROLE));
+
+        return "company/customers-database";
+    }
+
+
+    @GetMapping("/delete-company/{nip}")
+    public String deleteMovie(@PathVariable Long nip,
+                              RedirectAttributes redirectAttributes,
+                              @RequestParam String action,
+                              Authentication authentication,
+                              Model model) {
+        companyManagementFacade.addAvatarUrlToModel(authentication, model);
+        companyManagementFacade.addUserRoleToModel(authentication, model);
+        companyManagementFacade.addUserEmailToModel(authentication, model);
+        if ("deleteCompany".equals(action)) {
+            boolean deleted = companyManagementFacade.deleteCompany(nip);
+            if (deleted) {
+                redirectAttributes.addFlashAttribute("success", "Firma została usunięta");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Firma nie została znaleziona");
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Podczas usuwania wystąpił błąd");
+        }
+        return "redirect:/company/customers-database";
     }
 }
