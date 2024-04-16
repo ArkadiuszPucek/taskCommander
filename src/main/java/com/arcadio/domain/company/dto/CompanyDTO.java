@@ -24,5 +24,4 @@ public class CompanyDTO {
     private String billingPostalCode;
     private String additionalNotes;
     private Set<UserDto> responsiblePerson;
-
 }

@@ -26,10 +26,10 @@ public class UserRegistrationService {
 
     @Transactional
     public User registerNewUserAccount(UserDto userDto) throws UsernameExistsException {
-        validateUsername(userDto.getUsername());
+        validateUsername(userDto.getEmail());
 
         User newUser = new User();
-        newUser.setEmail(userDto.getUsername());
+        newUser.setEmail(userDto.getEmail());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         newUser.setAvatar(DEFAULT_AVATAR_WOLF);
 

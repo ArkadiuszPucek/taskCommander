@@ -2,7 +2,6 @@ package com.arcadio.domain.company.service;
 
 import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
-import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressMapper;
 import com.arcadio.domain.adresses.shippingaddress.service.ShippingAddressService;
 import com.arcadio.domain.company.CompanyFactory;
 import com.arcadio.domain.company.dto.CompanyDTO;
@@ -11,8 +10,8 @@ import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.company.repository.CompanyRepository;
 import com.arcadio.domain.exceptions.CompanyNotFoundException;
 import com.arcadio.domain.exceptions.NoAddressesFoundException;
-import com.arcadio.domain.exceptions.UserNotFoundException;
 import com.arcadio.domain.user.userDetails.model.User;
+import com.arcadio.domain.user.userDetails.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +24,13 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final ShippingAddressService shippingAddressService;
     private final CompanyFactory companyFactory;
+    private final UserRepository userRepository;
 
-    public CompanyService(CompanyRepository companyRepository, ShippingAddressService shippingAddressService, CompanyFactory companyFactory) {
+    public CompanyService(CompanyRepository companyRepository, ShippingAddressService shippingAddressService, CompanyFactory companyFactory, UserRepository userRepository) {
         this.companyRepository = companyRepository;
         this.shippingAddressService = shippingAddressService;
         this.companyFactory = companyFactory;
+        this.userRepository = userRepository;
     }
 
 
@@ -37,9 +38,11 @@ public class CompanyService {
         return companyRepository.existsByNip(nip);
     }
 
-    public void addCompany(CompanyDTO company) {
+    public Company addCompany(CompanyDTO company) {
         Company createdCompany = companyFactory.createCompany(company);
+//        userRepository.saveAll(createdCompany.getResponsiblePerson());
         companyRepository.save(createdCompany);
+        return createdCompany;
     }
 
 
@@ -51,7 +54,6 @@ public class CompanyService {
             company.getShippingAddresses().add(createdAddress);
             companyRepository.save(company);
         } else {
-            // Obsługa przypadku, gdy firma nie została znaleziona
             throw new EntityNotFoundException("Company with NIP: " + nip + " not found.");
         }
     }

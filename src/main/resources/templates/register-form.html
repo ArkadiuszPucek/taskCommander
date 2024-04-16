@@ -33,7 +33,7 @@
                               data-testid="login-form" name="register">
                             <div th:if="${message}" th:text="${message}" class="manage-message-login"></div>
                             <div class="Input-login-window">
-                                <input type="email" id="username" placeholder="E-mail" th:field="*{username}"
+                                <input type="email" id="username" placeholder="E-mail" th:field="*{getEmail}"
                                        required="" class="Input_input__cDdvD w-full" autocomplete="username"
                                        data-testid="login-email" name="username">
                             </div>

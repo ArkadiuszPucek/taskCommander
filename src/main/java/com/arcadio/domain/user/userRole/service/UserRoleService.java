@@ -1,6 +1,7 @@
 package com.arcadio.domain.user.userRole.service;
 
 import com.arcadio.domain.exceptions.UserRoleNotFoundException;
+import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userRole.model.UserRole;
 import com.arcadio.domain.user.userRole.repository.UserRoleRepository;
 import org.springframework.stereotype.Service;
@@ -15,5 +16,11 @@ public class UserRoleService {
     public UserRole findRoleByName(String roleName) {
         return userRoleRepository.findByName(roleName)
                 .orElseThrow(() -> new UserRoleNotFoundException("Role not found: " + roleName));
+    }
+
+    public UserRole getUserRole(User user) {
+        String roleDescription = user.getRoleNames();
+        UserRole role = findRoleByName(roleDescription);
+        return role;
     }
 }

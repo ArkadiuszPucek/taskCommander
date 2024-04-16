@@ -24,8 +24,8 @@ public class CompanyFacade {
         return companyService.existsByNip(nip);
     }
 
-    public void addCompany(CompanyDTO company) {
-        companyService.addCompany(company);
+    public Company addCompany(CompanyDTO company) {
+        return companyService.addCompany(company);
     }
 
     public CompanyDTO getCompanyDTOByNip(Long nip) {

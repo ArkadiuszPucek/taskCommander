@@ -1,5 +1,6 @@
 package com.arcadio.domain.user;
 
+import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.exceptions.InvalidPasswordException;
 import com.arcadio.domain.exceptions.PasswordConfirmationException;
 import com.arcadio.domain.exceptions.PasswordFormatException;
@@ -84,5 +85,9 @@ public class UserFacade {
 
     public Set<UserDto> findUsersByIds(List<Long> responsiblePersonIds) {
         return userService.findUsersByIds(responsiblePersonIds);
+    }
+
+    public void addCompanyToUser(UserDto user, Company company) {
+        userService.addCompanyToUser(user, company);
     }
 }

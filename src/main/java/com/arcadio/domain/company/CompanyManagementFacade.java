@@ -39,9 +39,8 @@ public class CompanyManagementFacade {
     public boolean doesCompanyExists(Long nip) {
         return companyFacade.doesCompanyExists(nip);
     }
-    public void addCompany(CompanyDTO company) {
-        companyFacade.addCompany(company);
-
+    public Company addCompany(CompanyDTO company) {
+        return companyFacade.addCompany(company);
     }
     public CompanyDTO getCompanyDTOByNip(Long nip) {
         return companyFacade.getCompanyDTOByNip(nip);
@@ -85,5 +84,9 @@ public class CompanyManagementFacade {
 
     public Set<UserDto> findUsersByIds(List<Long> responsiblePersonIds) {
         return userFacade.findUsersByIds(responsiblePersonIds);
+    }
+
+    public void addCompanyToUser(UserDto userDto, Company company) {
+            userFacade.addCompanyToUser(userDto, company);
     }
 }

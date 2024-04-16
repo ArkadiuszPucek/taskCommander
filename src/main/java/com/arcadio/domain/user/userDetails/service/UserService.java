@@ -1,5 +1,6 @@
 package com.arcadio.domain.user.userDetails.service;
 
+import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.exceptions.UserNotFoundException;
 import com.arcadio.domain.user.userDetails.dto.UserDto;
 import com.arcadio.domain.user.userDetails.dto.UserMapper;
@@ -15,10 +16,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -31,6 +29,8 @@ public class UserService {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
     }
+
+
 //    private final ViewingHistoryFacade viewingHistoryFacade;
 
 //    public UserService(UserRepository userRepository, UserRoleService userRoleService, ViewingHistoryFacade viewingHistoryFacade) {
@@ -110,8 +110,24 @@ public class UserService {
         Set<UserDto> users = new HashSet<>();
         for (Long id : responsiblePersonIds) {
             Optional<User> userOptional = userRepository.findById(id);
-            userOptional.ifPresent(user -> users.add(UserMapper.mapToUserDto(user)));
+            userOptional.ifPresent(user -> {
+                UserRole role = userRoleService.getUserRole(user);
+                UserDto userDto = UserMapper.mapToUserDto(user, role);
+                users.add(userDto);
+            });
         }
         return users;
+    }
+
+    public void addCompanyToUser(UserDto userDTO, Company company) {
+        Optional<User> optionalUser = userRepository.findById(userDTO.getId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setCompanies(userDTO.getCompanies());
+            user.getCompanies().add(company);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("User not found with ID: " + userDTO.getId());
+        }
     }
 }

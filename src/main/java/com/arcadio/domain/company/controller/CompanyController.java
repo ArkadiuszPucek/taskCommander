@@ -4,7 +4,10 @@ import com.arcadio.domain.adresses.shippingaddress.ShippingAddress;
 import com.arcadio.domain.adresses.shippingaddress.dto.ShippingAddressDTO;
 import com.arcadio.domain.company.CompanyManagementFacade;
 import com.arcadio.domain.company.dto.CompanyDTO;
+import com.arcadio.domain.company.dto.CompanyMapper;
 import com.arcadio.domain.company.model.Company;
+import com.arcadio.domain.user.userDetails.dto.UserDto;
+import com.arcadio.domain.user.userDetails.dto.UserMapper;
 import com.arcadio.domain.user.userDetails.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/company")
@@ -46,8 +50,14 @@ public class CompanyController {
             return "redirect:/company/add-company";
         }
         Long nip = company.getNip();
-        company.setResponsiblePerson(companyManagementFacade.findUsersByIds(responsiblePersonIds));
-        companyManagementFacade.addCompany(company);
+
+        Set<UserDto> usersByIds = companyManagementFacade.findUsersByIds(responsiblePersonIds);
+        company.setResponsiblePerson(usersByIds);
+        Company createdCompany = companyManagementFacade.addCompany(company);
+        for (UserDto userDTO : usersByIds) {
+            userDTO.getCompanies().add(createdCompany);
+            companyManagementFacade.addCompanyToUser(userDTO, createdCompany);
+        }
 
         return "redirect:/company/add-shipping-address/" + nip;
     }
