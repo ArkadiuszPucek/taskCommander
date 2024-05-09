@@ -73,7 +73,7 @@ public class CompanyController {
             return "error/not-found";
         }
         List<ShippingAddress> companyShippingAddresses = companyManagementFacade.getCompanyShippingAddresses(nip);
-        String responsiblePersons = companyManagementFacade.getResponsiblePersons(nip);
+        String responsiblePersons = companyManagementFacade.getResponsiblePersonsToString(nip);
         model.addAttribute("company", companyByNip);
         model.addAttribute("companyShippingAddresses", companyShippingAddresses);
         model.addAttribute("responsiblePersons", responsiblePersons);
@@ -115,26 +115,31 @@ public class CompanyController {
         companyManagementFacade.addUserEmailToModel(authentication, model);
 
         CompanyDTO companyByNip = companyManagementFacade.getCompanyDTOByNip(nip);
+        Set<User> responsiblePersonsForCompany = companyManagementFacade.getResponsiblePersonsForCompany(nip);
+        List<User> salesEngineers = companyManagementFacade.getUsersByRole(SALES_ENGINEER_ROLE);
+        model.addAttribute("salesEngineers", salesEngineers);
+        model.addAttribute("responsiblePersonsForCompany", responsiblePersonsForCompany);
         model.addAttribute("companyToUpdate", companyByNip);
 
         return "company/company-edit-form";
     }
 
     @PostMapping("/update-company")
-    public String updateCompany(@ModelAttribute("companyToUpdate") CompanyDTO companyToUpdate, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String updateCompany(@ModelAttribute("companyToUpdate") CompanyDTO companyToUpdate,
+                                @RequestParam("responsiblePersonIds") List<Long> responsiblePersonIds,
+                                RedirectAttributes redirectAttributes, HttpSession session) {
         try {
-            boolean updateResult = companyManagementFacade.updateCompany(companyToUpdate);
-
-            if (updateResult) {
-                redirectAttributes.addFlashAttribute("success", "The address has been successfully updated.");
-                return "redirect:/company/"+ session.getAttribute("nip");
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Address not found");
-                return "redirect:/company/edit-shipping-address/" + companyToUpdate.getNip();
+            Set<UserDto> usersByIds = companyManagementFacade.findUsersByIds(responsiblePersonIds);
+            Company createdCompany = companyManagementFacade.updateCompany(companyToUpdate);
+            for (UserDto userDTO : usersByIds) {
+                userDTO.getCompanies().add(createdCompany);
+                companyManagementFacade.addCompanyToUser(userDTO, createdCompany);
             }
+            redirectAttributes.addFlashAttribute("success", "The company has been successfully updated.");
+            return "redirect:/company/" + session.getAttribute("nip");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "An error occurred while updating the address: " + e.getMessage());
-            return "redirect:/company/edit-shipping-address/" + companyToUpdate.getNip();
+            redirectAttributes.addFlashAttribute("error", "An error occurred while updating the company: " + e.getMessage());
+            return "redirect:/company/edit/" + companyToUpdate.getNip();
         }
     }
 
@@ -159,7 +164,7 @@ public class CompanyController {
 
             if (updateResult) {
                 redirectAttributes.addFlashAttribute("success", "The address has been successfully updated.");
-                return "redirect:/company/"+ session.getAttribute("nip");
+                return "redirect:/company/" + session.getAttribute("nip");
             } else {
                 redirectAttributes.addFlashAttribute("error", "Address not found");
                 return "redirect:/company/edit-shipping-address/" + addressToUpdate.getId();

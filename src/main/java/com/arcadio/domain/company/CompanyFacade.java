@@ -10,6 +10,7 @@ import com.arcadio.domain.user.userDetails.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class CompanyFacade {
@@ -57,12 +58,16 @@ public class CompanyFacade {
         return shippingAddressService.getCompanyShippingAddressById(shippingAddress);
     }
 
-    public boolean updateCompany(CompanyDTO companyToUpdate) {
+    public Company updateCompany(CompanyDTO companyToUpdate) {
         return companyService.updateCompany(companyToUpdate);
     }
 
-    public String getResponsiblePersons(Long nip) {
-        return companyService.getResponsiblePersons(nip);
+    public String getResponsiblePersonsToString(Long nip) {
+        return companyService.getResponsiblePersonsToString(nip);
+    }
+
+    public Set<User> getResponsiblePersonsForCompany(Long nip){
+        return companyService.getResponsiblePersonsForCompany(nip);
     }
 
     public Iterable<Company> findAllCompanies() {
