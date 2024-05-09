@@ -70,12 +70,16 @@ public class CompanyManagementFacade {
         return companyFacade.getCompanyShippingAddressById(shippingAddress);
     }
 
-    public boolean updateCompany(CompanyDTO companyToUpdate) {
+    public Company updateCompany(CompanyDTO companyToUpdate) {
         return companyFacade.updateCompany(companyToUpdate);
     }
 
-    public String getResponsiblePersons(Long nip) {
-        return companyFacade.getResponsiblePersons(nip);
+    public String getResponsiblePersonsToString(Long nip) {
+        return companyFacade.getResponsiblePersonsToString(nip);
+    }
+
+    public Set<User> getResponsiblePersonsForCompany(Long nip){
+        return companyFacade.getResponsiblePersonsForCompany(nip);
     }
 
     public List<User> getUsersByRole(String userRole) {

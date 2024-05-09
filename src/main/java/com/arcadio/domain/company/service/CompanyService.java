@@ -41,7 +41,6 @@ public class CompanyService {
 
     public Company addCompany(CompanyDTO company) {
         Company createdCompany = companyFactory.createCompany(company);
-//        userRepository.saveAll(createdCompany.getResponsiblePerson());
         companyRepository.save(createdCompany);
         return createdCompany;
     }
@@ -72,24 +71,21 @@ public class CompanyService {
 
     public List<ShippingAddress> getCompanyShippingAddresses(Long nip) {
         Optional<Company> optionalCompany = companyRepository.findByNip(nip);
-        if (optionalCompany.isPresent()){
+        if (optionalCompany.isPresent()) {
             Company company = optionalCompany.get();
             return shippingAddressService.getAllShippingAddressesForCompany(company);
-        }else throw new NoAddressesFoundException("No addresses found");
+        } else throw new NoAddressesFoundException("No addresses found");
     }
 
-    public boolean updateCompany(CompanyDTO companyToUpdate) {
+    public Company updateCompany(CompanyDTO companyToUpdate) {
         Company company = companyRepository.findByNip(companyToUpdate.getNip()).orElseThrow(() -> new CompanyNotFoundException("Company not found"));
-        if (company != null){
-            CompanyMapper.mapToCompany(companyToUpdate, company);
-            companyRepository.save(company);
-            return true;
-        }else {
-            return false;
-        }
+        CompanyMapper.mapToCompany(companyToUpdate, company);
+        companyRepository.save(company);
+        return company;
+
     }
 
-    public String getResponsiblePersons(Long nip) {
+    public String getResponsiblePersonsToString(Long nip) {
         Company company = companyRepository.findByNip(nip).get();
         Set<User> responsiblePerson = company.getResponsiblePerson();
         if (responsiblePerson == null || responsiblePerson.isEmpty()) {
@@ -100,9 +96,14 @@ public class CompanyService {
             if (stringBuilder.length() > 0) {
                 stringBuilder.append(", ");
             }
-            stringBuilder.append(user.getFirstName() + " " + user.getLastName() + " ("+user.getArea()+")");
+            stringBuilder.append(user.getFirstName() + " " + user.getLastName() + " (" + user.getArea() + ")");
         }
         return stringBuilder.toString();
+    }
+
+    public Set<User> getResponsiblePersonsForCompany(Long nip) {
+        Company company = companyRepository.findByNip(nip).get();
+        return company.getResponsiblePerson();
     }
 
     public Iterable<Company> findAllCompanies() {
