@@ -44,7 +44,7 @@
                 <div class="shipping-company-info">
                     <div th:each="shippingAddress : ${companyShippingAddresses}">
                         <div class="shipping-addre-company-info">
-                            <div th:text="${shippingAddress.streetName} + ' ' + ${shippingAddress.buildingNumber} + (${shippingAddress.apartmentNumber != null ? '/' + shippingAddress.apartmentNumber : ''}) + ', ' + ${shippingAddress.postalCode} + ' ' + ${shippingAddress.city}"></div>
+                            <div th:text="${shippingAddress.streetName} + ' ' + ${shippingAddress.buildingNumber} + (${shippingAddress.apartmentNumber != null ? '/ ' + shippingAddress.apartmentNumber : ''}) + ' ' + ${shippingAddress.postalCode} + ' ' + ${shippingAddress.city}"></div>
                         </div>
                         <a type="button" class="edit-shipping-addres-small-button" th:href="@{/company/edit-shipping-address/{shippingAddress}(shippingAddress=${shippingAddress.id})}">Edytuj</a>
                         <a type="button" class="edit-shipping-addres-small-button" th:href="@{/company/delete-shipping-address/{shippingAddress}(shippingAddress=${shippingAddress.id})}">Usuń</a>

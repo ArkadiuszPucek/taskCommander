@@ -1,5 +1,6 @@
 package com.arcadio.domain.user;
 
+import com.arcadio.domain.company.dto.CompanyDTO;
 import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.exceptions.InvalidPasswordException;
 import com.arcadio.domain.exceptions.PasswordConfirmationException;
@@ -93,5 +94,9 @@ public class UserFacade {
 
     public User findUserById(Long id) {
         return userService.findUserById(id);
+    }
+
+    public void removeCompanyFromUser(User oldUser, CompanyDTO companyToUpdate) {
+        userService.removeCompanyFromUser(oldUser, companyToUpdate);
     }
 }

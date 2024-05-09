@@ -69,11 +69,12 @@ public class CompanyMapper {
         company.setBillingPostalCode(companyDTO.getBillingPostalCode());
         company.setAdditionalNotes(companyDTO.getAdditionalNotes());
         if(companyDTO.getResponsiblePerson() != null) {
-        Set<User> responsiblePersons = new HashSet<>();
+            company.setResponsiblePerson(null);
+            Set<User> responsiblePersons = new HashSet<>();
             for (UserDto userDTO : companyDTO.getResponsiblePerson()) {
                 User user = UserMapper.mapToUser(userDTO);
                 responsiblePersons.add(user);
-                company.getResponsiblePerson().add(user);
+//                company.getResponsiblePerson().add(user);
             }
             company.setResponsiblePerson(responsiblePersons);
         }

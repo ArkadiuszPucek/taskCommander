@@ -1,6 +1,8 @@
 package com.arcadio.domain.user.userDetails.service;
 
+import com.arcadio.domain.company.dto.CompanyDTO;
 import com.arcadio.domain.company.model.Company;
+import com.arcadio.domain.company.service.CompanyService;
 import com.arcadio.domain.exceptions.UserNotFoundException;
 import com.arcadio.domain.user.userDetails.dto.UserDto;
 import com.arcadio.domain.user.userDetails.dto.UserMapper;
@@ -24,10 +26,12 @@ public class UserService {
     private final UserRepository userRepository;
 //    private final UserListService userListService;
     private final UserRoleService userRoleService;
+    private final CompanyService companyService;
 
-    public UserService(UserRepository userRepository, UserRoleService userRoleService) {
+    public UserService(UserRepository userRepository, UserRoleService userRoleService, CompanyService companyService) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
+        this.companyService = companyService;
     }
 
 
@@ -128,6 +132,18 @@ public class UserService {
             userRepository.save(user);
         } else {
             throw new UserNotFoundException("User not found with ID: " + userDTO.getId());
+        }
+    }
+
+    public void removeCompanyFromUser(User oldUser, CompanyDTO companyToUpdate) {
+        User user = userRepository.findUserById(oldUser.getId());
+        if (user != null){
+            Company companyToRemove = companyService.getCompanyByNip(companyToUpdate.getNip());
+            user.setCompanies(user.getCompanies());
+            user.getCompanies().remove(companyToRemove);
+            userRepository.save(user);
+        }else {
+            throw new UserNotFoundException("User not found with ID: " + user.getId());
         }
     }
 }

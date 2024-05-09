@@ -129,9 +129,13 @@ public class CompanyController {
                                 @RequestParam("responsiblePersonIds") List<Long> responsiblePersonIds,
                                 RedirectAttributes redirectAttributes, HttpSession session) {
         try {
-            Set<UserDto> usersByIds = companyManagementFacade.findUsersByIds(responsiblePersonIds);
+            Long nip = (Long) session.getAttribute("nip");
+            Set<User> oldResponsiblePersons = companyManagementFacade.getResponsiblePersonsForCompany(nip);
+            Set<UserDto> newResponsiblePersons = companyManagementFacade.findUsersByIds(responsiblePersonIds);
+            oldResponsiblePersons.forEach(oldUser -> companyManagementFacade.removeCompanyFromUser(oldUser, companyToUpdate));
+            companyToUpdate.setResponsiblePerson(newResponsiblePersons);
             Company createdCompany = companyManagementFacade.updateCompany(companyToUpdate);
-            for (UserDto userDTO : usersByIds) {
+            for (UserDto userDTO : newResponsiblePersons) {
                 userDTO.getCompanies().add(createdCompany);
                 companyManagementFacade.addCompanyToUser(userDTO, createdCompany);
             }

@@ -79,9 +79,10 @@ public class CompanyService {
 
     public Company updateCompany(CompanyDTO companyToUpdate) {
         Company company = companyRepository.findByNip(companyToUpdate.getNip()).orElseThrow(() -> new CompanyNotFoundException("Company not found"));
-        CompanyMapper.mapToCompany(companyToUpdate, company);
-        companyRepository.save(company);
-        return company;
+
+        Company updatedCompany = CompanyMapper.mapToCompany(companyToUpdate, company);
+        companyRepository.save(updatedCompany);
+        return updatedCompany;
 
     }
 

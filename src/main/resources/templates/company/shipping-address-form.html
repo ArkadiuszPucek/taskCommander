@@ -18,7 +18,7 @@
 
 <div class="add-company-main-content-box">
     <div class="add-company-header" th:text="'Dodaj adres dostawy dla firmy: ' + ${company.companyName}">Dodaj adres dostawy </div>
-    <form th:action="@{/company/add-shipping-address/{nip}(nip=${nip})}" method="post" th:object="${shippingAddress}">
+    <form id="shipping-address-form" th:action="@{/company/add-shipping-address/{nip}(nip=${nip})}" method="post" th:object="${shippingAddress}">
         <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
         <div class="grid-container-add-shipping-addres">
             <div class="add-shipping-info-container">
@@ -50,16 +50,20 @@
 <script>
     var skipButton = document.querySelector('.skip-address-button');
 
-    // Dodaj nasłuchiwanie zdarzenia kliknięcia na przycisku "pomiń"
-    skipButton.addEventListener('click', function() {
-        // Wyświetl okno dialogowe z potwierdzeniem
-        var confirmSkip = confirm("Czy na pewno chcesz pominąć dodawanie adresu dostawy?");
+    function fillDefaultAddressValues() {
+        document.getElementById('streetName').value = '';
+        document.getElementById('buildingNumber').value = '';
+        document.getElementById('apartmentNumber').value = '';
+        document.getElementById('city').value = '';
+        document.getElementById('postalCode').value = '';
 
-        // Jeśli użytkownik potwierdzi, że chce pominąć dodawanie adresu
+        document.getElementById('shipping-address-form').submit();
+    }
+
+    skipButton.addEventListener('click', function() {
+        var confirmSkip = confirm("Czy na pewno chcesz pominąć dodawanie adresu dostawy?");
         if (confirmSkip) {
-            // Tutaj możesz dodać kod, który chcesz wykonać po kliknięciu przycisku "pomiń"
-            // Na przykład możesz przejść do kolejnego kroku procesu lub zakończyć go
-            // W tym przypadku nie musisz podejmować żadnych działań, ponieważ formularz zostanie przesłany normalnie
+            fillDefaultAddressValues();
         }
     });
 </script>

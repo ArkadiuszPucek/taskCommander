@@ -109,4 +109,8 @@ public class CompanyManagementFacade {
     public List<Company> findCompaniesByResponsiblePerson(User user) {
         return companyFacade.findCompaniesByResponsiblePerson(user);
     }
+
+    public void removeCompanyFromUser(User oldUser, CompanyDTO companyToUpdate) {
+        userFacade.removeCompanyFromUser(oldUser, companyToUpdate);
+    }
 }
