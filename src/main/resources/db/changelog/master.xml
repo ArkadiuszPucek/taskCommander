@@ -16,6 +16,7 @@
     <include file="../testdata/0002_company.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/0003_company_responsible_person.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/0004_shipping_addresses.sql" relativeToChangelogFile="true" context="dev"/>
+    <include file="../testdata/0005_customers.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/0006_components.sql" relativeToChangelogFile="true" context="dev"/>
 
 </databaseChangeLog>

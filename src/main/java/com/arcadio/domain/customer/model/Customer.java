@@ -30,4 +30,7 @@ public class Customer {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "job_position")
+    private String position;
 }
