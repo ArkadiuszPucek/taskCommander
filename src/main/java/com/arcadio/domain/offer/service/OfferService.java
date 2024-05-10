@@ -57,13 +57,13 @@ public class OfferService {
 ////    }
 
 
-    public void setOriginalComponentPrices(Offer offer) {
-        Map<Components, BigDecimal> originalComponentPrices = new HashMap<>();
-        for (Components component : offer.getComponents()) {
-            originalComponentPrices.put(component, component.getPurchasePrice());
-        }
-        offer.setOriginalComponentPrices(originalComponentPrices);
-    }
+//    public void setOriginalComponentPrices(Offer offer) {
+//        Map<Components, BigDecimal> originalComponentPrices = new HashMap<>();
+//        for (Components component : offer.getComponents()) {
+//            originalComponentPrices.put(component, component.getPurchasePrice());
+//        }
+//        offer.setOriginalComponentPrices(originalComponentPrices);
+//    }
 
 
 //    public OfferDTO getOfferById(Long offerId) {

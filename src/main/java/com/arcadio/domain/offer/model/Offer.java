@@ -16,10 +16,11 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "offer")
 @Getter
 @Setter
-public class Offer {
+public abstract class Offer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,29 +41,19 @@ public class Offer {
     @Column(name = "offer_date")
     private LocalDateTime offerDate;
 
-    @Column(name = "total_price")
-    private BigDecimal totalPrice;
+    @Column(name = "order_completion_date")
+    private Integer orderCompletionDate;
 
-    @Column(name = "margin")
-    private BigDecimal margin;
+    @Column(name = "validity_term")
+    private Integer validityTerm;
 
-    @Column(name = "purchase_cost")
-    private BigDecimal purchaseCost;
+    @Column(name = "delivery_method")
+    private String deliveryMethod;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "offer_components",
-            joinColumns = @JoinColumn(name = "offer_id"),
-            inverseJoinColumns = @JoinColumn(name = "component_id")
-    )
-    private Set<Components> components = new HashSet<>();
+//    @ElementCollection
+//    @CollectionTable(name = "offer_component_prices", joinColumns = @JoinColumn(name = "offer_id"))
+//    @MapKeyJoinColumn(name = "component_id")
+//    @Column(name = "price")
+//    private Map<Components, BigDecimal> originalComponentPrices = new HashMap<>();
 
-    @ElementCollection
-    @CollectionTable(name = "offer_component_prices", joinColumns = @JoinColumn(name = "offer_id"))
-    @MapKeyJoinColumn(name = "component_id")
-    @Column(name = "price")
-    private Map<Components, BigDecimal> originalComponentPrices = new HashMap<>();
-
-    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Construction> constructions = new HashSet<>();
 }

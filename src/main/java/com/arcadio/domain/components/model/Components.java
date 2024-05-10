@@ -40,6 +40,6 @@ public class Components {
     @Column(name = "is_esd")
     private Boolean isEsd;
 
-    @ManyToMany(mappedBy = "components")
-    private Set<Offer> offers = new HashSet<>();
+//    @ManyToMany(mappedBy = "components")
+//    private Set<Offer> offers = new HashSet<>();
 }
