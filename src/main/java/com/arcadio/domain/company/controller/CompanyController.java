@@ -179,7 +179,7 @@ public class CompanyController {
         }
     }
 
-    @GetMapping("/customers-database")
+    @GetMapping("/companies-database")
     public String showCustomersDatabase(@RequestParam(name = "salesEngineerIds", required = false) List<Long> salesEngineerIds,
                                         Authentication authentication, Model model) {
         companyManagementFacade.addAvatarUrlToModel(authentication, model);
@@ -206,12 +206,12 @@ public class CompanyController {
         model.addAttribute("allCompanies", filteredCompanies);
         model.addAttribute("salesEngineers", companyManagementFacade.getUsersByRole(SALES_ENGINEER_ROLE));
 
-        return "company/customers-database";
+        return "company/companies-database";
     }
 
 
     @GetMapping("/delete-company/{nip}")
-    public String deleteMovie(@PathVariable Long nip,
+    public String deleteCompany(@PathVariable Long nip,
                               RedirectAttributes redirectAttributes,
                               @RequestParam String action,
                               Authentication authentication,
