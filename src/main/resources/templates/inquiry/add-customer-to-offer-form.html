@@ -17,26 +17,16 @@
 <div th:replace="~{header :: header}"></div>
 
 <div class="add-company-main-content-box">
-  <div class="add-company-header">Dodaj zapytanie</div>
-  <form th:action="@{/create-offer}" method="post">
+  <div class="add-company-header">Osoba kontaktowa</div>
+  <form th:action="@{/inquiry/create-offer/add-customer}" method="post">
     <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
     <div class="grid-container">
       <div class="add-company-basic-info-container">
         <h3 class="add-info-font">Dane:</h3>
 
-        <tr>
-          <td>
-            <input class="text-input-style" type="text" name="offerType" placeholder="Rodzaj oferty" required
-                   list="offerTypes">
-            <datalist id="offerTypes">
-              <option value="Component">MULK (Component)</option>
-              <option value="Construction">KULM (Construction)</option>
-            </datalist>
-          </td>
-        </tr>
         <input list="companies" class="text-input-style" name="customerCompany" placeholder=" Firma" required>
         <datalist id="companies">
-          <option th:each="company : ${companies}" th:value="${company.nip}" th:text="${company.companyName}"></option>
+          <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.firstName} + ' ' + ${customer.lastName}"></option>
         </datalist>
       </div>
     </div>

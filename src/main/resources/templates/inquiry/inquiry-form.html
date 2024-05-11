@@ -18,7 +18,7 @@
 
 <div class="add-company-main-content-box">
     <div class="add-company-header">Dodaj zapytanie</div>
-    <form th:action="@{/create-offer}" method="post">
+    <form th:action="@{/inquiry/create-offer}" method="post">
         <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
         <div class="grid-container">
             <div class="add-company-basic-info-container">
@@ -27,14 +27,14 @@
                 <tr>
                     <td>
                         <input class="text-input-style" type="text" name="offerType" placeholder="Rodzaj oferty" required
-                               list="offerTypes">
-                        <datalist id="offerTypes">
-                            <option value="Component">MULK (Component)</option>
-                            <option value="Construction">KULM (Construction)</option>
+                               list="offerType">
+                        <datalist id="offerType">
+                            <option th:value="Component">MULK (Component)</option>
+                            <option th:value="Construction">KULM (Construction)</option>
                         </datalist>
                     </td>
                 </tr>
-                <input list="companies" class="text-input-style" name="customerCompany" placeholder=" Firma" required>
+                <input list="companies" class="text-input-style" name="nip" placeholder=" Firma" required>
                 <datalist id="companies">
                     <option th:each="company : ${companies}" th:value="${company.nip}" th:text="${company.companyName}"></option>
                 </datalist>
