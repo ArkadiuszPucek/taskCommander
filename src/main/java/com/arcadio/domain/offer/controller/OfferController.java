@@ -16,8 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
@@ -94,28 +93,50 @@ public class OfferController {
     }
 
     @GetMapping("/create-offer/add-components")
-    public String nextStep(Model model, HttpSession session) {
-        Offer offer = (Offer) session.getAttribute("offer");
+    public String addComponentsToOffer(Model model, Authentication authentication, HttpSession session) {
+        companyManagementFacade.addAvatarUrlToModel(authentication, model);
+        companyManagementFacade.addUserRoleToModel(authentication, model);
+        companyManagementFacade.addUserEmailToModel(authentication, model);
+        ComponentOffer offer = (ComponentOffer) session.getAttribute("offer");
 
-        List<Components> components = componentsService.getAllComponents();
+        List<String> categoriesOrder = Arrays.asList("Złączki", "Konektory", "Rury", "Rolki", "Prowadnice", "Koła", "Akcesoria", "Śruby");
+
+        Map<String, List<Components>> componentsToUI = new LinkedHashMap<>();
+        for (String category : categoriesOrder) {
+            List<Components> components = componentsService.getComponentsByCategory(category);
+            componentsToUI.put(category, components);
+        }
 
         model.addAttribute("offer", offer);
-        model.addAttribute("components", components);
+        model.addAttribute("categories", categoriesOrder);
+        model.addAttribute("components", componentsToUI);
 
-        return "inquiry/next-step-form";
+        return "inquiry/add-components-form";
     }
 
     @PostMapping("/create-offer/add-components")
-    public String processNextStep(@ModelAttribute("offer") Offer offer,
-                                  @RequestParam("orderCompletionDate") Integer orderCompletionDate,
-                                  @RequestParam("validityTerm") Integer validityTerm,
-                                  @RequestParam("deliveryMethod") String deliveryMethod,
-                                  HttpSession session) {
-        offer.setOrderCompletionDate(orderCompletionDate);
-        offer.setValidityTerm(validityTerm);
-        offer.setDeliveryMethod(deliveryMethod);
+    public String addComponentsToOffer(@RequestParam Map<String, String> requestParams, HttpSession session) {
+        Offer offer = (Offer) session.getAttribute("offer");
+        if (!(offer instanceof ComponentOffer)) {
+            return "redirect:/not-found";
+        }
+        ComponentOffer componentOffer = (ComponentOffer) offer;
 
-        session.setAttribute("offer", offer);
+        for (Map.Entry<String, String> entry : requestParams.entrySet()) {
+            if (entry.getKey().startsWith("quantity_")) {
+                String componentId = entry.getKey().substring(9);
+                Integer quantity = Integer.parseInt(entry.getValue());
+
+                if (quantity > 0) {
+                    Components component = componentsService.getComponentById(componentId);
+                    for (int i = 0; i < quantity; i++) {
+                        componentOffer.getComponents().add(component);
+                    }
+                }
+            }
+        }
+
+        session.setAttribute("offer", componentOffer);
 
         return "redirect:/inquiry/create-offer/summary";
     }
@@ -131,6 +152,28 @@ public class OfferController {
         // Zwróć widok podsumowania
         return "inquiry/offer-summary";
     }
+
+    @PostMapping("/create-offer/summary")
+    public String proceedSummary(@ModelAttribute("offer") Offer offer,
+                                 @RequestParam("orderCompletionDate") Integer orderCompletionDate,
+                                 @RequestParam("validityTerm") Integer validityTerm,
+                                 @RequestParam("deliveryMethod") String deliveryMethod,
+                                 HttpSession session) {
+
+        offer.setOrderCompletionDate(orderCompletionDate);
+        offer.setValidityTerm(validityTerm);
+        offer.setDeliveryMethod(deliveryMethod);
+        // Pobierz ofertę z sesji
+//        Offer offer = (Offer) session.getAttribute("offer");
+
+        // Dodaj ofertę do modelu
+//        model.addAttribute("offer", offer);
+
+        // Zwróć widok podsumowania
+        return "inquiry/offer-summary";
+    }
+
+
 
 
 //    @Autowired

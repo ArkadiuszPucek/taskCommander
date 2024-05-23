@@ -35,7 +35,7 @@ public class ComponentsController {
 
         List<String> categoriesOrder = Arrays.asList("Złączki", "Konektory", "Rury", "Rolki", "Prowadnice", "Koła", "Akcesoria", "Śruby");
 
-        Map<String, List<Components>> componentsByCategory = new LinkedHashMap<>(); // Użyj LinkedHashMap, aby zachować kolejność
+        Map<String, List<Components>> componentsByCategory = new LinkedHashMap<>();
         for (String category : categoriesOrder) {
             List<Components> components = componentsService.getComponentsByCategory(category);
             componentsByCategory.put(category, components);

@@ -830,6 +830,156 @@ companies-table th:nth-child(5){
     width: auto;
 }
 
+
+.components-table td {
+    align-items: start;
+    height: auto;
+    color: #6f6f6f;
+}
+
+.components-table {
+    width: auto;
+    border-collapse: collapse;
+    color: #626262;
+    font-size: 14px;
+}
+
+.components-table th, .components-table td {
+    text-align: center;
+    border: 1px solid #d4d4d4;
+    padding: 6px;
+}
+
+.components-table thead {
+    border-radius: 10px;
+}
+
+
+.components-table th {
+    background-color: rgba(141, 141, 141, 0.4);
+    font-weight: 400;
+    font-size: 16px;
+
+}
+
+.components-table td:nth-of-type(1) {
+    color: #5e5b5b;
+    width: 18%;
+}
+
+
+.components-table th:nth-child(1),
+components-table th:nth-child(2),
+components-table th:nth-child(3),
+components-table th:nth-child(4),
+components-table th:nth-child(5){
+    width: auto;
+}
+
+.component-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-controls button {
+    border: 2px solid red;
+    border-radius: 50%;
+    background-color: white;
+    color: red;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    text-align: center;
+    line-height: normal;
+    margin: 0 12px;
+    cursor: pointer;
+}
+.quantity-controls button:hover {
+    background-color: red;
+    color: white;
+}
+.quantity-controls input[type="number"] {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+.quantity-controls input[type="number"]::-webkit-outer-spin-button,
+.quantity-controls input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.add-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #fe365f;
+    width: 50%;
+    height: auto;
+    border: none;
+    border-radius: 15px;
+    font-size: 15px;
+    color: white;
+    font-family: Montserrat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.add-button:hover {
+    background-color: darkred;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #fe365f;
+    width: 65%;
+    height: auto;
+    border: none;
+    border-radius: 15px;
+    font-size: 15px;
+    color: white;
+    font-family: Montserrat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-inline: auto;
+}
+.confirm-button:hover {
+    background-color: darkred;
+}
+
+.edit-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #8d8d8d;
+    width: 50%;
+    height: auto;
+    border: none;
+    border-radius: 15px;
+    font-size: 15px;
+    color: white;
+    font-family: Montserrat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-button:hover {
+    background-color: darkred;
+}
+
+.component-summary-text{
+    font-size: 12px;
+}
+
 .company-database-action-button {
     background-color: #e53156;
     width: 55px;

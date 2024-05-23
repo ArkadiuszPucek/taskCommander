@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskCommander</title>
+    <link rel="stylesheet" href="/styles/main.css" th:href="@{/styles/main.css}" type="text/css">
+    <link rel="stylesheet" type="javascript" th:href="@{/scripts/common.js}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="../static/scripts/common.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+
+<div class="components-main-content-box">
+    <form th:action="@{/inquiry/create-offer/add-components}" method="post">
+        <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+        <div class="component-header">Dodaj komponenty</div>
+        <div class="components-navigation-bar">
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Złączki')" class="components-navigation-bar-button">Złączki</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Konektory')" class="components-navigation-bar-button">Konektory</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Rury')" class="components-navigation-bar-button">Rury</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Rolki')" class="components-navigation-bar-button">Rolki</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Prowadnice')" class="components-navigation-bar-button">Prowadnice</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Koła')" class="components-navigation-bar-button">Koła</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Akcesoria')" class="components-navigation-bar-button">Akcesoria</a>
+            <a href="javascript:void(0);" onclick="scrollToSection('category_Śruby')" class="components-navigation-bar-button">Śruby</a>
+        </div>
+        <div class="component-variants">
+            <label><input type="checkbox" name="variant" value="LeanTek"> LeanTek</label>
+            <label><input type="checkbox" name="variant" value="LeanTek ESD"> LeanTek ESD</label>
+            <label><input type="checkbox" name="variant" value="LeanTek2"> LeanTek2</label>
+            <label><input type="checkbox" name="variant" value="Graphit"> Graphit</label>
+            <label><input type="checkbox" name="variant" value="Graphit ESD"> Graphit ESD</label>
+            <label><input type="checkbox" name="variant" value="28,0mm"> 28,0mm</label>
+            <label><input type="checkbox" name="variant" value="28,0mm ESD"> 28,0mm ESD</label>
+            <label><input type="checkbox" name="variant" value="ESD"> ESD</label>
+        </div>
+        <div th:each="entry : ${components.entrySet()}">
+            <div class="component-category" th:id="'category_' + ${entry.key}" th:text="${entry.key}"></div>
+            <div class="components-container">
+                <div th:each="component : ${entry.value}" class="component-box"
+                     th:data-variant="${component.variant}" th:data-esd="${component.isEsd}" th:id="'component_' + ${component.componentId}">
+                    <img class="component-image" th:src="@{'/' + ${component.imagePath}}" alt="Component Image">
+                    <div class="component-details">
+                        <p class="component-id" th:text="${component.componentId}"></p>
+                        <p th:id="'price_'+${component.componentId}" class="component-price" th:text="${component.sellingPrice}+ '€'"></p>
+                        <hr>
+                        <button type="button" th:data-component-id="${component.componentId}" class="add-button" onclick="toggleComponent(this)">Dodaj</button>
+                        <div th:id="'componentDetails_' + ${component.componentId}" style="display:none;">
+                            <div class="quantity-controls">
+                                <button type="button" th:data-component-id="${component.componentId}" onclick="decreaseQuantity(this)">-</button>
+                                <input type="number" th:id="'quantity_' + ${component.componentId}" th:name="'quantity_' + ${component.componentId}" value="0" min="0" onchange="updateTotal('${component.componentId}')">
+                                <button type="button" th:data-component-id="${component.componentId}" onclick="increaseQuantity(this)">+</button>
+                            </div>
+                            <p class="component-summary-text">Łączna cena: <span th:id="'total_' + ${component.componentId}">0.00€</span></p>
+                            <button type="button" th:data-component-id="${component.componentId}" class="confirm-button" onclick="confirmComponent(this)">Zatwierdź</button>
+                        </div>
+                        <p class="component-summary-text" th:id="'selectedQuantity_' + ${component.componentId}" style="display:none;">Wybrana ilość: <span th:text="'0'"></span></p>
+                        <button type="button" th:data-component-id="${component.componentId}" class="edit-button" onclick="editComponent(this)" style="display:none;">Edytuj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="submit-button-addres-form">
+            <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl"
+                    tabindex="0">Kolejny krok
+            </button>
+        </div>
+    </form>
+<!--    </form>-->
+</div>
+
+<div th:replace="~{side-content :: side-content}"></div>
+<div th:replace="~{footer :: footer}"></div>
+<script th:inline="javascript">
+    function updateTotal(id) {
+        var quantity = parseInt(document.getElementById("quantity_" + id).value);
+        var price = parseFloat(document.getElementById("price_" + id).innerText.replace('€', ''));
+        var total = (quantity * price).toFixed(2);
+        document.getElementById("total_" + id).innerText = total + '€';
+    }
+
+    function toggleComponent(button) {
+        var id = button.getAttribute("data-component-id");
+        var details = document.getElementById("componentDetails_" + id);
+        details.style.display = details.style.display === "none" ? "block" : "none";
+
+        if (details.style.display === "block") {
+            button.style.display = "none";
+        }
+    }
+
+    function increaseQuantity(button) {
+        var id = button.getAttribute("data-component-id");
+        var quantityInput = document.getElementById("quantity_" + id);
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updateTotal(id);
+    }
+
+    function decreaseQuantity(button) {
+        var id = button.getAttribute("data-component-id");
+        var quantityInput = document.getElementById("quantity_" + id);
+        if (quantityInput.value > 0) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            updateTotal(id);
+        }
+    }
+
+    function confirmComponent(button) {
+        var id = button.getAttribute("data-component-id");
+        var quantityInput = document.getElementById("quantity_" + id);
+        var selectedQuantity = document.getElementById("selectedQuantity_" + id);
+        var details = document.getElementById("componentDetails_" + id);
+        var editButton = document.querySelector('.edit-button[data-component-id="' + id + '"]');
+
+        selectedQuantity.querySelector("span").innerText = quantityInput.value;
+        selectedQuantity.style.display = "block";
+        details.style.display = "none";
+        editButton.style.display = "inline-block";
+    }
+
+    function editComponent(button) {
+        var id = button.getAttribute("data-component-id");
+        var details = document.getElementById("componentDetails_" + id);
+        var editButton = button;
+
+        details.style.display = "block";
+        editButton.style.display = "none";
+    }
+</script>
+<script>
+    // Pobierz wszystkie przyciski wariantów
+    var variantButtons = document.querySelectorAll('.component-variants input[type="checkbox"]');
+
+    // Funkcja do filtrowania komponentów
+    function filterComponents() {
+        // Pobierz wybrane warianty
+        var selectedVariants = Array.from(variantButtons)
+            .filter(function(button) {
+                return button.checked;
+            })
+            .map(function(button) {
+                return button.value;
+            });
+
+        // Pobierz wybrane komponenty
+        var components = document.querySelectorAll('.component-box');
+
+        // Iteruj przez każdy komponent
+        components.forEach(function(component) {
+            // Pobierz wariant, status ESD, kategorię z atrybutów danych komponentu
+            var variant = component.dataset.variant;
+            var isEsd = component.dataset.esd === "true";
+            var category = component.dataset.category;
+
+            // Sprawdź, czy komponent pasuje do wybranych wariantów
+            var showComponent = selectedVariants.includes(variant) || variant === 'None';
+
+            // Sprawdź, czy komponent pasuje do wybranej kategorii wariantu
+            if (selectedVariants.includes('LeanTek') || selectedVariants.includes('Graphit') || selectedVariants.includes('28,0mm')) {
+                showComponent = showComponent || (category === 'Konektory' && selectedVariants.includes(variant));
+            }
+
+            // Sprawdź, czy komponent pasuje do wybranego statusu ESD
+            if (selectedVariants.includes('ESD')) {
+                showComponent = showComponent && isEsd;
+            } else if (selectedVariants.includes('notESD')) {
+                showComponent = showComponent && !isEsd;
+            }
+
+            // Pokaż lub ukryj komponent w zależności od wyniku filtrowania
+            if (showComponent) {
+                component.style.display = "block";
+            } else {
+                component.style.display = "none";
+            }
+        });
+    }
+
+    // Ustaw standardowo zaznaczoną kategorię LeanTek
+    document.querySelector('.component-variants input[value="LeanTek"]').checked = true;
+
+    // Wywołaj funkcję filtrującą na początku, aby zainicjować widok
+    filterComponents();
+
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia dla przycisków wariantów
+    variantButtons.forEach(function(button) {
+        button.addEventListener('change', function() {
+            // Odznacz przyciski, które nie zostały kliknięte
+            variantButtons.forEach(function(otherButton) {
+                if (otherButton !== button && otherButton.checked) {
+                    otherButton.checked = false;
+                }
+            });
+            filterComponents();
+        });
+    });
+
+    // Dodaj nasłuchiwanie zdarzenia kliknięcia dla przycisku ESD
+    document.querySelector('.component-variants input[value="ESD"]').addEventListener('change', function() {
+        // Jeśli przycisk ESD jest zaznaczony
+        if (this.checked) {
+            // Wybierz wszystkie komponenty i sprawdź wartość isEsd
+            var components = document.querySelectorAll('.component-box');
+            components.forEach(function(component) {
+                var isEsd = component.dataset.esd === "true";
+                // Jeśli isEsd=true, pokaż komponent
+                if (isEsd) {
+                    component.style.display = "block";
+                }
+            });
+        } else {
+            // Jeśli przycisk ESD nie jest zaznaczony, ukryj komponenty z isEsd=true
+            var components = document.querySelectorAll('.component-box');
+            components.forEach(function(component) {
+                var isEsd = component.dataset.esd === "true";
+                // Jeśli isEsd=true, ukryj komponent
+                if (isEsd) {
+                    component.style.display = "none";
+                }
+            });
+        }
+    });
+</script>
+<script>
+    // Pobierz wszystkie checkboxy
+    var checkboxes = document.querySelectorAll('.component-variants input[type="checkbox"]');
+
+    // Dodaj nasłuchiwanie zdarzenia dla kliknięć w checkboxy
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // Pobierz wartości zaznaczonych checkboxów
+            var checkedValues = Array.from(checkboxes)
+                .filter(function(checkbox) { return checkbox.checked; })
+                .map(function(checkbox) { return checkbox.value; });
+
+            // Pobierz wszystkie komponenty
+            var components = document.querySelectorAll('.component-box');
+
+            // Iteruj przez każdy komponent i sprawdź, czy zawiera wybrane wartości
+            components.forEach(function(component) {
+                var shouldDisplay = checkedValues.every(function(value) {
+                    return component.dataset.variants.includes(value);
+                });
+
+                // Pokaż lub ukryj komponent w zależności od wyniku
+                component.style.display = shouldDisplay ? 'block' : 'none';
+            });
+        });
+    });
+</script>
+<script>
+    function scrollToSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('.responsible-checkbox').prop('checked', false);
+
+        $('.responsible-checkbox').change(function () {
+            var atLeastOneChecked = $('.responsible-checkbox:checked').length > 0;
+
+            $('.responsible-checkbox').prop('required', !atLeastOneChecked);
+
+            $('.responsible-checkbox').each(function () {
+                if ($(this).is(':checked')) {
+                    $(this).next('label').addClass('checked');
+                } else {
+                    $(this).next('label').removeClass('checked');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var button = document.getElementById("clients-dropdown-button");
+        var dropdownList = document.getElementById("clients-dropdown-list");
+
+        button.addEventListener("click", function (event) {
+            dropdownList.classList.toggle("show");
+            event.stopPropagation();
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!button.contains(event.target)) {
+                dropdownList.classList.remove("show");
+            }
+        });
+    });
+</script>
+<script>
+    function updateTime() {
+        var currentTime = new Date();
+        var hours = currentTime.getHours();
+        var minutes = currentTime.getMinutes();
+        var formattedTime = (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+        document.getElementById("current-time").innerText = formattedTime;
+    }
+
+    setInterval(updateTime, 1000);
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var button = document.getElementById("user-dropdown-button");
+        var dropdownList = document.getElementById("user-dropdown-list");
+
+        button.addEventListener("click", function () {
+            dropdownList.classList.toggle("show");
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!button.contains(event.target)) {
+                dropdownList.classList.remove("show");
+            }
+        });
+    });
+</script>
+<script>
+    function generateCalendar() {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        const currentDay = currentDate.getDate();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+
+        const calendarBody = document.getElementById("calendar-body");
+        const currentMonthName = document.getElementById("current-month");
+
+        if (calendarBody && currentMonthName) {
+            currentMonthName.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'});
+
+            let days = "";
+            let dayIndex = 0;
+
+            for (let i = 0; i < 6; i++) { // 6 wierszy dla każdego możliwego układu kalendarza
+                days += "<tr>";
+
+                for (let j = 0; j < 7; j++) { // 7 dni tygodnia
+                    if (i === 0 && j < (firstDayIndex === 0 ? 6 : firstDayIndex - 1)) { // Zaczynamy od poniedziałku
+                        days += `<td></td>`;
+                    } else if (dayIndex < daysInMonth) {
+                        dayIndex++;
+                        const isCurrentDay = dayIndex === currentDay ? " current-day" : "";
+                        const isWeekend = (j === 5 || j === 6) ? " weekend" : "";
+                        days += `<td class="calendar-day${isCurrentDay}${isWeekend}">${dayIndex}</td>`;
+                    } else {
+                        days += `<td></td>`;
+                    }
+                }
+
+                days += "</tr>";
+            }
+
+            calendarBody.innerHTML = days;
+        } else {
+            console.error("Nie można odnaleźć elementu 'calendar-body' lub 'current-month'.");
+        }
+    }
+
+    generateCalendar();
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        generateCalendar();
+    });
+</script>
+</body>
+</html>
