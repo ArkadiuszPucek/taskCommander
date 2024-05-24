@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class ComponentOffer extends Offer {
     )
     private Set<Components> components = new HashSet<>();
 
+
     @Column(name = "offer_type")
     String offerType = OFFER_TYPE;
-
 }

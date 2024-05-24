@@ -129,9 +129,8 @@ public class OfferController {
 
                 if (quantity > 0) {
                     Components component = componentsService.getComponentById(componentId);
-                    for (int i = 0; i < quantity; i++) {
-                        componentOffer.getComponents().add(component);
-                    }
+
+
                 }
             }
         }

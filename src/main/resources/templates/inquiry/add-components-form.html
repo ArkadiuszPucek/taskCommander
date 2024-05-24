@@ -48,7 +48,7 @@
                     <img class="component-image" th:src="@{'/' + ${component.imagePath}}" alt="Component Image">
                     <div class="component-details">
                         <p class="component-id" th:text="${component.componentId}"></p>
-                        <p th:id="'price_'+${component.componentId}" class="component-price" th:text="${component.sellingPrice}+ '€'"></p>
+                        <p th:id="'price_'+${component.componentId}" class="component-price" th:text="'Cena detaliczna: ' +${component.sellingPrice}+ '€'"></p>
                         <hr>
                         <button type="button" th:data-component-id="${component.componentId}" class="add-button" onclick="toggleComponent(this)">Dodaj</button>
                         <div th:id="'componentDetails_' + ${component.componentId}" style="display:none;">
@@ -61,38 +61,38 @@
                             <button type="button" th:data-component-id="${component.componentId}" class="confirm-button" onclick="confirmComponent(this)">Zatwierdź</button>
                         </div>
                         <p class="component-summary-text" th:id="'selectedQuantity_' + ${component.componentId}" style="display:none;">Wybrana ilość: <span th:text="'0'"></span></p>
+                        <p class="component-summary-text" th:id="'selectedTotal_' + ${component.componentId}" style="display:none;">Łączna cena: <span th:text="'0.00€'"></span></p>
                         <button type="button" th:data-component-id="${component.componentId}" class="edit-button" onclick="editComponent(this)" style="display:none;">Edytuj</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="submit-button-addres-form">
-            <button type="submit" class="add-company-button-tunCR Buttons-module-primary--YHdl"
-                    tabindex="0">Kolejny krok
-            </button>
-        </div>
     </form>
-<!--    </form>-->
 </div>
 
 <div th:replace="~{side-content :: side-content}"></div>
 <div th:replace="~{footer :: footer}"></div>
+
+<div class="cart-summary" id="cart-summary">
+    <div class="cart-value">Wartość koszyka: <span id="cartTotal">0.00€</span></div>
+    <button type="button" class="next-step-button" onclick="submitForm()">Kolejny krok</button>
+</div>
+
 <script th:inline="javascript">
     function updateTotal(id) {
         var quantity = parseInt(document.getElementById("quantity_" + id).value);
         var price = parseFloat(document.getElementById("price_" + id).innerText.replace('€', ''));
         var total = (quantity * price).toFixed(2);
         document.getElementById("total_" + id).innerText = total + '€';
+
     }
 
     function toggleComponent(button) {
         var id = button.getAttribute("data-component-id");
         var details = document.getElementById("componentDetails_" + id);
+        var addButton = button;
         details.style.display = details.style.display === "none" ? "block" : "none";
-
-        if (details.style.display === "block") {
-            button.style.display = "none";
-        }
+        addButton.style.display = details.style.display === "none" ? "inline-block" : "none";
     }
 
     function increaseQuantity(button) {
@@ -115,13 +115,18 @@
         var id = button.getAttribute("data-component-id");
         var quantityInput = document.getElementById("quantity_" + id);
         var selectedQuantity = document.getElementById("selectedQuantity_" + id);
+        var selectedTotal = document.getElementById("selectedTotal_" + id);
         var details = document.getElementById("componentDetails_" + id);
         var editButton = document.querySelector('.edit-button[data-component-id="' + id + '"]');
+        updateTotal(id);
 
         selectedQuantity.querySelector("span").innerText = quantityInput.value;
         selectedQuantity.style.display = "block";
+        selectedTotal.querySelector("span").innerText = document.getElementById("total_" + id).innerText;
+        selectedTotal.style.display = "block";
         details.style.display = "none";
         editButton.style.display = "inline-block";
+        updateCartTotal();
     }
 
     function editComponent(button) {
@@ -129,8 +134,23 @@
         var details = document.getElementById("componentDetails_" + id);
         var editButton = button;
 
-        details.style.display = "block";
-        editButton.style.display = "none";
+        details.style.display = "block"; // Pokaż kontrolki ilości i przycisk "Zatwierdź"
+        editButton.style.display = "none"; // Ukryj przycisk "Edytuj"
+    }
+
+    function updateCartTotal() {
+        var total = 0;
+        document.querySelectorAll('.component-price').forEach(function(priceElement) {
+            var id = priceElement.id.split('_')[1];
+            var quantity = parseInt(document.getElementById("quantity_" + id).value);
+            var price = parseFloat(priceElement.innerText.replace('€', ''));
+            total += quantity * price;
+        });
+        document.getElementById("cartTotal").innerText = total.toFixed(2) + '€';
+    }
+
+    function submitForm() {
+        document.querySelector('form').submit();
     }
 </script>
 <script>

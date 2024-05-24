@@ -931,6 +931,7 @@ components-table th:nth-child(5){
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
 }
 .add-button:hover {
     background-color: darkred;
@@ -959,25 +960,73 @@ components-table th:nth-child(5){
 .edit-button {
     padding: 10px 20px;
     cursor: pointer;
-    background-color: #8d8d8d;
+    background-color: #1d1d1dcf;
     width: 50%;
     height: auto;
     border: none;
     border-radius: 15px;
     font-size: 15px;
+    color: #a1a1a1;
+    font-family: Montserrat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.discount-section{
+    top: 100px;
+    position: relative;
+    text-align: center;
+}
+.edit-button:hover {
+    background-color: rgba(63, 63, 63, 0.81);
+}
+
+.cart-summary {
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    background-color: #1e1e1ebf;
+    border-radius: 15px;
+    box-shadow: 0px -2px 10px rgba(0,0,0,0.1);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 15px;
+    color: #bbbbbb;
+}
+.cart-summary .cart-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 30px;
+}
+.cart-summary .next-step-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #fe365f;
+    width: 20%;
+    height: auto;
+    border: none;
+    border-radius: 15px;
+    font-size: 15px;
+    margin-right: 30px;
     color: white;
     font-family: Montserrat;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-.edit-button:hover {
+.cart-summary .next-step-button:hover {
     background-color: darkred;
 }
 
 .component-summary-text{
     font-size: 12px;
+    margin-block: 1px;
 }
 
 .company-database-action-button {
@@ -1152,6 +1201,7 @@ input[type="checkbox"]:checked::before {
 .component-box hr {
     width: 87%;
     color: #818181;
+    margin-bottom: 5px;
 }
 
 .components-container{
