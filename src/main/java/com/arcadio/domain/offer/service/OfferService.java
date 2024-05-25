@@ -5,6 +5,9 @@ import com.arcadio.domain.components.repository.ComponentsRepository;
 import com.arcadio.domain.offer.dto.OfferDTO;
 import com.arcadio.domain.offer.model.Offer;
 import com.arcadio.domain.offer.repository.OfferRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,14 @@ public class OfferService {
 
     @Autowired
     private ComponentsRepository componentsRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public Long getNextOfferId() {
+        Query query = entityManager.createNativeQuery("SELECT nextval('offer_id_seq')");
+        return ((Number) query.getSingleResult()).longValue();
+    }
 
 //    public OfferDTO createOffer(OfferDTO offerDTO) {
 //

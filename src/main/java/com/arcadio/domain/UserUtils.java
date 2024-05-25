@@ -1,5 +1,6 @@
 package com.arcadio.domain;
 
+import com.arcadio.domain.exceptions.UserNotFoundException;
 import com.arcadio.domain.user.UserFacade;
 import com.arcadio.domain.user.userDetails.model.User;
 import com.arcadio.domain.user.userDetails.repository.UserRepository;
@@ -59,5 +60,12 @@ public class UserUtils {
 
     public void deleteUserAndHandleLogout(HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes, Long userId) {
         userFacade.deleteUserAndHandleLogout(request, response, redirectAttributes, userId);
+    }
+
+    public String getUserAreaById(Authentication authentication) {
+        if (authentication != null) {
+            User userById = userFacade.findUserById(getUserIdFromAuthentication(authentication));
+            return userById.getArea();
+        }else throw new UserNotFoundException("User not found");
     }
 }

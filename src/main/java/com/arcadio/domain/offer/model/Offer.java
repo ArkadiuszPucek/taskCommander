@@ -9,11 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -23,7 +21,8 @@ import java.util.Set;
 public abstract class Offer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "offer_id_seq")
+    @SequenceGenerator(name = "offer_id_seq", sequenceName = "offer_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
@@ -39,7 +38,7 @@ public abstract class Offer {
     private Customer customer;
 
     @Column(name = "offer_date")
-    private LocalDateTime offerDate;
+    private LocalDate offerDate;
 
     @Column(name = "order_completion_date")
     private Integer orderCompletionDate;

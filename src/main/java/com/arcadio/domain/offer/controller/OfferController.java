@@ -1,14 +1,17 @@
 package com.arcadio.domain.offer.controller;
 
+import com.arcadio.domain.UserUtils;
 import com.arcadio.domain.company.CompanyManagementFacade;
 import com.arcadio.domain.company.model.Company;
 import com.arcadio.domain.components.model.Components;
 import com.arcadio.domain.components.service.ComponentsService;
 import com.arcadio.domain.customer.CustomerManagementFacade;
 import com.arcadio.domain.customer.model.Customer;
+import com.arcadio.domain.offer.dto.ComponentQuantityDTO;
 import com.arcadio.domain.offer.model.ComponentOffer;
 import com.arcadio.domain.offer.model.ConstructionOffer;
 import com.arcadio.domain.offer.model.Offer;
+import com.arcadio.domain.offer.service.OfferService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -26,11 +31,17 @@ public class OfferController {
     private final CompanyManagementFacade companyManagementFacade;
     private final CustomerManagementFacade customerManagementFacade;
     private final ComponentsService componentsService;
+    private final OfferService offerService;
+    private final UserUtils userUtils;
 
-    public OfferController(CompanyManagementFacade companyManagementFacade, CustomerManagementFacade customerManagementFacade, ComponentsService componentsService) {
+    private static final String TRILOGIQ_OFFER_ID = "TPL";
+
+    public OfferController(CompanyManagementFacade companyManagementFacade, CustomerManagementFacade customerManagementFacade, ComponentsService componentsService, OfferService offerService, UserUtils userUtils) {
         this.companyManagementFacade = companyManagementFacade;
         this.customerManagementFacade = customerManagementFacade;
         this.componentsService = componentsService;
+        this.offerService = offerService;
+        this.userUtils = userUtils;
     }
 
     @GetMapping
@@ -46,8 +57,7 @@ public class OfferController {
     @PostMapping("/create-offer")
     public String createOffer(@RequestParam("offerType") String offerType,
                               @RequestParam("nip") Long nip,
-                              HttpSession session,
-                              RedirectAttributes redirectAttributes) {
+                              HttpSession session, Authentication authentication) {
         
         Offer offer;
         if ("Component".equals(offerType)) {
@@ -57,6 +67,17 @@ public class OfferController {
         } else {
             offer = null;
         }
+
+        if (offer != null) {
+            Long reservedId = offerService.getNextOfferId();
+            offer.setId(reservedId);
+        }
+
+        String areaShortcut = userUtils.getUserAreaById(authentication).toUpperCase().substring(0, 2);
+        offer.setOfferId(TRILOGIQ_OFFER_ID + areaShortcut + '.' + offer.getId() );
+
+        offer.setOfferDate(LocalDate.now());
+
 
         session.setAttribute("nip", nip);
 
@@ -116,11 +137,13 @@ public class OfferController {
 
     @PostMapping("/create-offer/add-components")
     public String addComponentsToOffer(@RequestParam Map<String, String> requestParams, HttpSession session) {
-        Offer offer = (Offer) session.getAttribute("offer");
-        if (!(offer instanceof ComponentOffer)) {
+        ComponentOffer componentOffer = (ComponentOffer) session.getAttribute("offer");
+        if (componentOffer == null) {
             return "redirect:/not-found";
         }
-        ComponentOffer componentOffer = (ComponentOffer) offer;
+
+        List<ComponentQuantityDTO> selectedComponents = new ArrayList<>();
+
 
         for (Map.Entry<String, String> entry : requestParams.entrySet()) {
             if (entry.getKey().startsWith("quantity_")) {
@@ -129,11 +152,12 @@ public class OfferController {
 
                 if (quantity > 0) {
                     Components component = componentsService.getComponentById(componentId);
-
+                    selectedComponents.add(new ComponentQuantityDTO(component, quantity));
 
                 }
             }
         }
+        session.setAttribute("selectedComponents", selectedComponents);
 
         session.setAttribute("offer", componentOffer);
 

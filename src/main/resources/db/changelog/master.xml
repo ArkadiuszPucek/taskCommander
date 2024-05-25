@@ -11,6 +11,7 @@
     <include file="0004_1_create_table_customer.xml" relativeToChangelogFile="true" />
     <include file="0005_1_create_table_company.xml" relativeToChangelogFile="true" />
     <include file="0006_2_create_tables_components.xml" relativeToChangelogFile="true" />
+    <include file="0007_1_create_component_offer_table.xml" relativeToChangelogFile="true" />
 
     <include file="../testdata/0001_users_and_roles.sql" relativeToChangelogFile="true" context="dev"/>
     <include file="../testdata/0002_company.sql" relativeToChangelogFile="true" context="dev"/>

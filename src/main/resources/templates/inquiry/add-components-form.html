@@ -48,7 +48,7 @@
                     <img class="component-image" th:src="@{'/' + ${component.imagePath}}" alt="Component Image">
                     <div class="component-details">
                         <p class="component-id" th:text="${component.componentId}"></p>
-                        <p th:id="'price_'+${component.componentId}" class="component-price" th:text="'Cena detaliczna: ' +${component.sellingPrice}+ '€'"></p>
+                        <p th:id="'price_'+${component.componentId}" class="component-price" th:text="'Cena detaliczna:' +${component.sellingPrice}+ '€'"></p>
                         <hr>
                         <button type="button" th:data-component-id="${component.componentId}" class="add-button" onclick="toggleComponent(this)">Dodaj</button>
                         <div th:id="'componentDetails_' + ${component.componentId}" style="display:none;">
@@ -81,7 +81,7 @@
 <script th:inline="javascript">
     function updateTotal(id) {
         var quantity = parseInt(document.getElementById("quantity_" + id).value);
-        var price = parseFloat(document.getElementById("price_" + id).innerText.replace('€', ''));
+        var price = parseFloat(document.getElementById("price_" + id).innerText.replace('€', '').replace('Cena detaliczna:',''));
         var total = (quantity * price).toFixed(2);
         document.getElementById("total_" + id).innerText = total + '€';
 
@@ -143,7 +143,7 @@
         document.querySelectorAll('.component-price').forEach(function(priceElement) {
             var id = priceElement.id.split('_')[1];
             var quantity = parseInt(document.getElementById("quantity_" + id).value);
-            var price = parseFloat(priceElement.innerText.replace('€', ''));
+            var price = parseFloat(priceElement.innerText.replace('€', '').replace('Cena detaliczna:',''));
             total += quantity * price;
         });
         document.getElementById("cartTotal").innerText = total.toFixed(2) + '€';
