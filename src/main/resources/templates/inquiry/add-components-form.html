@@ -40,6 +40,15 @@
             <label><input type="checkbox" name="variant" value="28,0mm ESD"> 28,0mm ESD</label>
             <label><input type="checkbox" name="variant" value="ESD"> ESD</label>
         </div>
+        <div class="discount-section">
+            <label for="discount">Rabat:</label>
+            <div class="quantity-controls">
+                <button type="button" class="quantity-button" onclick="decreaseDiscount()">-</button>
+                <input type="number" id="discount" name="discount" value="0" min="0" max="100" step="0.01" onchange="updateDiscount()">
+                <button type="button" class="quantity-button" onclick="increaseDiscount()">+</button>
+            </div>
+        </div>
+
         <div th:each="entry : ${components.entrySet()}">
             <div class="component-category" th:id="'category_' + ${entry.key}" th:text="${entry.key}"></div>
             <div class="components-container">
@@ -48,7 +57,9 @@
                     <img class="component-image" th:src="@{'/' + ${component.imagePath}}" alt="Component Image">
                     <div class="component-details">
                         <p class="component-id" th:text="${component.componentId}"></p>
-                        <p th:id="'price_'+${component.componentId}" class="component-price" th:text="'Cena detaliczna:' +${component.sellingPrice}+ '€'"></p>
+                        <p th:id="'price_'+${component.componentId}" class="component-price selling-price" th:text="'Cena detaliczna:' +${component.sellingPrice}+ '€'" th:data-original-price="${component.sellingPrice}"></p>
+                        <p th:id="'purchase_price_'+${component.componentId}" class="component-price purchase-price" th:text="'Cena zakupowa: ' + ${component.purchasePrice} + '€'"></p>
+                        <p th:id="'margin_'+${component.componentId}" class="component-price component-margin"></p>
                         <hr>
                         <button type="button" th:data-component-id="${component.componentId}" class="add-button" onclick="toggleComponent(this)">Dodaj</button>
                         <div th:id="'componentDetails_' + ${component.componentId}" style="display:none;">
@@ -58,10 +69,12 @@
                                 <button type="button" th:data-component-id="${component.componentId}" onclick="increaseQuantity(this)">+</button>
                             </div>
                             <p class="component-summary-text">Łączna cena: <span th:id="'total_' + ${component.componentId}">0.00€</span></p>
+                            <input type="hidden" th:id="'componentDiscount_' + ${component.componentId}" th:name="'componentDiscount_' + ${component.componentId}" value="0">
                             <button type="button" th:data-component-id="${component.componentId}" class="confirm-button" onclick="confirmComponent(this)">Zatwierdź</button>
                         </div>
                         <p class="component-summary-text" th:id="'selectedQuantity_' + ${component.componentId}" style="display:none;">Wybrana ilość: <span th:text="'0'"></span></p>
                         <p class="component-summary-text" th:id="'selectedTotal_' + ${component.componentId}" style="display:none;">Łączna cena: <span th:text="'0.00€'"></span></p>
+                        <p class="component-summary-text" th:id="'selectedDiscount_' + ${component.componentId}" style="display:none;">Użyty rabat: <span th:text="'0%'"></span></p>
                         <button type="button" th:data-component-id="${component.componentId}" class="edit-button" onclick="editComponent(this)" style="display:none;">Edytuj</button>
                     </div>
                 </div>
@@ -79,6 +92,48 @@
 </div>
 
 <script th:inline="javascript">
+    function updateDiscount() {
+        var discount = parseFloat(document.getElementById("discount").value) / 100;
+        document.querySelectorAll('.selling-price').forEach(function(priceElement) {
+            var id = priceElement.id.split('_')[1];
+            var originalPrice = parseFloat(priceElement.getAttribute("data-original-price"));
+            if (!isNaN(originalPrice)) {
+                var discountedPrice = originalPrice * (1 - discount);
+                priceElement.innerText = 'Cena detaliczna:' + discountedPrice.toFixed(2) + '€';
+                updateMargin(id, discount);
+                updateTotal(id);
+            }
+        });
+        updateCartTotal();
+    }
+
+    function decreaseDiscount() {
+        var discountInput = document.getElementById("discount");
+        if (discountInput.value > 0) {
+            discountInput.value = (parseFloat(discountInput.value) - 1).toFixed(2);
+            updateDiscount();
+        }
+    }
+
+    function increaseDiscount() {
+        var discountInput = document.getElementById("discount");
+        if (discountInput.value < 100) {
+            discountInput.value = (parseFloat(discountInput.value) + 1).toFixed(2);
+            updateDiscount();
+        }
+    }
+
+    function updateMargin(id, discount) {
+        var originalPrice = parseFloat(document.getElementById("price_" + id).getAttribute("data-original-price"));
+        var purchasePrice = parseFloat(document.getElementById("purchase_price_" + id).innerText.replace('Cena zakupowa: ', '').replace('€', ''));
+        if (!isNaN(originalPrice) && !isNaN(purchasePrice)) {
+            var discountedPrice = originalPrice * (1 - discount);
+            var margin = ((discountedPrice - purchasePrice) / purchasePrice) * 100;
+            document.getElementById("margin_" + id).innerText = 'Marża: ' + margin.toFixed(2) + '%';
+        }
+    }
+
+
     function updateTotal(id) {
         var quantity = parseInt(document.getElementById("quantity_" + id).value);
         var price = parseFloat(document.getElementById("price_" + id).innerText.replace('€', '').replace('Cena detaliczna:',''));
@@ -116,6 +171,10 @@
         var quantityInput = document.getElementById("quantity_" + id);
         var selectedQuantity = document.getElementById("selectedQuantity_" + id);
         var selectedTotal = document.getElementById("selectedTotal_" + id);
+        var selectedDiscount = document.getElementById("selectedDiscount_" + id);
+        var discount = document.getElementById("discount").value;
+        var componentDiscountInput = document.getElementById("componentDiscount_" + id);
+        componentDiscountInput.value = discount;
         var details = document.getElementById("componentDetails_" + id);
         var editButton = document.querySelector('.edit-button[data-component-id="' + id + '"]');
         updateTotal(id);
@@ -124,6 +183,8 @@
         selectedQuantity.style.display = "block";
         selectedTotal.querySelector("span").innerText = document.getElementById("total_" + id).innerText;
         selectedTotal.style.display = "block";
+        selectedDiscount.querySelector("span").innerText = discount + '%';
+        selectedDiscount.style.display = "block";
         details.style.display = "none";
         editButton.style.display = "inline-block";
         updateCartTotal();
@@ -140,11 +201,13 @@
 
     function updateCartTotal() {
         var total = 0;
-        document.querySelectorAll('.component-price').forEach(function(priceElement) {
+        document.querySelectorAll('.selling-price').forEach(function(priceElement) {
             var id = priceElement.id.split('_')[1];
             var quantity = parseInt(document.getElementById("quantity_" + id).value);
-            var price = parseFloat(priceElement.innerText.replace('€', '').replace('Cena detaliczna:',''));
-            total += quantity * price;
+            var price = parseFloat(priceElement.innerText.replace('€', '').replace('Cena detaliczna:', ''));
+            if (!isNaN(price)) {
+                total += quantity * price;
+            }
         });
         document.getElementById("cartTotal").innerText = total.toFixed(2) + '€';
     }

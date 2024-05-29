@@ -19,15 +19,20 @@ public class ComponentOffer extends Offer {
 
     private static final String OFFER_TYPE = "Component";
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "component_offer_components",
-            joinColumns = @JoinColumn(name = "component_offer_id"),
-            inverseJoinColumns = @JoinColumn(name = "component_id")
-    )
-    private Set<Components> components = new HashSet<>();
-
+    @OneToMany(mappedBy = "componentOffer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<ComponentOfferDetails> componentOfferDetails = new HashSet<>();
 
     @Column(name = "offer_type")
     String offerType = OFFER_TYPE;
+
+    public void addComponentOfferDetail(ComponentOfferDetails detail) {
+        componentOfferDetails.add(detail);
+        detail.setComponentOffer(this);
+    }
+
+    public void removeComponentOfferDetail(ComponentOfferDetails detail) {
+        componentOfferDetails.remove(detail);
+        detail.setComponentOffer(null);
+    }
 }
+

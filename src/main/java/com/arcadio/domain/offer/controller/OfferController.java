@@ -7,20 +7,21 @@ import com.arcadio.domain.components.model.Components;
 import com.arcadio.domain.components.service.ComponentsService;
 import com.arcadio.domain.customer.CustomerManagementFacade;
 import com.arcadio.domain.customer.model.Customer;
-import com.arcadio.domain.offer.dto.ComponentQuantityDTO;
 import com.arcadio.domain.offer.model.ComponentOffer;
+import com.arcadio.domain.offer.model.ComponentOfferDetails;
 import com.arcadio.domain.offer.model.ConstructionOffer;
 import com.arcadio.domain.offer.model.Offer;
+import com.arcadio.domain.offer.repository.ComponentOfferDetailsRepository;
+import com.arcadio.domain.offer.repository.ComponentOfferRepository;
 import com.arcadio.domain.offer.service.OfferService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -33,15 +34,19 @@ public class OfferController {
     private final ComponentsService componentsService;
     private final OfferService offerService;
     private final UserUtils userUtils;
+    private final ComponentOfferRepository componentOfferRepository;
+    private final ComponentOfferDetailsRepository componentOfferDetailsRepository;
 
     private static final String TRILOGIQ_OFFER_ID = "TPL";
 
-    public OfferController(CompanyManagementFacade companyManagementFacade, CustomerManagementFacade customerManagementFacade, ComponentsService componentsService, OfferService offerService, UserUtils userUtils) {
+    public OfferController(CompanyManagementFacade companyManagementFacade, CustomerManagementFacade customerManagementFacade, ComponentsService componentsService, OfferService offerService, UserUtils userUtils, ComponentOfferRepository componentOfferRepository, ComponentOfferDetailsRepository componentOfferDetailsRepository) {
         this.companyManagementFacade = companyManagementFacade;
         this.customerManagementFacade = customerManagementFacade;
         this.componentsService = componentsService;
         this.offerService = offerService;
         this.userUtils = userUtils;
+        this.componentOfferRepository = componentOfferRepository;
+        this.componentOfferDetailsRepository = componentOfferDetailsRepository;
     }
 
     @GetMapping
@@ -74,16 +79,13 @@ public class OfferController {
         }
 
         String areaShortcut = userUtils.getUserAreaById(authentication).toUpperCase().substring(0, 2);
-        offer.setOfferId(TRILOGIQ_OFFER_ID + areaShortcut + '.' + offer.getId() );
+        String formattedIdNumber = String.format(Locale.ROOT, "%05d", offer.getId());
 
+        offer.setOfferId(TRILOGIQ_OFFER_ID + areaShortcut + '.' + formattedIdNumber );
         offer.setOfferDate(LocalDate.now());
-
+        offer.setCompany(companyManagementFacade.getCompanyByNip(nip));
 
         session.setAttribute("nip", nip);
-
-        Company company = companyManagementFacade.getCompanyByNip(nip);
-        offer.setCompany(company);
-
         session.setAttribute("offer", offer);
 
         return "redirect:/inquiry/create-offer/add-customer";
@@ -142,23 +144,41 @@ public class OfferController {
             return "redirect:/not-found";
         }
 
-        List<ComponentQuantityDTO> selectedComponents = new ArrayList<>();
-
+        componentOffer = componentOfferRepository.save(componentOffer);
+//        List<ComponentQuantityDTO> selectedComponents = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : requestParams.entrySet()) {
             if (entry.getKey().startsWith("quantity_")) {
                 String componentId = entry.getKey().substring(9);
                 Integer quantity = Integer.parseInt(entry.getValue());
 
+
                 if (quantity > 0) {
                     Components component = componentsService.getComponentById(componentId);
-                    selectedComponents.add(new ComponentQuantityDTO(component, quantity));
+                    BigDecimal discount = new BigDecimal(requestParams.get("componentDiscount_" + componentId));
+
+                    // Obliczanie ceny sprzedażowej po rabacie
+                    BigDecimal originalSellingPrice = component.getSellingPrice();
+                    BigDecimal sellingPriceAfterDiscount = originalSellingPrice.multiply(BigDecimal.ONE.subtract(discount.divide(BigDecimal.valueOf(100))));
+
+                    // Tworzenie szczegółów oferty komponentu
+                    ComponentOfferDetails detail = new ComponentOfferDetails();
+                    detail.setComponentOffer(componentOffer);
+                    detail.setComponent(component);
+                    detail.setQuantity(quantity);
+                    detail.setDiscount(discount);
+                    detail.setSellingPriceAfterDiscount(sellingPriceAfterDiscount);
+                    detail.setPurchasePrice(component.getPurchasePrice());
+
+                    componentOfferDetailsRepository.save(detail);
+                    componentOffer.addComponentOfferDetail(detail);
 
                 }
             }
         }
-        session.setAttribute("selectedComponents", selectedComponents);
 
+
+//        session.setAttribute("selectedComponents", selectedComponents);
         session.setAttribute("offer", componentOffer);
 
         return "redirect:/inquiry/create-offer/summary";

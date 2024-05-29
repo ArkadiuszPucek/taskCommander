@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <changeSet id="create-component-offer-details-table" author="puccini">
+        <createTable tableName="component_offer_details">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="component_offer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="component_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="discount" type="DECIMAL(5,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="selling_price_after_discount" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="purchase_price" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_component_offer_details_offer"
+                                 baseTableName="component_offer_details"
+                                 baseColumnNames="component_offer_id"
+                                 referencedTableName="component_offer"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_component_offer_details_component"
+                                 baseTableName="component_offer_details"
+                                 baseColumnNames="component_id"
+                                 referencedTableName="components"
+                                 referencedColumnNames="component_id"/>
+    </changeSet>
+</databaseChangeLog>
